@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: Example API 1      #API短描述
+description: !include example1_desc.md #描述markdown引用
+version: v1 #版本
+#baseUri: https://test.api.anyuncloud.com/ #API基本URL
+documentation:  #API文档引用
+ - title: 文档1 #API文档标题
+   content: |     #短文档内容
+     测试的API文档用于测试
+     用于API的测试
+ - title: 文档2 #API文档标题
+   content: !include doc1.md  #markdown文档引用
+mediaType: [ application/json, application/xml ]  #API接受的上传文档类型
+protocols: [ HTTP, HTTPS ]    #API接受的协议
+
+types:
+  SampleParamType1:
+     properties:
+          name:
+            required: true
+            type: string
+          age:
+            required: false
+            type: number
+
