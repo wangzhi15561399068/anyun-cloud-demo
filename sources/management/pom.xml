@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.anyun.cloud.demo</groupId>
+        <artifactId>anyun-cloud-demo-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <groupId>com.anyun.cloud.demo</groupId>
+    <artifactId>anyun-cloud-demo-common-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>Demo Commons librarys</name>
+
+    <description>
+        Demo commons librarys
+    </description>
+
+    <properties>
+
+    </properties>
+
+    <modules>
+        <module>common-etcd</module>
+    </modules>
+</project>
