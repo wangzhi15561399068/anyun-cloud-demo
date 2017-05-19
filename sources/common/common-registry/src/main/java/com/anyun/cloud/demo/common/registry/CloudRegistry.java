@@ -5,4 +5,5 @@ package com.anyun.cloud.demo.common.registry;
  * @since 1.0.0 on 2017/5/18
  */
 public interface CloudRegistry {
+
 }

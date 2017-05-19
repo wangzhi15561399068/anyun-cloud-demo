@@ -14,12 +14,8 @@ public class HttpRestfullyApiClientBuilder {
     private HttpRestfullyApiClientBuilder() {
     }
 
-    public HttpRestfullyApiClientBuilder withUrl() {
-        return this;
-    }
-
     public HttpRestfullyApiClient build() throws Exception{
-        HttpRestfullyApiClient client = new HttpRestfullyApiClient();
+        HttpRestfullyApiClient client = new HttpRestfullyApiClient(clientConfig);
         return client;
     }
 }

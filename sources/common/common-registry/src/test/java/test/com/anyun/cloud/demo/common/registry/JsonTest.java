@@ -22,7 +22,7 @@ public class JsonTest extends BaseRegistryTest {
     @Test
     public void test1() throws Exception {
         NodeInformationEntity entity = new NodeInformationEntity();
-        entity.setNodeType(Arrays.asList(NodeType.API_NODE, NodeType.SERVICE_NODE));
+        entity.setNodeType(Arrays.asList(NodeType.API_REST_NODE, NodeType.SERVICE_NODE));
         entity.setTimestamp(System.currentTimeMillis());
         entity.setUid(DeviceIdGenerator.getGenerator().generate());
         entity.setUpstartTimestamp(entity.getTimestamp() - 10000);

@@ -13,10 +13,10 @@
     <artifactId>anyun-cloud-demo-api-parent</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>Distributed API Clients</name>
+    <name>Distributed API Servers</name>
 
     <description>
-        Distributed API Clients
+        Distributed API Servers
     </description>
 
     <properties>

@@ -32,11 +32,11 @@ public class NetworkUtils {
         try {
             _address = InetAddress.getByName(address);//ping this IP 
             if (!(_address instanceof java.net.Inet4Address) && !(_address instanceof java.net.Inet6Address)) {
-                System.err.println("非法的服務器名稱[" + address + "]");
+                System.err.println("Illegal server name [" + address + "]");
                 return false;
             }
         } catch (UnknownHostException ex) {
-            System.err.println("非法的服務器名稱[" + address + "]");
+            System.err.println("Illegal server name [" + address + "]");
             return false;
         }
         try {

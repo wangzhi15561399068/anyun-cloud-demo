@@ -11,13 +11,16 @@ import java.io.IOException;
 public class HttpRestfullyApiClient {
     public static final MediaType JSON
             = MediaType.parse("html/text; charset=utf-8");
+    private ClientConfig config;
     private OkHttpClient client;
 
-    public HttpRestfullyApiClient() {
+    public HttpRestfullyApiClient(ClientConfig config) {
+        this.config = config;
         client = new OkHttpClient();
     }
 
     public String get(String url) throws IOException {
+        url = config.getEtcdBaseUrl() + "/" + url;
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -27,6 +30,7 @@ public class HttpRestfullyApiClient {
     }
 
     String post(String url, String json) throws IOException {
+        url = config.getEtcdBaseUrl() + "/" + url;
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)

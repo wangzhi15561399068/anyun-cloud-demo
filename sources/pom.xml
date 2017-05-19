@@ -87,6 +87,7 @@
     <modules>
         <module>common</module>
         <module>api</module>
+        <module>management</module>
     </modules>
 
     <dependencyManagement>
