@@ -13,7 +13,8 @@ import org.junit.Test;
  * @since 1.0.0 on 2017/5/19
  */
 public class BaseEtcdTest extends Assert {
-    private static final String BASE_URL="http://etcd.dev.hohhot.ga.gov:2379/v2";
+    private static final String DOMAIN_ETCD = "etcd.dev.hohhot.ga.gov";
+    private static final String BASE_URL = "http://" + DOMAIN_ETCD + ":2379/v2";
     private HttpRestfullyApiClientBuilder clientBuilder;
     private HttpRestfullyApiClient client;
 
@@ -26,9 +27,11 @@ public class BaseEtcdTest extends Assert {
     }
 
     @Test
-    public void test1() throws Exception{
-        System.out.println(NetworkUtils.isAddressAvailable("etcd1.dev.hohhot.ga.gov"));
+    public void test1() throws Exception {
+        assertTrue(NetworkUtils.isAddressAvailable(DOMAIN_ETCD));
         String method = "keys";
-        System.out.println(client.get(method));
+        String result = client.get(method);
+        assertNotNull(result);
+        System.out.println(result);
     }
 }

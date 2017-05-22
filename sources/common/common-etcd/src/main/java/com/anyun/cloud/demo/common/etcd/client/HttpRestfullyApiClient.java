@@ -22,6 +22,7 @@ public class HttpRestfullyApiClient {
     public String get(String url) throws IOException {
         url = config.getEtcdBaseUrl() + "/" + url;
         Request request = new Request.Builder()
+                .get()
                 .url(url)
                 .build();
         try (Response response = client.newCall(request).execute()) {
