@@ -35,7 +35,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @return
      */
@@ -48,7 +47,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @return
      */
@@ -57,7 +55,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @return
      */
@@ -69,7 +66,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @param segment
      * @return
@@ -97,7 +93,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param date
      * @param expression
      * @return
@@ -111,7 +106,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param date
      * @param expression
      * @return
@@ -129,7 +123,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @return
      */
@@ -139,7 +132,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @return
      */
@@ -148,7 +140,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param str
      * @param regex
      * @return
@@ -160,7 +151,6 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param result
      * @return
      */
@@ -179,26 +169,5 @@ public class StringUtils {
         } catch (Exception e) {
             return new LinkedList<>();
         }
-    }
-
-    /**
-     *
-     * @param queryParam
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    public static Map<String, List<String>> getQueryParameters(String queryParam) throws UnsupportedEncodingException {
-        final Map<String, List<String>> query_pairs = new LinkedHashMap<>();
-        final String[] pairs = queryParam.split("&");
-        for (String pair : pairs) {
-            final int idx = pair.indexOf("=");
-            final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
-            if (!query_pairs.containsKey(key)) {
-                query_pairs.put(key, new LinkedList<>());
-            }
-            final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
-            query_pairs.get(key).add(value);
-        }
-        return query_pairs;
     }
 }

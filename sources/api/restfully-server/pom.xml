@@ -21,15 +21,17 @@
     </description>
 
     <properties>
-        <version.demo.common.root>1.0.0</version.demo.common.root>
-        <version.jetty>9.4.0.RC3</version.jetty>
+
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.anyun.cloud.demo</groupId>
+            <artifactId>anyun-common-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.anyun.cloud.demo</groupId>
             <artifactId>anyun-cloud-demo-common-etcd</artifactId>
-            <version>${version.demo.common.root}</version>
         </dependency>
         <dependency>
             <groupId>org.raml</groupId>
@@ -56,11 +58,9 @@
             <artifactId>jnats</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>${version.jetty}</version>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

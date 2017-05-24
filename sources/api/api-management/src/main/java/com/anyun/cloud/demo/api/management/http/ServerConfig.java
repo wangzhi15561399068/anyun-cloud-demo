@@ -1,21 +1,18 @@
-package com.anyun.cloud.demo.api.node.http;
-
-import org.eclipse.jetty.servlet.ServletHandler;
-
-import javax.servlet.http.HttpServlet;
+package com.anyun.cloud.demo.api.management.http;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
- * @since 1.0.0 on 2017/5/19
+ * @since 1.0.0 on 23/05/2017
  */
-public class HttpServerConfig {
+public class ServerConfig {
     private String host = "0.0.0.0";
     private int port = 80;
     private long idleTimeout = 30000;
     private String apiServletMappingPath = "/api/*";
     private boolean joinServerThread = true;
-    private ServletHandler servletHandler = new ServletHandler();
-    private HttpServlet apiProcessServlet = new DefaultApiServlet();
+
+    public ServerConfig() {
+    }
 
     public String getHost() {
         return host;
@@ -55,21 +52,5 @@ public class HttpServerConfig {
 
     public void setJoinServerThread(boolean joinServerThread) {
         this.joinServerThread = joinServerThread;
-    }
-
-    public ServletHandler getServletHandler() {
-        return servletHandler;
-    }
-
-    public void setServletHandler(ServletHandler servletHandler) {
-        this.servletHandler = servletHandler;
-    }
-
-    public HttpServlet getApiProcessServlet() {
-        return apiProcessServlet;
-    }
-
-    public void setApiProcessServlet(HttpServlet apiProcessServlet) {
-        this.apiProcessServlet = apiProcessServlet;
     }
 }

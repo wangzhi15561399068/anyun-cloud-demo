@@ -19,7 +19,7 @@ public class BaseEtcdTest extends Assert {
     private HttpRestfullyApiClient client;
 
     @Before
-    public void befor() throws Exception {
+    public void before() throws Exception {
         ClientConfig config = new ClientConfig();
         config.setEtcdBaseUrl(BASE_URL);
         clientBuilder = new HttpRestfullyApiClientBuilder(config);
@@ -34,4 +34,6 @@ public class BaseEtcdTest extends Assert {
         assertNotNull(result);
         System.out.println(result);
     }
+
+
 }

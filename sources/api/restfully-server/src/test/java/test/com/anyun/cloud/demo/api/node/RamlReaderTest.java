@@ -21,6 +21,7 @@ public class RamlReaderTest extends BaseApiNodeTest {
 
     @Test
     public void testRAMLReader() throws Exception {
+        System.setProperty("raml.parser.encoding","UTF-8");
         URL url = RamlReaderTest.class.getClassLoader().getResource("./data/example1.raml");
         System.out.println(url);
         File file = new File(url.toURI());

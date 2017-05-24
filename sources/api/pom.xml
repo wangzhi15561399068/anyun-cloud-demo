@@ -21,14 +21,26 @@
 
     <properties>
         <version.raml-parser-2>1.0.8</version.raml-parser-2>
+        <version.demo.common.root>1.0.0</version.demo.common.root>
     </properties>
 
     <modules>
         <module>restfully-server</module>
+        <module>api-management</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.anyun.cloud.demo</groupId>
+                <artifactId>anyun-common-lang</artifactId>
+                <version>${version.demo.common.root}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.anyun.cloud.demo</groupId>
+                <artifactId>anyun-cloud-demo-common-etcd</artifactId>
+                <version>${version.demo.common.root}</version>
+            </dependency>
             <dependency>
                 <groupId>org.raml</groupId>
                 <artifactId>raml-parser-2</artifactId>
