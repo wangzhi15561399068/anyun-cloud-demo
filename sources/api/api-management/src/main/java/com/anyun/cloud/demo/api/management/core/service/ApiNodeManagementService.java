@@ -1,4 +1,4 @@
-package com.anyun.cloud.demo.api.management.service;
+package com.anyun.cloud.demo.api.management.core.service;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>

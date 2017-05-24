@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.api.management;
 
-import com.anyun.cloud.demo.api.management.core.GuiceServiceModule;
+import com.anyun.cloud.demo.api.management.core.module.*;
 import com.anyun.cloud.demo.api.management.http.ManagementApiServer;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 
@@ -10,7 +10,12 @@ import com.anyun.common.lang.bean.InjectorsBuilder;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        InjectorsBuilder.getBuilder().build(new GuiceServiceModule());
+        InjectorsBuilder.getBuilder().build(
+                new CommonBindingModule(),
+                new CuratorBindingModule(),
+                new EtcdApiClientBindingModule(),
+                new HttpApiServerBindingModule(),
+                new ServiceBindingModule());
         ManagementApiServer server = InjectorsBuilder.getBuilder().getInstanceByType(ManagementApiServer.class);
         server.start();
     }

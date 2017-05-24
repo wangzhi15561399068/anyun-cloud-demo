@@ -1,44 +1,54 @@
 package com.anyun.cloud.demo.common.etcd.client;
 
-import okhttp3.*;
-
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
+ * 
  * @auth TwitchGG <twitchgg@yahoo.com>
- * @since 1.0.0 on 2017/5/18
+ * @since 1.0.0 on 25/05/2017
  */
-public class HttpRestfullyApiClient {
-    public static final MediaType JSON
-            = MediaType.parse("html/text; charset=utf-8");
-    private ClientConfig config;
-    private OkHttpClient client;
+public interface HttpRestfullyApiClient {
 
-    public HttpRestfullyApiClient(ClientConfig config) {
-        this.config = config;
-        client = new OkHttpClient();
-    }
+    /**
+     *
+     * @param pathSegments
+     * @param queryParameters
+     * @return
+     * @throws IOException
+     */
+    String get(String pathSegments, Map<String, List<Object>> queryParameters) throws IOException;
 
-    public String get(String url) throws IOException {
-        url = config.getEtcdBaseUrl() + "/" + url;
-        Request request = new Request.Builder()
-                .get()
-                .url(url)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
-    }
+    /**
+     *
+     * @param pathSegments
+     * @param value
+     * @param type
+     * @return
+     * @throws IOException
+     */
+    String post(String pathSegments, String value, String type) throws IOException;
 
-    String post(String url, String json) throws IOException {
-        url = config.getEtcdBaseUrl() + "/" + url;
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
-    }
+    /**
+     *
+     * @param pathSegments
+     * @param value
+     * @param type
+     * @return
+     * @throws IOException
+     */
+    String put(String pathSegments, String value, String type) throws IOException;
+
+    /**
+     *
+     * @param pathSegments
+     * @param queryParameters
+     * @param value
+     * @param type
+     * @return
+     * @throws IOException
+     */
+    String del(String pathSegments, Map<String, List<Object>> queryParameters,
+               String value, String type) throws IOException;
 }

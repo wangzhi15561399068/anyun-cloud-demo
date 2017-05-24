@@ -39,10 +39,10 @@ public class InjectorsBuilder {
         return builder;
     }
 
-    public InjectorsBuilder build(AbstractModule module) {
+    public InjectorsBuilder build(AbstractModule... modules) {
         if (kernelInjector != null)
             kernelInjector = null;
-        kernelInjector = Guice.createInjector(module);
+        kernelInjector = Guice.createInjector(modules);
         return this;
     }
 

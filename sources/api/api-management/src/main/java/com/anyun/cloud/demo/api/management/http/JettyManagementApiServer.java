@@ -1,6 +1,9 @@
 package com.anyun.cloud.demo.api.management.http;
 
-import com.anyun.cloud.demo.api.management.core.GuiceServiceModule;
+import com.anyun.cloud.demo.api.management.core.distributed.management.DistributedManagementService;
+import com.anyun.cloud.demo.api.management.core.module.HttpApiServerBindingModule;
+import com.anyun.cloud.demo.api.management.entity.ManagementApiServerConfigEntity;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -9,30 +12,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServlet;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 23/05/2017
  */
+@Singleton
 public class JettyManagementApiServer implements ManagementApiServer<Server> {
     private static final Logger LOGGER = LoggerFactory.getLogger(JettyManagementApiServer.class);
     private CountDownLatch countDownLatch;
     private Server server;
-    private ServerConfig config;
+    private DistributedManagementService distributedManagementService;
+    private ManagementApiServerConfigEntity config;
     private ServletHandler apiHandler;
     private JettyServerThreadRunable runable;
     private Class apiProcessServlet;
+    private ServerStatus status;
 
     @Inject
     public JettyManagementApiServer(
-            @Named(GuiceServiceModule.NAMED_CONFIG_HTTP) ServerConfig config,
-            @Named(GuiceServiceModule.NAMED_MGR_SERVLET_HANDLER) ServletHandler apiHandler,
-            @Named(GuiceServiceModule.NAMED_MGR_SERVLET) Class apiProcessServlet) {
-        this.config = config;
+            DistributedManagementService distributedManagementService,
+            @Named(HttpApiServerBindingModule.NAMED_MGR_SERVLET_HANDLER) ServletHandler apiHandler,
+            @Named(HttpApiServerBindingModule.NAMED_MGR_SERVLET) Class apiProcessServlet) {
+        this.distributedManagementService = distributedManagementService;
         this.apiHandler = apiHandler;
         this.apiProcessServlet = apiProcessServlet;
+        status = new ServerStatus();
     }
 
     @Override
@@ -42,6 +49,7 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
             throw new Exception("Management api server is running");
         }
         countDownLatch = new CountDownLatch(1);
+        config = distributedManagementService.getManagementApiServerConfig();
         server = new Server();
         LOGGER.info("Release a management api server instance");
         ServerConnector http = new ServerConnector(server);
@@ -64,17 +72,21 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
 
     @Override
     public void stop() throws Exception {
-
+        LOGGER.info("Restarting management api server instance..............");
+        server.stop();
+        apiHandler.setServletMappings(null);
+        runable = null;
     }
 
     @Override
     public void restart() throws Exception {
-
+        stop();
+        start();
     }
 
     @Override
     public ServerStatus getStatus() throws Exception {
-        return null;
+        return status;
     }
 
     @Override
@@ -103,9 +115,16 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
         @Override
         public void run() {
             try {
+                long readyTime = System.currentTimeMillis();
+                server.status.setRunning(false);
                 server.server.start();
                 server.countDownLatch.countDown();
                 LOGGER.info("Http api server start success");
+
+                server.status.setRunning(true);
+                long currentTime = System.currentTimeMillis();
+                server.status.setStartupTime(new Date(currentTime));
+                server.status.setStartMillisecond(currentTime - readyTime);
                 if (server.config.isJoinServerThread())
                     server.server.join();
             } catch (Exception e) {
