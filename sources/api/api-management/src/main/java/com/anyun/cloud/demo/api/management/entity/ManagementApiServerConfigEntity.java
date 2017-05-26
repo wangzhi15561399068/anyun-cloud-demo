@@ -1,7 +1,7 @@
 package com.anyun.cloud.demo.api.management.entity;
 
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
-import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
+import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
 import com.anyun.cloud.demo.common.etcd.spi.entity.AbstractEtcdEntity;
 
 /**

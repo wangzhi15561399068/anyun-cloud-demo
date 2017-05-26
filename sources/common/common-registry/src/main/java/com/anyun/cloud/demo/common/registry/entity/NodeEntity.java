@@ -1,4 +1,4 @@
-package com.anyun.cloud.demo.common.registry.constant;
+package com.anyun.cloud.demo.common.registry.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 2017/5/18
  */
-public class NodeInformationEntity {
+public class NodeEntity extends AbstractZkEntity {
     @SerializedName("uid")
     private String uid;
     @SerializedName("node_type")
@@ -18,7 +18,7 @@ public class NodeInformationEntity {
     @SerializedName("upstart_time")
     private long upstartTimestamp;
     @SerializedName("networks")
-    private List<NodeNetworkInfoEntity> networks;
+    private List<NodeNetworkEntity> networks;
 
     public String getUid() {
         return uid;
@@ -52,11 +52,12 @@ public class NodeInformationEntity {
         this.upstartTimestamp = upstartTimestamp;
     }
 
-    public List<NodeNetworkInfoEntity> getNetworks() {
+    public List<NodeNetworkEntity> getNetworks() {
         return networks;
     }
 
-    public void setNetworks(List<NodeNetworkInfoEntity> networks) {
+    public void setNetworks(List<NodeNetworkEntity> networks) {
         this.networks = networks;
     }
+
 }

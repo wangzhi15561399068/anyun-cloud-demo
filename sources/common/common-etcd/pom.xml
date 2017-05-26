@@ -13,7 +13,7 @@
     <artifactId>anyun-cloud-demo-common-etcd</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>Global Unified Configuration Client Library</name>
+    <name>Etcd Client Library</name>
 
     <description>
         A global unified configuration client implementation
@@ -22,8 +22,6 @@
 
     <properties>
         <version.anyun.common.lang>1.0.0</version.anyun.common.lang>
-        <version.okhttp>3.8.0</version.okhttp>
-        <version.gson>2.8.0</version.gson>
     </properties>
 
     <dependencies>
@@ -35,13 +33,11 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>${version.okhttp}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>${version.gson}</version>
         </dependency>
 
         <dependency>

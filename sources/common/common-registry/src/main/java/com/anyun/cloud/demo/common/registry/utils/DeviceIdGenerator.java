@@ -39,5 +39,4 @@ public class DeviceIdGenerator {
     private String getUuidSalt() {
         return UUID.randomUUID().toString();
     }
-
 }

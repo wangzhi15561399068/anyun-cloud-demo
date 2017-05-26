@@ -1,4 +1,6 @@
-package com.anyun.cloud.demo.common.etcd.response;
+package com.anyun.cloud.demo.common.etcd;
+
+import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponse;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>

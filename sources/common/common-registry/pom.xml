@@ -33,6 +33,11 @@
             <version>${version.anyun.common.lang}</version>
         </dependency>
         <dependency>
+            <groupId>com.anyun.cloud.demo</groupId>
+            <artifactId>anyun-cloud-demo-common-etcd</artifactId>
+            <version>${version.anyun.common.lang}</version>
+        </dependency>
+        <dependency>
             <groupId>org.hashids</groupId>
             <artifactId>hashids</artifactId>
             <version>${version.hashids}</version>

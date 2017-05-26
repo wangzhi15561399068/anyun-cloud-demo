@@ -3,6 +3,7 @@ package com.anyun.cloud.demo.api.management.http;
 import com.anyun.cloud.demo.api.management.core.distributed.management.DistributedManagementService;
 import com.anyun.cloud.demo.api.management.core.module.HttpApiServerBindingModule;
 import com.anyun.cloud.demo.api.management.entity.ManagementApiServerConfigEntity;
+import com.anyun.cloud.demo.common.registry.zookeeper.ZookeeperClient;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import org.eclipse.jetty.server.Server;
@@ -25,6 +26,7 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
     private CountDownLatch countDownLatch;
     private Server server;
     private DistributedManagementService distributedManagementService;
+    private ZookeeperClient zookeeperClient;
     private ManagementApiServerConfigEntity config;
     private ServletHandler apiHandler;
     private JettyServerThreadRunable runable;
@@ -33,9 +35,11 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
 
     @Inject
     public JettyManagementApiServer(
+            ZookeeperClient zookeeperClient,
             DistributedManagementService distributedManagementService,
             @Named(HttpApiServerBindingModule.NAMED_MGR_SERVLET_HANDLER) ServletHandler apiHandler,
             @Named(HttpApiServerBindingModule.NAMED_MGR_SERVLET) Class apiProcessServlet) {
+        this.zookeeperClient = zookeeperClient;
         this.distributedManagementService = distributedManagementService;
         this.apiHandler = apiHandler;
         this.apiProcessServlet = apiProcessServlet;
@@ -76,6 +80,7 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
         server.stop();
         apiHandler.setServletMappings(null);
         runable = null;
+        zookeeperClient.stop();
     }
 
     @Override
@@ -125,6 +130,8 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
                 long currentTime = System.currentTimeMillis();
                 server.status.setStartupTime(new Date(currentTime));
                 server.status.setStartMillisecond(currentTime - readyTime);
+                server.zookeeperClient.start();
+                server.distributedManagementService.regist();
                 if (server.config.isJoinServerThread())
                     server.server.join();
             } catch (Exception e) {

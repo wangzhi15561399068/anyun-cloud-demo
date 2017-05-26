@@ -1,7 +1,7 @@
 package com.anyun.cloud.demo.api.management.core.distributed.management;
 
 import com.anyun.cloud.demo.api.management.entity.ManagementApiServerConfigEntity;
-import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
+import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -10,9 +10,13 @@ import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
 public interface DistributedManagementService {
 
     /**
-     *
      * @return
      * @throws EtcdErrorResponseException
      */
     ManagementApiServerConfigEntity getManagementApiServerConfig() throws EtcdErrorResponseException;
+
+    /**
+     * @throws Exception
+     */
+    void regist() throws Exception;
 }

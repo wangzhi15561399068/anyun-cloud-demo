@@ -1,7 +1,7 @@
 package com.anyun.cloud.demo.common.etcd.spi.entity;
 
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
-import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
+import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
 import com.anyun.cloud.demo.common.etcd.spi.impl.EtcdApiUrls;
 
 /**
@@ -10,18 +10,18 @@ import com.anyun.cloud.demo.common.etcd.spi.impl.EtcdApiUrls;
  */
 public class ZookeeperConfigEntity extends AbstractEtcdEntity<ZookeeperConfigEntity> {
     private String connectingString = null;
-    private long connectionTimeout = 5000;
-    private long sessionTimeout = 5000;
-    private long retryPolicySleepTime = 1000;
+    private int connectionTimeout = 5000;
+    private int sessionTimeout = 5000;
+    private int retryPolicySleepTime = 1000;
     private int retryPolicyMaxRetries = 3;
 
     public ZookeeperConfigEntity buildFromEtcdActionResponse(EtcdActionResponse response) throws EtcdErrorResponseException {
         ZookeeperConfigEntity config = new ZookeeperConfigEntity();
         try {
             config.connectingString = getStringValue(response, EtcdApiUrls.KEY_ZK_CONNECTION_STR);
-            config.connectionTimeout = getLongValue(response, EtcdApiUrls.KEY_ZK_CONNECTION_TIMEOUT);
-            config.sessionTimeout = getLongValue(response, EtcdApiUrls.KEY_ZK_SESSION_TIMEOUT);
-            config.retryPolicySleepTime = getLongValue(response, EtcdApiUrls.KEY_ZK_RETRY_POLICY_SLEEP_TIME);
+            config.connectionTimeout = getIntValue(response, EtcdApiUrls.KEY_ZK_CONNECTION_TIMEOUT);
+            config.sessionTimeout = getIntValue(response, EtcdApiUrls.KEY_ZK_SESSION_TIMEOUT);
+            config.retryPolicySleepTime = getIntValue(response, EtcdApiUrls.KEY_ZK_RETRY_POLICY_SLEEP_TIME);
             config.retryPolicyMaxRetries = getIntValue(response, EtcdApiUrls.KEY_ZK_RETRY_POLICY_MAX_RETRIES);
             return config;
         } catch (Exception ex) {
@@ -37,27 +37,27 @@ public class ZookeeperConfigEntity extends AbstractEtcdEntity<ZookeeperConfigEnt
         this.connectingString = connectingString;
     }
 
-    public long getConnectionTimeout() {
+    public int getConnectionTimeout() {
         return connectionTimeout;
     }
 
-    public void setConnectionTimeout(long connectionTimeout) {
+    public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
     }
 
-    public long getSessionTimeout() {
+    public int getSessionTimeout() {
         return sessionTimeout;
     }
 
-    public void setSessionTimeout(long sessionTimeout) {
+    public void setSessionTimeout(int sessionTimeout) {
         this.sessionTimeout = sessionTimeout;
     }
 
-    public long getRetryPolicySleepTime() {
+    public int getRetryPolicySleepTime() {
         return retryPolicySleepTime;
     }
 
-    public void setRetryPolicySleepTime(long retryPolicySleepTime) {
+    public void setRetryPolicySleepTime(int retryPolicySleepTime) {
         this.retryPolicySleepTime = retryPolicySleepTime;
     }
 

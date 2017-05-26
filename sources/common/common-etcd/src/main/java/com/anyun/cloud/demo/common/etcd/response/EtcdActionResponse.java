@@ -2,8 +2,6 @@ package com.anyun.cloud.demo.common.etcd.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 25/05/2017

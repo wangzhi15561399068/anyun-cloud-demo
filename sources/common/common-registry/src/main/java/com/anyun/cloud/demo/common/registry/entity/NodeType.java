@@ -1,4 +1,4 @@
-package com.anyun.cloud.demo.common.registry.constant;
+package com.anyun.cloud.demo.common.registry.entity;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -6,7 +6,9 @@ package com.anyun.cloud.demo.common.registry.constant;
  */
 public enum NodeType {
     API_REST_NODE(1),
-    SERVICE_NODE(2);
+    SERVICE_NODE(2),
+
+    MGR_NODE(3),;
 
     private int value;
 

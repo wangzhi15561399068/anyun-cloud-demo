@@ -1,6 +1,5 @@
 package test.com.anyun.cloud.demo.api.node;
 
-import com.anyun.cloud.demo.api.node.Main;
 import com.anyun.cloud.demo.api.node.http.HttpServer;
 import com.anyun.cloud.demo.api.node.http.HttpServerConfig;
 import org.junit.Before;
@@ -13,6 +12,7 @@ import org.junit.Test;
 public class HttpServerTest extends BaseApiNodeTest {
     private HttpServerConfig config;
     private String[] args;
+
     @Before
     public void before() {
         args = new String[]{};
@@ -24,6 +24,5 @@ public class HttpServerTest extends BaseApiNodeTest {
     public void test1() throws Exception {
         HttpServer server = HttpServer.getHttpServer();
         server.start(config);
-        Thread.currentThread().join();
     }
 }

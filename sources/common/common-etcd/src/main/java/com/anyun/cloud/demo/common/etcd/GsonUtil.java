@@ -1,9 +1,8 @@
-package com.anyun.cloud.demo.common.etcd.util;
+package com.anyun.cloud.demo.common.etcd;
 
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionNode;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
 import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponse;
-import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -58,7 +57,6 @@ public class GsonUtil {
     }
 
     /**
-     *
      * @param response
      * @return
      * @throws EtcdErrorResponseException

@@ -2,8 +2,8 @@ package test.com.anyun.cloud.demo.common.etcd;
 
 import com.anyun.cloud.demo.common.etcd.client.OkHttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
-import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
-import com.anyun.cloud.demo.common.etcd.util.GsonUtil;
+import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
+import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import org.junit.Before;
 import org.junit.Test;
 

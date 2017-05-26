@@ -1,4 +1,4 @@
-package com.anyun.cloud.demo.common.registry.constant;
+package com.anyun.cloud.demo.common.registry.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 2017/5/18
  */
-public class NodeNetworkInfoEntity {
+public class NodeNetworkEntity {
     @SerializedName("name")
     private String etherName;
     @SerializedName("network_ip")

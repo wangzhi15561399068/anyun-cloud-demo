@@ -2,10 +2,10 @@ package com.anyun.cloud.demo.common.etcd.spi.impl;
 
 import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
-import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponseException;
-import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedSpi;
+import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
 import com.anyun.cloud.demo.common.etcd.spi.entity.ZookeeperConfigEntity;
-import com.anyun.cloud.demo.common.etcd.util.GsonUtil;
+import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +16,12 @@ import java.io.IOException;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 2017/5/18
  */
-public class EtcdExtenedService implements EtcdExtenedSpi {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EtcdExtenedService.class);
+public class EtcdExtenedServiceImpl implements EtcdExtenedService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EtcdExtenedServiceImpl.class);
     private HttpRestfullyApiClient client;
 
     @Inject
-    public EtcdExtenedService(HttpRestfullyApiClient client) {
+    public EtcdExtenedServiceImpl(HttpRestfullyApiClient client) {
         this.client = client;
     }
 
@@ -42,11 +42,11 @@ public class EtcdExtenedService implements EtcdExtenedSpi {
         }
         EtcdActionResponse response = GsonUtil.getUtil().getReponseEntity(zkConfigJsonStr);
         ZookeeperConfigEntity config = new ZookeeperConfigEntity().buildFromEtcdActionResponse(response);
-        LOGGER.debug("Queried zk connection string: " + config.getConnectingString());
-        LOGGER.debug("Queried zk connection timeout: " + config.getConnectionTimeout());
-        LOGGER.debug("Queried zk session timeout: " + config.getSessionTimeout());
-        LOGGER.debug("Queried zk retry policy max retries: " + config.getRetryPolicyMaxRetries());
-        LOGGER.debug("Queried zk retry policy retry policy sleep time: " + config.getRetryPolicySleepTime());
+        LOGGER.debug("Discovered zk connection string: " + config.getConnectingString());
+        LOGGER.debug("Discovered zk connection timeout: " + config.getConnectionTimeout());
+        LOGGER.debug("Discovered zk session timeout: " + config.getSessionTimeout());
+        LOGGER.debug("Discovered zk retry policy max retries: " + config.getRetryPolicyMaxRetries());
+        LOGGER.debug("Discovered zk retry policy retry policy sleep time: " + config.getRetryPolicySleepTime());
         return config;
     }
 }

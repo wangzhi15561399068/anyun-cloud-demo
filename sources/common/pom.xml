@@ -20,7 +20,8 @@
     </description>
 
     <properties>
-
+        <version.okhttp>3.8.0</version.okhttp>
+        <version.gson>2.8.0</version.gson>
     </properties>
 
     <modules>
@@ -28,4 +29,19 @@
         <module>common-etcd</module>
         <module>common-registry</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${version.okhttp}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${version.gson}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
