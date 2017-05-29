@@ -1,14 +1,15 @@
-package com.anyun.cloud.demo.api.management.entity;
+package com.anyun.cloud.demo.api.management.http;
 
-import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
 import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
+import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
 import com.anyun.cloud.demo.common.etcd.spi.entity.AbstractEtcdEntity;
+import com.anyun.common.lang.http.ServerConfig;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 25/05/2017
  */
-public class ManagementApiServerConfigEntity extends AbstractEtcdEntity<ManagementApiServerConfigEntity> {
+public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManagementServerConfigEntity> {
     public static String ETCD_KEY_CONFIG_ZK = "/keys/config/api-portal";
     public static String ETCD_KEY_MGR_HOST = "host";
     public static String ETCD_KEY_MGR_PORT = "port";
@@ -22,9 +23,9 @@ public class ManagementApiServerConfigEntity extends AbstractEtcdEntity<Manageme
     private String apiServletMappingPath = "/api/*";
     private boolean joinServerThread = true;
 
-    public ManagementApiServerConfigEntity buildFromEtcdActionResponse(EtcdActionResponse response)
+    public ApiManagementServerConfigEntity buildFromEtcdActionResponse(EtcdActionResponse response)
             throws EtcdErrorResponseException {
-        ManagementApiServerConfigEntity config = new ManagementApiServerConfigEntity();
+        ApiManagementServerConfigEntity config = new ApiManagementServerConfigEntity();
         try {
             config.host = getStringValue(response, ETCD_KEY_MGR_HOST);
             config.port = getIntValue(response, ETCD_KEY_MGR_PORT);
@@ -77,9 +78,19 @@ public class ManagementApiServerConfigEntity extends AbstractEtcdEntity<Manageme
         this.joinServerThread = joinServerThread;
     }
 
+    public ServerConfig asConfig() {
+        ServerConfig config = new ServerConfig();
+        config.setApiServletMappingPath(this.getApiServletMappingPath());
+        config.setHost(this.getHost());
+        config.setPort(this.getPort());
+        config.setIdleTimeout(this.getIdleTimeout());
+        config.setJoinServerThread(this.isJoinServerThread());
+        return config;
+    }
+
     @Override
     public String toString() {
-        return "ManagementApiServerConfigEntity{" +
+        return "ApiManagementServerConfigEntity{" +
                 "host='" + host + '\'' +
                 ", port=" + port +
                 ", idleTimeout=" + idleTimeout +

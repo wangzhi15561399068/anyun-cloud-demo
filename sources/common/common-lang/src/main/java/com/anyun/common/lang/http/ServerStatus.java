@@ -1,9 +1,8 @@
-package com.anyun.cloud.demo.api.management.http;
+package com.anyun.common.lang.http;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>

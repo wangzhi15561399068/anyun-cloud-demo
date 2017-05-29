@@ -1,4 +1,4 @@
-package com.anyun.cloud.demo.api.management.core.module;
+package com.anyun.cloud.demo.api.management.module;
 
 import com.anyun.cloud.demo.common.etcd.client.ClientConfig;
 import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;

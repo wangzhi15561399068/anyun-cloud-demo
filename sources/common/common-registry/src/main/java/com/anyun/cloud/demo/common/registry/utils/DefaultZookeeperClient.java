@@ -1,7 +1,8 @@
-package com.anyun.cloud.demo.common.registry.zookeeper;
+package com.anyun.cloud.demo.common.registry.utils;
 
 import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
 import com.anyun.cloud.demo.common.etcd.spi.entity.ZookeeperConfigEntity;
+import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.curator.RetryPolicy;

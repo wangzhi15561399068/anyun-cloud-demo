@@ -1,9 +1,10 @@
-package com.anyun.cloud.demo.api.management.core.module;
+package com.anyun.cloud.demo.api.management.module;
 
-import com.anyun.cloud.demo.api.management.http.DefaultManagementApiServlet;
-import com.anyun.cloud.demo.api.management.http.JettyManagementApiServer;
-import com.anyun.cloud.demo.api.management.http.ManagementApiServer;
-import com.anyun.cloud.demo.api.management.http.ServerConfig;
+import com.anyun.cloud.demo.api.management.http.JettyApiManagementServer;
+import com.anyun.common.lang.http.AbstractApiCallbackBindModule;
+import com.anyun.common.lang.http.ApiServer;
+import com.anyun.common.lang.http.DefaultApiServlet;
+import com.anyun.common.lang.http.ServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import org.eclipse.jetty.servlet.ServletHandler;
@@ -27,15 +28,18 @@ public class HttpApiServerBindingModule extends AbstractModule {
         bind(ServerConfig.class).annotatedWith(Names.named(NAMED_CONFIG_HTTP)).toInstance(config);
         LOGGER.info("Bind management server config to: {}", config.toString());
 
+        bind(AbstractApiCallbackBindModule.class).to(ManagementApiCallbackBindModule.class);
+        LOGGER.info("Bind api callback to: {}", ManagementApiCallbackBindModule.class);
+
         ServletHandler servletHandler = new ServletHandler();
-        Class<?> servletClass = DefaultManagementApiServlet.class;
+        Class<?> servletClass = DefaultApiServlet.class;
         bind(ServletHandler.class).annotatedWith(Names.named(NAMED_MGR_SERVLET_HANDLER)).toInstance(servletHandler);
         LOGGER.info("Bind management server servlet handler to: {}", ServletHandler.class.getCanonicalName());
 
         bind(Class.class).annotatedWith(Names.named(NAMED_MGR_SERVLET)).toInstance(servletClass);
         LOGGER.info("Bind management server base servlet to: {}", servletClass.getCanonicalName());
 
-        bind(ManagementApiServer.class).to(JettyManagementApiServer.class);
-        LOGGER.info("Bind management server implement to: {}", JettyManagementApiServer.class.getCanonicalName());
+        bind(ApiServer.class).to(JettyApiManagementServer.class);
+        LOGGER.info("Bind management server implement to: {}", JettyApiManagementServer.class.getCanonicalName());
     }
 }

@@ -1,10 +1,7 @@
 package com.anyun.cloud.demo.api.management;
 
-import com.anyun.cloud.demo.api.management.core.module.CommonBindingModule;
-import com.anyun.cloud.demo.api.management.core.module.EtcdApiClientBindingModule;
-import com.anyun.cloud.demo.api.management.core.module.HttpApiServerBindingModule;
-import com.anyun.cloud.demo.api.management.core.module.ServiceBindingModule;
-import com.anyun.cloud.demo.api.management.http.ManagementApiServer;
+import com.anyun.cloud.demo.api.management.module.*;
+import com.anyun.common.lang.http.ApiServer;
 import com.anyun.cloud.demo.common.registry.service.RegistryBindingModule;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 
@@ -20,7 +17,7 @@ public class Main {
                 new RegistryBindingModule(),
                 new HttpApiServerBindingModule(),
                 new ServiceBindingModule());
-        ManagementApiServer server = InjectorsBuilder.getBuilder().getInstanceByType(ManagementApiServer.class);
+        ApiServer server = InjectorsBuilder.getBuilder().getInstanceByType(ApiServer.class);
         server.start();
     }
 }

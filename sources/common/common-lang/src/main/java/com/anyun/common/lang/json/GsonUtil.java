@@ -17,6 +17,7 @@ public class GsonUtil {
     private GsonUtil() {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
+        builder.setDateFormat("yyyy-MM-dd HH:mm:ss");
         gson = builder.create();
     }
 

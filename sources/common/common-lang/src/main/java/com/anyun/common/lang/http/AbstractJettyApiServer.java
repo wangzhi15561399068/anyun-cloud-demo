@@ -1,18 +1,12 @@
-package com.anyun.cloud.demo.api.management.http;
+package com.anyun.common.lang.http;
 
-import com.anyun.cloud.demo.api.management.core.distributed.management.DistributedManagementService;
-import com.anyun.cloud.demo.api.management.core.module.HttpApiServerBindingModule;
-import com.anyun.cloud.demo.api.management.entity.ManagementApiServerConfigEntity;
-import com.anyun.cloud.demo.common.registry.zookeeper.ZookeeperClient;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
@@ -20,56 +14,55 @@ import java.util.concurrent.CountDownLatch;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 23/05/2017
  */
-@Singleton
-public class JettyManagementApiServer implements ManagementApiServer<Server> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JettyManagementApiServer.class);
+public abstract class AbstractJettyApiServer implements ApiServer<Server> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJettyApiServer.class);
+    private ServerConfig config;
     private CountDownLatch countDownLatch;
     private Server server;
-    private DistributedManagementService distributedManagementService;
     private ZookeeperClient zookeeperClient;
-    private ManagementApiServerConfigEntity config;
     private ServletHandler apiHandler;
-    private JettyServerThreadRunable runable;
+    private JettyServerThreadRunnable runnable;
     private Class apiProcessServlet;
     private ServerStatus status;
 
-    @Inject
-    public JettyManagementApiServer(
+    public AbstractJettyApiServer(
             ZookeeperClient zookeeperClient,
-            DistributedManagementService distributedManagementService,
-            @Named(HttpApiServerBindingModule.NAMED_MGR_SERVLET_HANDLER) ServletHandler apiHandler,
-            @Named(HttpApiServerBindingModule.NAMED_MGR_SERVLET) Class apiProcessServlet) {
+            ServletHandler apiHandler,
+            Class apiProcessServlet) {
         this.zookeeperClient = zookeeperClient;
-        this.distributedManagementService = distributedManagementService;
         this.apiHandler = apiHandler;
         this.apiProcessServlet = apiProcessServlet;
         status = new ServerStatus();
     }
 
+    protected abstract void initServerConfig() throws Exception;
+
+    protected abstract void registToCluster() throws Exception;
+
     @Override
     public void start() throws Exception {
-        if (runable != null) {
+        if (runnable != null) {
             LOGGER.error("Management api server is running");
             throw new Exception("Management api server is running");
         }
         countDownLatch = new CountDownLatch(1);
-        config = distributedManagementService.getManagementApiServerConfig();
+        initServerConfig();
         server = new Server();
         LOGGER.info("Release a management api server instance");
         ServerConnector http = new ServerConnector(server);
-        http.setHost(this.config.getHost());
-        LOGGER.info("Bind management api server host to [{}]", this.config.getHost());
-        http.setPort(this.config.getPort());
-        LOGGER.info("Bind management api server port to [{}]", this.config.getPort());
-        http.setIdleTimeout(this.config.getIdleTimeout());
+        http.setHost(config.getHost());
+        LOGGER.info("Bind management api server host to [{}]", config.getHost());
+        http.setPort(config.getPort());
+        LOGGER.info("Bind management api server port to [{}]", config.getPort());
+        http.setIdleTimeout(config.getIdleTimeout());
         server.addConnector(http);
         server.setHandler(apiHandler);
         apiHandler.addServletWithMapping(apiProcessServlet, config.getApiServletMappingPath());
         String bindPath = "http://" + config.getHost() + ":" + config.getPort()
                 + config.getApiServletMappingPath();
         LOGGER.debug("Bind servlet root path [{}]", bindPath);
-        runable = new JettyServerThreadRunable(this);
-        runable.start();
+        runnable = new JettyServerThreadRunnable(this);
+        runnable.start();
         LOGGER.info("Waiting for management api server start");
         countDownLatch.await();
     }
@@ -79,7 +72,7 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
         LOGGER.info("Restarting management api server instance..............");
         server.stop();
         apiHandler.setServletMappings(null);
-        runable = null;
+        runnable = null;
         zookeeperClient.stop();
     }
 
@@ -99,17 +92,24 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
         return server;
     }
 
+    public ServerConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(ServerConfig config) {
+        this.config = config;
+    }
+
     /**
      * @auth TwitchGG <twitchgg@yahoo.com>
      * @since 1.0.0 on 23/05/2017
      */
-    public static class JettyServerThreadRunable implements Runnable {
-        private static final Logger LOGGER = LoggerFactory.getLogger(JettyServerThreadRunable.class);
-        private JettyManagementApiServer server;
+    public static class JettyServerThreadRunnable implements Runnable {
+        private static final Logger LOGGER = LoggerFactory.getLogger(JettyServerThreadRunnable.class);
+        private AbstractJettyApiServer server;
         private Thread thread;
 
-        @Inject
-        public JettyServerThreadRunable(JettyManagementApiServer server) {
+        public JettyServerThreadRunnable(AbstractJettyApiServer server) {
             this.thread = new Thread(this);
             this.server = server;
         }
@@ -131,7 +131,7 @@ public class JettyManagementApiServer implements ManagementApiServer<Server> {
                 server.status.setStartupTime(new Date(currentTime));
                 server.status.setStartMillisecond(currentTime - readyTime);
                 server.zookeeperClient.start();
-                server.distributedManagementService.regist();
+                server.registToCluster();
                 if (server.config.isJoinServerThread())
                     server.server.join();
             } catch (Exception e) {

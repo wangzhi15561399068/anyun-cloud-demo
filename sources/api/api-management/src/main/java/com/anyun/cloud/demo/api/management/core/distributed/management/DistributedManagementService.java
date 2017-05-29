@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.api.management.core.distributed.management;
 
-import com.anyun.cloud.demo.api.management.entity.ManagementApiServerConfigEntity;
+import com.anyun.cloud.demo.api.management.http.ApiManagementServerConfigEntity;
 import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
 
 /**
@@ -13,7 +13,7 @@ public interface DistributedManagementService {
      * @return
      * @throws EtcdErrorResponseException
      */
-    ManagementApiServerConfigEntity getManagementApiServerConfig() throws EtcdErrorResponseException;
+    ApiManagementServerConfigEntity getManagementApiServerConfig() throws EtcdErrorResponseException;
 
     /**
      * @throws Exception

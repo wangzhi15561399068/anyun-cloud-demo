@@ -1,7 +1,5 @@
 package com.anyun.cloud.demo.api.management.raml;
 
-import org.raml.v2.api.RamlModelBuilder;
-import org.raml.v2.api.RamlModelResult;
 import org.raml.v2.api.model.v10.api.Api;
 
 /**

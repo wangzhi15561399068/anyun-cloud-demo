@@ -5,7 +5,7 @@ import com.anyun.cloud.demo.common.registry.entity.NodeNetworkEntity;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.cloud.demo.common.registry.service.NodeRegistService;
 import com.anyun.cloud.demo.common.registry.utils.DeviceIdGenerator;
-import com.anyun.cloud.demo.common.registry.zookeeper.ZookeeperClient;
+import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.anyun.common.lang.NetworkUtils;
 import com.anyun.common.lang.json.GsonUtil;
 import com.google.inject.Inject;

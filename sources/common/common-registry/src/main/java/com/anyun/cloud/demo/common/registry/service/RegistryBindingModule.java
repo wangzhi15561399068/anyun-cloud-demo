@@ -1,8 +1,8 @@
 package com.anyun.cloud.demo.common.registry.service;
 
 import com.anyun.cloud.demo.common.registry.service.impl.NodeRegistServiceImpl;
-import com.anyun.cloud.demo.common.registry.zookeeper.DefaultZookeeperClient;
-import com.anyun.cloud.demo.common.registry.zookeeper.ZookeeperClient;
+import com.anyun.cloud.demo.common.registry.utils.DefaultZookeeperClient;
+import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.google.inject.AbstractModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

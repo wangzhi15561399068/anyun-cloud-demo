@@ -1,8 +1,6 @@
 package com.anyun.cloud.demo.api.management.core.service;
 
-import com.anyun.cloud.demo.api.management.entity.ApiStatusEntity;
 import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
-import com.anyun.cloud.demo.api.management.core.service.ApiManagementService;
 
 import javax.inject.Inject;
 import java.util.List;
