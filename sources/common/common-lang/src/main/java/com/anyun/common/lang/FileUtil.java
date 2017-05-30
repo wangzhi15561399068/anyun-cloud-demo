@@ -47,6 +47,27 @@ public class FileUtil {
     }
 
     /**
+     *
+     * @param fileName
+     * @param content
+     * @param append
+     * @throws IOException
+     */
+    public static void write(String fileName, InputStream content, boolean append) throws IOException {
+        int BUFFER = 2048;
+        FileOutputStream fos = new FileOutputStream(fileName);
+        BufferedInputStream origin = new BufferedInputStream(content, BUFFER);
+        byte data[] = new byte[BUFFER];
+        int count;
+        while ((count = origin.read(data, 0, BUFFER)) != -1) {
+            fos.write(data, 0, count);
+        }
+        fos.flush();
+        fos.close();
+        origin.close();
+    }
+
+    /**
      * 获取随机的文件名称
      *
      * @param seed 随机种子

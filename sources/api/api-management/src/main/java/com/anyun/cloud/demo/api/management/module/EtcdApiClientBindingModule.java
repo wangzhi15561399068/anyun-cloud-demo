@@ -27,6 +27,6 @@ public class EtcdApiClientBindingModule extends AbstractModule {
         LOGGER.info("Bind etcd api client to: {}", OkHttpRestfullyApiClient.class.getCanonicalName());
 
         bind(EtcdExtenedService.class).to(EtcdExtenedServiceImpl.class);
-        LOGGER.info("Bind etcd api client to: {}", OkHttpRestfullyApiClient.class.getCanonicalName());
+        LOGGER.info("Bind etcd api extend service to: {}", EtcdExtenedServiceImpl.class.getCanonicalName());
     }
 }

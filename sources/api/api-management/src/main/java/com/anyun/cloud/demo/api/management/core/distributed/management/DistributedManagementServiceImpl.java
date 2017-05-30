@@ -7,6 +7,7 @@ import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.cloud.demo.common.registry.service.NodeRegistService;
+import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,8 @@ public class DistributedManagementServiceImpl implements DistributedManagementSe
         LOGGER.debug("Discovered management api server host: " + config.getHost());
         LOGGER.debug("Discovered management api server port: " + config.getPort());
         LOGGER.debug("Discovered management api server idle timeout: " + config.getIdleTimeout());
-        LOGGER.debug("Discovered management api server api servlet mapping: " + config.getApiServletMappingPath());
         LOGGER.debug("Discovered management api server is join server thread: " + config.isJoinServerThread());
+        LOGGER.debug("Discovered management api server upload dir: " + config.getUploadDir());
         return config;
     }
 

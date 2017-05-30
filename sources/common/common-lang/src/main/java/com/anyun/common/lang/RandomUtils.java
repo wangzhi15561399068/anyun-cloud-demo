@@ -37,4 +37,12 @@ public class RandomUtils {
         Hashids hashids = new Hashids(salt);
         return hashids.encode(System.nanoTime());
     }
+
+    public static final String generateByhashId(int size) {
+        if (size == 0)
+            size = 6;
+        String salt = generateByUUID() + "-" + System.currentTimeMillis();
+        Hashids hashids = new Hashids(salt, size);
+        return hashids.encode(System.nanoTime());
+    }
 }

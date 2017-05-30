@@ -12,4 +12,9 @@ public class JsonFormatBuilder implements FormatBuilder {
     public String asString(Object entity) throws Exception {
         return GsonUtil.getUtil().toJson(entity);
     }
+
+    @Override
+    public String getContentType() {
+        return "application/json";
+    }
 }

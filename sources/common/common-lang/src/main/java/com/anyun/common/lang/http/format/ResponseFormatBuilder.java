@@ -8,14 +8,15 @@ import java.util.Map;
  * @since 1.0.0 on 29/05/2017
  */
 public class ResponseFormatBuilder {
+    private static final String JSON = "json";
     private static Map<String, FormatBuilder> build;
 
     static {
         build = new HashMap<>();
-        build.put("json", new JsonFormatBuilder());
+        build.put(JSON, new JsonFormatBuilder());
     }
 
-    private String type = "json";
+    private String type = JSON;
 
     public ResponseFormatBuilder withType(String type) {
         this.type = type;

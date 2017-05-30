@@ -1,7 +1,7 @@
 package com.anyun.cloud.demo.api.node.http;
 
 import com.anyun.common.lang.StringUtils;
-import com.anyun.common.lang.http.ParamaterUtil;
+import com.anyun.common.lang.http.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,7 @@ public class DefaultApiServlet extends HttpServlet {
         LOGGER.debug("Query string: {}", queryString);
         if (StringUtils.isNotEmpty(queryString)) {
             LOGGER.debug("=========Query Paramaters==========");
-            Map<String, List<String>> paramaters = ParamaterUtil.getUriQueryParameters(queryString);
+            Map<String, List<String>> paramaters = RequestUtil.getUriQueryParameters(queryString);
             for (Map.Entry<String, List<String>> paramater : paramaters.entrySet()) {
                 LOGGER.debug("Name: {}     Value: {}", paramater.getKey(), paramater.getValue());
             }

@@ -8,8 +8,8 @@ public class ServerConfig {
     private String host = "0.0.0.0";
     private int port = 80;
     private long idleTimeout = 30000;
-    private String apiServletMappingPath = "/api/*";
     private boolean joinServerThread = true;
+    private String uploadDir = "/tmp/upload";
 
     public ServerConfig() {
     }
@@ -38,19 +38,19 @@ public class ServerConfig {
         this.idleTimeout = idleTimeout;
     }
 
-    public String getApiServletMappingPath() {
-        return apiServletMappingPath;
-    }
-
-    public void setApiServletMappingPath(String apiServletMappingPath) {
-        this.apiServletMappingPath = apiServletMappingPath;
-    }
-
     public boolean isJoinServerThread() {
         return joinServerThread;
     }
 
     public void setJoinServerThread(boolean joinServerThread) {
         this.joinServerThread = joinServerThread;
+    }
+
+    public String getUploadDir() {
+        return uploadDir;
+    }
+
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
     }
 }

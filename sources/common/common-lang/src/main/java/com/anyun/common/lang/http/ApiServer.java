@@ -5,7 +5,7 @@ package com.anyun.common.lang.http;
  * @since 1.0.0 on 23/05/2017
  */
 public interface ApiServer<T> {
-
+    public static final String NAMED_CALLBACK = "http.callback.";
     /**
      *
      * @throws Exception
@@ -36,4 +36,10 @@ public interface ApiServer<T> {
      * @return
      */
     T getServerInstance();
+
+    /**
+     *
+     * @return
+     */
+    ServerConfig getConfig();
 }

@@ -1,8 +1,8 @@
-package com.anyun.cloud.demo.api.management.core.service;
+package com.anyun.cloud.demo.api.management.core.service.impl;
 
-import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
+import com.anyun.cloud.demo.api.management.core.service.ApiManagementService;
+import com.anyun.cloud.demo.api.management.core.service.ApiStatusEntity;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -10,11 +10,9 @@ import java.util.List;
  * @since 1.0.0 on 22/05/2017
  */
 public class DefaultApiManagementServiceImpl implements ApiManagementService {
-    private RamlApiRamlParser ramlApiRamlParser;
 
-    @Inject
-    public DefaultApiManagementServiceImpl(RamlApiRamlParser ramlApiRamlParser) {
-        this.ramlApiRamlParser = ramlApiRamlParser;
+    public DefaultApiManagementServiceImpl() {
+
     }
 
     @Override

@@ -16,12 +16,13 @@ public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManag
     public static String ETCD_KEY_MGR_IDLE_TIMEOUT = "idle-timeout";
     public static String ETCD_KEY_MGR_SERVLET_MAPPING = "servlet-mapping-path";
     public static String ETCD_KEY_MGR_HTTP_SERVER_THREAD_JOIN = "thread-join";
+    public static String ETCD_KEY_MGR_HTTP_DIR_UPLOAD = "dir-upload";
 
     private String host = "0.0.0.0";
     private int port = 80;
     private long idleTimeout = 30000;
-    private String apiServletMappingPath = "/api/*";
     private boolean joinServerThread = true;
+    private String uploadDir;
 
     public ApiManagementServerConfigEntity buildFromEtcdActionResponse(EtcdActionResponse response)
             throws EtcdErrorResponseException {
@@ -30,12 +31,20 @@ public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManag
             config.host = getStringValue(response, ETCD_KEY_MGR_HOST);
             config.port = getIntValue(response, ETCD_KEY_MGR_PORT);
             config.idleTimeout = getLongValue(response, ETCD_KEY_MGR_IDLE_TIMEOUT);
-            config.apiServletMappingPath = getStringValue(response, ETCD_KEY_MGR_SERVLET_MAPPING);
             config.joinServerThread = getBooleanValue(response, ETCD_KEY_MGR_HTTP_SERVER_THREAD_JOIN);
+            config.uploadDir = getStringValue(response, ETCD_KEY_MGR_HTTP_DIR_UPLOAD);
             return config;
         } catch (Exception ex) {
             throw new EtcdErrorResponseException(ex);
         }
+    }
+
+    public String getUploadDir() {
+        return uploadDir;
+    }
+
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
     }
 
     public String getHost() {
@@ -62,14 +71,6 @@ public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManag
         this.idleTimeout = idleTimeout;
     }
 
-    public String getApiServletMappingPath() {
-        return apiServletMappingPath;
-    }
-
-    public void setApiServletMappingPath(String apiServletMappingPath) {
-        this.apiServletMappingPath = apiServletMappingPath;
-    }
-
     public boolean isJoinServerThread() {
         return joinServerThread;
     }
@@ -80,11 +81,11 @@ public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManag
 
     public ServerConfig asConfig() {
         ServerConfig config = new ServerConfig();
-        config.setApiServletMappingPath(this.getApiServletMappingPath());
         config.setHost(this.getHost());
         config.setPort(this.getPort());
         config.setIdleTimeout(this.getIdleTimeout());
         config.setJoinServerThread(this.isJoinServerThread());
+        config.setUploadDir(this.getUploadDir());
         return config;
     }
 
@@ -94,8 +95,8 @@ public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManag
                 "host='" + host + '\'' +
                 ", port=" + port +
                 ", idleTimeout=" + idleTimeout +
-                ", apiServletMappingPath='" + apiServletMappingPath + '\'' +
                 ", joinServerThread=" + joinServerThread +
+                ", uploadDir='" + uploadDir + '\'' +
                 '}';
     }
 }

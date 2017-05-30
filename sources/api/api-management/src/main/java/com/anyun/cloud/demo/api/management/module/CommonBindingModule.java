@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.api.management.module;
 
-import com.anyun.cloud.demo.api.management.raml.DemoApiRamlParser;
+import com.anyun.cloud.demo.api.management.raml.DefaultApiRamlParser;
 import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
 import com.google.inject.AbstractModule;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ public class CommonBindingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(RamlApiRamlParser.class).to(DemoApiRamlParser.class);
-        LOGGER.info("Bind RAML parser to: {}", DemoApiRamlParser.class.getCanonicalName());
+        bind(RamlApiRamlParser.class).to(DefaultApiRamlParser.class);
+        LOGGER.info("Bind RAML parser to: {}", DefaultApiRamlParser.class.getCanonicalName());
     }
 }

@@ -3,7 +3,7 @@ package com.anyun.cloud.demo.api.management.module;
 import com.anyun.cloud.demo.api.management.core.distributed.management.DistributedManagementService;
 import com.anyun.cloud.demo.api.management.core.distributed.management.DistributedManagementServiceImpl;
 import com.anyun.cloud.demo.api.management.core.service.ApiManagementService;
-import com.anyun.cloud.demo.api.management.core.service.DefaultApiManagementServiceImpl;
+import com.anyun.cloud.demo.api.management.core.service.impl.DefaultApiManagementServiceImpl;
 import com.google.inject.AbstractModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

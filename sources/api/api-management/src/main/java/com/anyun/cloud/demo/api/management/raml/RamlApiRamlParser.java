@@ -13,14 +13,14 @@ public interface RamlApiRamlParser {
      * @param raml
      * @return
      */
-    DemoApiRamlParser withRamlString(String raml);
+    DefaultApiRamlParser withRamlString(String raml);
 
     /**
      *
      * @param encoding
      * @return
      */
-    DemoApiRamlParser withEncoding(String encoding);
+    DefaultApiRamlParser withEncoding(String encoding);
 
     /**
      *

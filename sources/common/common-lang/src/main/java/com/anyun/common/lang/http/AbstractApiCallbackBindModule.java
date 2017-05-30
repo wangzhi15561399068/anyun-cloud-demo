@@ -25,7 +25,7 @@ public abstract class AbstractApiCallbackBindModule {
 
     protected final void addApi(String path, ApiCallback callback) {
         apiCallbackMap.put(path, callback);
-        LOGGER.debug("Bind api path [{}] to: ", path, callback.getClass());
+        LOGGER.debug("Bind api path [{}] to: {}", path, callback.getClass());
     }
 
     public final ApiCallback getCallbackByName(String name, ApiCallback.HttpMethod method) {

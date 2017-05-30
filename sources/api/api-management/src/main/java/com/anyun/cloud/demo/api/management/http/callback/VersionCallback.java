@@ -1,8 +1,8 @@
 package com.anyun.cloud.demo.api.management.http.callback;
 
+import com.anyun.cloud.demo.api.management.http.response.entity.VersionResponseEntity;
 import com.anyun.common.lang.http.ApiCallback;
 import com.anyun.common.lang.http.entity.BaseResponseEntity;
-import com.anyun.cloud.demo.api.management.http.response.entity.VersionResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,5 +16,10 @@ public class VersionCallback implements ApiCallback {
     public BaseResponseEntity callback(HttpServletRequest request) throws Exception {
         VersionResponseEntity entity = new VersionResponseEntity();
         return entity;
+    }
+
+    @Override
+    public HttpMethod getMethod() {
+        return HttpMethod.GET;
     }
 }

@@ -26,13 +26,6 @@ public interface ApiCallback<T extends BaseResponseEntity> {
     }
 
     /**
-     * @return
-     */
-    default String getPath() {
-        return "/";
-    }
-
-    /**
      *
      */
     enum HttpMethod {

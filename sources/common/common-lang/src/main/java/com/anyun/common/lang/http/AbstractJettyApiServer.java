@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -22,16 +23,16 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
     private ZookeeperClient zookeeperClient;
     private ServletHandler apiHandler;
     private JettyServerThreadRunnable runnable;
-    private Class apiProcessServlet;
+    private List<ServletMapping> apiProcessServlets;
     private ServerStatus status;
 
     public AbstractJettyApiServer(
             ZookeeperClient zookeeperClient,
             ServletHandler apiHandler,
-            Class apiProcessServlet) {
+            List<ServletMapping> apiProcessServlets) {
         this.zookeeperClient = zookeeperClient;
         this.apiHandler = apiHandler;
-        this.apiProcessServlet = apiProcessServlet;
+        this.apiProcessServlets = apiProcessServlets;
         status = new ServerStatus();
     }
 
@@ -45,6 +46,8 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
             LOGGER.error("Management api server is running");
             throw new Exception("Management api server is running");
         }
+        if (apiProcessServlets == null || apiProcessServlets.isEmpty())
+            throw new Exception("process servlets in not set");
         countDownLatch = new CountDownLatch(1);
         initServerConfig();
         server = new Server();
@@ -57,10 +60,13 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
         http.setIdleTimeout(config.getIdleTimeout());
         server.addConnector(http);
         server.setHandler(apiHandler);
-        apiHandler.addServletWithMapping(apiProcessServlet, config.getApiServletMappingPath());
-        String bindPath = "http://" + config.getHost() + ":" + config.getPort()
-                + config.getApiServletMappingPath();
-        LOGGER.debug("Bind servlet root path [{}]", bindPath);
+
+        for (ServletMapping servlet : apiProcessServlets) {
+            String servletMappingPath = servlet.getApiServletMappingPath() + "/*";
+            apiHandler.addServletWithMapping(servlet.getApiProcessServlet(), servletMappingPath);
+            LOGGER.info("Servlet class [{}] is mapping to path [{}]",
+                    servlet.getApiProcessServlet().getCanonicalName(), servlet.getApiServletMappingPath());
+        }
         runnable = new JettyServerThreadRunnable(this);
         runnable.start();
         LOGGER.info("Waiting for management api server start");
@@ -92,6 +98,7 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
         return server;
     }
 
+    @Override
     public ServerConfig getConfig() {
         return config;
     }

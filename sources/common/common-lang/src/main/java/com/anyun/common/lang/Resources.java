@@ -278,5 +278,4 @@ public class Resources {
         File file = new File(path);
         return new File(file.getParent());
     }
-
 }

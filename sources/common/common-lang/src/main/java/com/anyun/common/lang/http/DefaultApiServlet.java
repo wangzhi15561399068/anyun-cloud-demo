@@ -1,8 +1,7 @@
 package com.anyun.common.lang.http;
 
-import com.anyun.common.lang.StringUtils;
-import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.http.entity.BaseResponseEntity;
+import com.anyun.common.lang.http.entity.DefaultResponseEntity;
 import com.anyun.common.lang.http.entity.ResponseRootNode;
 import com.anyun.common.lang.http.format.FormatBuilder;
 import com.anyun.common.lang.http.format.ResponseFormatBuilder;
@@ -29,6 +28,7 @@ import java.util.Map;
 public class DefaultApiServlet extends HttpServlet {
     public static final int ERROR_404 = 404;
     public static final int ERROR_500 = 500;
+    public static final String ENCODING_DEFAULT = "utf-8";
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultApiServlet.class);
 
     @Inject
@@ -39,26 +39,12 @@ public class DefaultApiServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ResponseRootNode rootNode = new ResponseRootNode();
         long current = System.currentTimeMillis();
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(ENCODING_DEFAULT);
         String pathInfo = request.getPathInfo();
-        String method = request.getMethod();
-        String queryString = request.getQueryString();
-        String remote = request.getRemoteAddr();
         String responseContentType = getResponseContentType(request);
-        LOGGER.debug("Remote: {}", remote);
-        LOGGER.debug("Path info: {}", pathInfo);
-        LOGGER.debug("Method: {}", method);
-        LOGGER.debug("Query string: {}", queryString);
-        Map<String, List<String>> parameters = ParamaterUtil.getUriQueryParameters(queryString);
-        if (StringUtils.isNotEmpty(queryString)) {
-            LOGGER.debug("========= Query Parameters ==========");
-            for (Map.Entry<String, List<String>> parameter : parameters.entrySet()) {
-                LOGGER.debug("Name: {}     Value: {}", parameter.getKey(), parameter.getValue());
-            }
-        }
-        AbstractApiCallbackBindModule apiCallbackBindModule =
-                InjectorsBuilder.getBuilder().getInstanceByType(AbstractApiCallbackBindModule.class);
-        ApiCallback callback = apiCallbackBindModule.getCallbackByName(pathInfo, ApiCallback.HttpMethod.valueOf(method));
+        LOGGER.debug("Remote IP: {}", request.getRemoteAddr());
+        LOGGER.debug("Path info: {}{}  @{}", request.getServletPath(), pathInfo, request.getMethod());
+        ApiCallback callback = RequestUtil.getApiCallback(request);
         if (callback == null) {
             LOGGER.debug("Not found api callback by path info [{}]", pathInfo);
             String errorMessage = "Not found api callback by path info [" + pathInfo + "]";
@@ -67,10 +53,10 @@ public class DefaultApiServlet extends HttpServlet {
         }
         try {
             BaseResponseEntity entity = callback.callback(request);
+            if (entity == null)
+                entity = new DefaultResponseEntity();
             rootNode.setResult(entity);
             rootNode.setAction(pathInfo);
-            PrintWriter writer = response.getWriter();
-            response.setContentType(responseContentType);
             FormatBuilder formatBuilder = new ResponseFormatBuilder().withType(responseContentType).build();
             LOGGER.debug("Matched format builder [{}]", formatBuilder);
             if (formatBuilder == null)
@@ -79,6 +65,8 @@ public class DefaultApiServlet extends HttpServlet {
             rootNode.setExecMillisecond(System.currentTimeMillis() - current);
             String responseString = formatBuilder.asString(rootNode);
             LOGGER.debug("Response string [\n{}\n]", responseString);
+            response.setContentType(formatBuilder.getContentType());
+            PrintWriter writer = response.getWriter();
             writer.write(responseString);
             writer.flush();
         } catch (Exception e) {
@@ -91,7 +79,7 @@ public class DefaultApiServlet extends HttpServlet {
 
     private String getResponseContentType(HttpServletRequest request) throws IOException {
         String queryString = request.getQueryString();
-        Map<String, List<String>> parameters = ParamaterUtil.getUriQueryParameters(queryString);
+        Map<String, List<String>> parameters = RequestUtil.getUriQueryParameters(queryString);
         List<String> format = parameters.get("format");
         if (format == null || format.isEmpty())
             return "json";

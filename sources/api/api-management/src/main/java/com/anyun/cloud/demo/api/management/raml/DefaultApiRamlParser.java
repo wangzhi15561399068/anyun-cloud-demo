@@ -12,24 +12,24 @@ import javax.inject.Inject;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 23/05/2017
  */
-public class DemoApiRamlParser implements RamlApiRamlParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DemoApiRamlParser.class);
+public class DefaultApiRamlParser implements RamlApiRamlParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultApiRamlParser.class);
     private static final String ENCODING = "raml.parser.encoding";
     private String ramlContent;
 
     @Inject
-    public DemoApiRamlParser() {
+    public DefaultApiRamlParser() {
         System.setProperty(ENCODING, "UTF-8");
     }
 
     @Override
-    public DemoApiRamlParser withRamlString(String raml) {
+    public DefaultApiRamlParser withRamlString(String ramlContent) {
         this.ramlContent = ramlContent;
         return this;
     }
 
     @Override
-    public DemoApiRamlParser withEncoding(String encoding) {
+    public DefaultApiRamlParser withEncoding(String encoding) {
         System.setProperty(ENCODING, encoding);
         return this;
     }

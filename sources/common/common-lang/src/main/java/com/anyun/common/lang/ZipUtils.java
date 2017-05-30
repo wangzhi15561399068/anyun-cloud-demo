@@ -67,11 +67,10 @@ public class ZipUtils {
 
     /**
      * @param zis
-     * @param entry
      * @return
      * @throws IOException
      */
-    public static byte[] readZipEntryData(ZipInputStream zis, ZipEntry entry) throws IOException {
+    public static byte[] readZipEntryData(ZipInputStream zis) throws IOException {
         int count;
         byte data[] = new byte[BUFFER];
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
