@@ -23,4 +23,12 @@ public class ApiRequestBody {
     public void setApiTypeEntity(ApiTypeEntity apiTypeEntity) {
         this.apiTypeEntity = apiTypeEntity;
     }
+
+    @Override
+    public String toString() {
+        return "ApiRequestBody {" + "\n" +
+                "    contentType='" + contentType + "\'\n" +
+                "    apiTypeEntity=" + apiTypeEntity + "\n" +
+                '}';
+    }
 }

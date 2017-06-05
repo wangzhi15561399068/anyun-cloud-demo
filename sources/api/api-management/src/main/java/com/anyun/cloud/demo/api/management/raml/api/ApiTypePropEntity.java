@@ -32,4 +32,13 @@ public class ApiTypePropEntity {
     public void setExample(String example) {
         this.example = example;
     }
+
+    @Override
+    public String toString() {
+        return "ApiTypePropEntity {" + "\n" +
+                "    type='" + type + "\'\n" +
+                "    required=" + required + "\n" +
+                "    example='" + example + "\'\n" +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package test.com.anyun.cloud.demo.api.management;
 
 import com.anyun.cloud.demo.api.management.raml.DefaultApiRamlParser;
 import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
+import com.anyun.cloud.demo.api.management.raml.api.ApiEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.raml.v2.api.model.v10.api.Api;
@@ -20,7 +21,7 @@ import java.util.List;
  * @since 1.0.0 on 31/05/2017
  */
 public class ApiRamlParserTest extends BaseTest {
-    private static final String EXT_DIR = "/Users/twitchgg/Develop/Projects/hohot-cloud-demo/doc-api/example1";
+    private static final String EXT_DIR = "D:\\Develop\\Workspace\\HohhotCloudDemo\\doc-api\\example1";
     private static final String ENCODING = "utf-8";
     private File ramlDir;
     private File[] ramlFiles = null;
@@ -39,6 +40,15 @@ public class ApiRamlParserTest extends BaseTest {
         for (File file : ramlFiles) {
             Api api = parser.withEncoding(ENCODING).withRamlFile(file).buildV10Api();
             deploy(api, file);
+        }
+    }
+
+    @Test
+    public void test2() throws Exception {
+        System.out.println(ramlDir.getAbsoluteFile());
+        for (File file : ramlFiles) {
+            ApiEntity api = parser.withEncoding(ENCODING).withRamlFile(file).buildApi();
+            System.out.println(api);
         }
     }
 

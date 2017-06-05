@@ -11,6 +11,8 @@ import java.util.List;
 public class ApiEntity {
     private String title = "";
     private String description = "";
+    private String version = "";
+    private String baseUrl = "";
     private List<ApiDocuementEntity> documents = new LinkedList<>();
     private List<ApiResourceEntity> resources = new LinkedList<>();
 
@@ -44,5 +46,37 @@ public class ApiEntity {
 
     public void setResources(List<ApiResourceEntity> resources) {
         this.resources = resources;
+    }
+
+    public void addResource(ApiResourceEntity resourceEntity) {
+        resources.add(resourceEntity);
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiEntity {" + "\n" +
+                "    title='" + title + "\'\n" +
+                "    description='" + description + "\'\n" +
+                "    version='" + version + "\'\n" +
+                "    baseUrl='" + baseUrl + "\'\n" +
+                "    documents=" + documents + "\n" +
+                "    resources=" + resources + "\n" +
+                '}';
     }
 }

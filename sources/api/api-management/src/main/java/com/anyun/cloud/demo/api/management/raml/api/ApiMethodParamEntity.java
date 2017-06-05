@@ -50,4 +50,15 @@ public class ApiMethodParamEntity {
     public void setExample(String example) {
         this.example = example;
     }
+
+    @Override
+    public String toString() {
+        return "ApiMethodParamEntity {" + "\n" +
+                "    name='" + name + "\'\n" +
+                "    description='" + description + "\'\n" +
+                "    required=" + required + "\n" +
+                "    type='" + type + "\'\n" +
+                "    example='" + example + "\'\n" +
+                '}';
+    }
 }

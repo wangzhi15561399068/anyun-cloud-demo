@@ -31,5 +31,12 @@ public class ApiDocuementEntity {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
+    @Override
+    public String toString() {
+        return "ApiDocuementEntity {" + "\n" +
+                "    title='" + title + "\'\n" +
+                "    content='" + content + "\'\n" +
+                '}';
+    }
 }

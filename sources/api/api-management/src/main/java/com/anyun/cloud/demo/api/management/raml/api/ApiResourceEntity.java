@@ -13,6 +13,7 @@ public class ApiResourceEntity {
     private String desc;
     private String method;
     private List<ApiMethodParamEntity> parameters = new LinkedList<>();
+    private List<ApiResponseEntity> responses = new LinkedList<>();
     private ApiRequestBody requestBody;
 
     public String getPath() {
@@ -65,5 +66,30 @@ public class ApiResourceEntity {
 
     public void setRequestBody(ApiRequestBody requestBody) {
         this.requestBody = requestBody;
+    }
+
+    public List<ApiResponseEntity> getResponses() {
+        return responses;
+    }
+
+    public void setResponses(List<ApiResponseEntity> responses) {
+        this.responses = responses;
+    }
+
+    public void addResponse(ApiResponseEntity responseEntity) {
+        responses.add(responseEntity);
+    }
+
+    @Override
+    public String toString() {
+        return "ApiResourceEntity {" + "\n" +
+                "    path='" + path + "\'\n" +
+                "    name='" + name + "\'\n" +
+                "    desc='" + desc + "\'\n" +
+                "    method='" + method + "\'\n" +
+                "    parameters=" + parameters + "\n" +
+                "    responses=" + responses + "\n" +
+                "    requestBody=" + requestBody + "\n" +
+                '}';
     }
 }

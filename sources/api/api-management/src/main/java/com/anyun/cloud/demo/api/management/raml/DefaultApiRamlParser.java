@@ -7,6 +7,7 @@ import org.raml.v2.api.RamlModelResult;
 import org.raml.v2.api.model.common.ValidationResult;
 import org.raml.v2.api.model.v10.api.Api;
 import org.raml.v2.api.model.v10.api.DocumentationItem;
+import org.raml.v2.api.model.v10.bodies.Response;
 import org.raml.v2.api.model.v10.datamodel.ObjectTypeDeclaration;
 import org.raml.v2.api.model.v10.datamodel.TypeDeclaration;
 import org.raml.v2.api.model.v10.methods.Method;
@@ -85,17 +86,27 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
         Api api = buildV10Api();
         ApiEntity entity = new ApiEntity();
         entity.setTitle(api.title().value());
-        entity.setDescription(api.description().value());
+        entity.setDescription(api.description().value().trim());
+        entity.setVersion(api.version().value());
+        String baseUrlStr = api.baseUri().value()
+                .replace("{version}",entity.getVersion())
+                .replace(".","_");
+        entity.setBaseUrl(baseUrlStr);
+        dsb.append("TITLE: " + entity.getTitle()).append("\n");
+        dsb.append("VERSION: " + entity.getVersion()).append("\n");
+        dsb.append("BASE URL: " + entity.getBaseUrl()).append("\n");
+        dsb.append("DESCRIPTION: " + entity.getDescription()).append("\n");
         entity.setDocuments(getDocs());
         parseApiResource();
         entity.setResources(apiResourceEntities);
+        LOGGER.debug("Build debug \n{}",dsb.toString());
         return entity;
     }
 
     private List<ApiDocuementEntity> getDocs() {
         List<ApiDocuementEntity> docs = new LinkedList<>();
         for (DocumentationItem doc : api.documentation()) {
-            docs.add(new ApiDocuementEntity(doc.title().value(), doc.content().value()));
+            docs.add(new ApiDocuementEntity(doc.title().value(), doc.content().value().trim()));
         }
         return docs;
     }
@@ -123,11 +134,12 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
         dsb.append("Desc: " + resource.description().value()).append("\n");
         resourceEntity.setPath(resource.resourcePath());
         resourceEntity.setName(resource.displayName().value());
-        resourceEntity.setDesc(resource.description().value());
+        resourceEntity.setDesc(resource.description().value().trim());
         Method method = resource.methods().get(0);
         parseMethodEntity(method, resourceEntity);
-        parseRequestBody(method, api, resourceEntity);
-        displayResponses(method, api);
+        parseRequestBody(method, resourceEntity);
+        parseResponses(method,resourceEntity);
+        apiResourceEntities.add(resourceEntity);
         dsb.append("----------------------------------------------------------------------------------").append("\n");
     }
 
@@ -149,29 +161,50 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
                 dsb.append("  Param Example: " + typeDeclaration.example().value()).append("\n");
                 paramEntity.setExample(typeDeclaration.example().value());
             }
+            resourceEntity.addParameter(paramEntity);
         }
     }
 
-    private void parseRequestBody(Method method, Api api, ApiResourceEntity resourceEntity) {
+    private void parseRequestBody(Method method, ApiResourceEntity resourceEntity) {
         if (!method.method().equals("post") && !method.method().equals("put"))
             return;
         ApiRequestBody requestBody = new ApiRequestBody();
-        System.out.println("****************************Request body********************************");
+        dsb.append("****************************Request body********************************").append("\n");
         TypeDeclaration body = method.body().get(0);
         dsb.append("    Content Type: " + body.name()).append("\n");
         dsb.append("    Type Name: " + body.type()).append("\n");
         requestBody.setContentType(body.name());
-        ObjectTypeDeclaration type = findObjectTypeByName(body.type());
-        if (type == null)
-            return;
-        displayType(type.properties());
+        ApiTypeEntity apiTypeEntity = new ApiTypeEntity();
+        apiTypeEntity.setName(body.type());
+        parserObjectTypeByApiTypeEntity(apiTypeEntity);
+        requestBody.setApiTypeEntity(apiTypeEntity);
+        resourceEntity.setRequestBody(requestBody);
     }
 
+    private void parseResponses(Method method,ApiResourceEntity resourceEntity) {
+        dsb.append("^^^^^^^^^^^^^^^^^^Response^^^^^^^^^^^^^^^^^^^^^^^^").append("\n");
+        for (Response response : method.responses()) {
+            dsb.append("Response code: " + response.code().value()).append("\n");
+            for (TypeDeclaration body : response.body()) {
+                ApiResponseEntity responseEntity = new ApiResponseEntity();
+                responseEntity.setCode(Integer.valueOf(response.code().value()));
+                responseEntity.setContentType(body.name());
+                dsb.append("Body Content Type: " + body.name()).append("\n");
+                dsb.append("Body Type: " + body.type()).append("\n");
+                ApiTypeEntity apiTypeEntity = new ApiTypeEntity();
+                apiTypeEntity.setName(body.type());
+                parserObjectTypeByApiTypeEntity(apiTypeEntity);
+                responseEntity.setTypeEntity(apiTypeEntity);
+                resourceEntity.addResponse(responseEntity);
+            }
+            dsb.append("**************************************************").append("\n");
+        }
+    }
 
-    private void parserObjectTypeByName(String name,ApiTypeEntity typeEntity) {
+    private void parserObjectTypeByApiTypeEntity(ApiTypeEntity typeEntity) {
         ObjectTypeDeclaration type = null;
         for (TypeDeclaration typeDeclaration : api.types()) {
-            if (typeDeclaration.name().equals(name)) {
+            if (typeDeclaration.name().equals(typeEntity.getName())) {
                 type = (ObjectTypeDeclaration) typeDeclaration;
                 break;
             }
@@ -189,6 +222,7 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
                 dsb.append("      Prop Example:" + prop.example().value()).append("\n");
                 propEntity.setExample(prop.example().value());
             }
+            typeEntity.addPropEntity(propEntity);
         }
     }
 }
