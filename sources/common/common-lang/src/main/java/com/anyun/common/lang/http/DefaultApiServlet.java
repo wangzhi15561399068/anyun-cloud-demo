@@ -31,8 +31,8 @@ public class DefaultApiServlet extends HttpServlet {
     public static final String ENCODING_DEFAULT = "utf-8";
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultApiServlet.class);
 
-    @Inject
     public DefaultApiServlet() {
+        System.out.println("Initial api servlet");
     }
 
     @Override
@@ -81,11 +81,13 @@ public class DefaultApiServlet extends HttpServlet {
     private String getResponseContentType(HttpServletRequest request) throws IOException {
         String queryString = request.getQueryString();
         Map<String, List<String>> parameters = RequestUtil.getUriQueryParameters(queryString);
-        List<String> format = parameters.get("format");
-        if (format == null || format.isEmpty())
-            return "json";
-        String formatName = format.get(0);
-        LOGGER.debug("response accept content type [{}]", formatName);
-        return format.get(0);
+        List<String> formatList = parameters.get("format");
+        String format = "json";
+        if (formatList != null && !formatList.isEmpty())
+            format = formatList.get(0);
+        else
+            LOGGER.debug("Response accept content type is not set,using json (default) content type");
+        LOGGER.debug("Response accept content type [{}]", format);
+        return format;
     }
 }

@@ -1,5 +1,6 @@
 package com.anyun.common.lang.http;
 
+import com.anyun.common.lang.StringUtils;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -32,6 +33,8 @@ public class RequestUtil {
      */
     public static Map<String, List<String>> getUriQueryParameters(String queryParam) throws UnsupportedEncodingException {
         final Map<String, List<String>> query_pairs = new LinkedHashMap<>();
+        if(queryParam == null)
+            return query_pairs;
         final String[] pairs = queryParam.split("&");
         for (String pair : pairs) {
             final int idx = pair.indexOf("=");
@@ -60,6 +63,9 @@ public class RequestUtil {
     }
 
     public static ApiCallback getApiCallback(HttpServletRequest request) throws Exception {
+        String contentType = request.getContentType();
+        if(StringUtils.isEmpty(contentType))
+            contentType = "application/json";
         Named moduleName = Names.named(ApiServer.NAMED_CALLBACK + request.getServletPath());
         Injector injector = InjectorsBuilder.getBuilder().getInjector();
         AbstractApiCallbackBindModule apiCallbackBindModule =
@@ -68,9 +74,9 @@ public class RequestUtil {
                 request.getPathInfo(), ApiCallback.HttpMethod.valueOf(request.getMethod()));
         if (request.getMethod().equals(ApiCallback.HttpMethod.POST.name())
                 || request.getMethod().equals(ApiCallback.HttpMethod.PUT.name())) {
-            if (!request.getContentType().contains(callback.getAccpetContentType())) {
-                LOGGER.debug("Illegal content type [{}]", request.getContentType());
-                throw new Exception("Illegal content type [" + request.getContentType() + "]");
+            if (!contentType.contains(callback.getAccpetContentType())) {
+                LOGGER.debug("Illegal content type [{}]", contentType);
+                throw new Exception("Illegal content type [" + contentType + "]");
             }
         }
         return callback;

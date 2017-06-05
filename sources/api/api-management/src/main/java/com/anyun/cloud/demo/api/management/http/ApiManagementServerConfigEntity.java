@@ -91,12 +91,12 @@ public class ApiManagementServerConfigEntity extends AbstractEtcdEntity<ApiManag
 
     @Override
     public String toString() {
-        return "ApiManagementServerConfigEntity{" +
-                "host='" + host + '\'' +
-                ", port=" + port +
-                ", idleTimeout=" + idleTimeout +
-                ", joinServerThread=" + joinServerThread +
-                ", uploadDir='" + uploadDir + '\'' +
+        return "ApiManagementServerConfigEntity {" + "\n" +
+                "    host='" + host + "\'\n" +
+                "    port=" + port + "\n" +
+                "    idleTimeout=" + idleTimeout + "\n" +
+                "    joinServerThread=" + joinServerThread + "\n" +
+                "    uploadDir='" + uploadDir + "\'\n" +
                 '}';
     }
 }

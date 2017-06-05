@@ -1,7 +1,6 @@
 package com.anyun.cloud.demo.api.management.http.callback;
 
 import com.anyun.cloud.demo.api.management.core.service.ApiManagementService;
-import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
 import com.anyun.common.lang.*;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.http.ApiCallback;
@@ -13,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Date;
 
 /**
@@ -24,11 +24,9 @@ public class ApiDeployCallback implements ApiCallback {
     private static final String RES_CLASSPATH = "classpath:";
     private static final String RES_FILE = "file:";
     private ApiManagementService apiManagementService;
-    private RamlApiRamlParser ramlApiRamlParser;
 
     public ApiDeployCallback() {
         apiManagementService = InjectorsBuilder.getBuilder().getInstanceByType(ApiManagementService.class);
-        ramlApiRamlParser = InjectorsBuilder.getBuilder().getInstanceByType(RamlApiRamlParser.class);
     }
 
     @Override
@@ -46,7 +44,19 @@ public class ApiDeployCallback implements ApiCallback {
         String extractDir = uploadDir + "/../extract/" + filePrefix + randomFileName;
         LOGGER.debug("Unzip directory: {}", extractDir);
         FileUtil.mkdir(extractDir, false);
-        ZipUtils.extractZipData(fileName, new File(extractDir));
+        try {
+            ZipUtils.extractZipData(fileName, new File(extractDir));
+        } catch (Exception ex) {
+            DefaultResponseEntity response = new DefaultResponseEntity();
+            response.setCode(500);
+            if (ex instanceof FileNotFoundException) {
+                if (ex.getMessage().contains(".rels"))
+                    response.setMessage("Upload file is not zip format");
+            } else
+                response.setMessage(ex.getMessage());
+            clearDeployFiles(fileName, extractDir);
+            return response;
+        }
         try {
             String apiId = apiManagementService.deploy(extractDir);
         } catch (Exception ex) {
@@ -54,8 +64,17 @@ public class ApiDeployCallback implements ApiCallback {
             response.setCode(500);
             response.setMessage(ex.getMessage());
             return response;
+        } finally {
+            clearDeployFiles(fileName, extractDir);
         }
         return null;
+    }
+
+    private void clearDeployFiles(String upload, String extract) {
+        FileUtil.rm(upload, true);
+        FileUtil.rm(extract, true);
+        System.out.println(new File(upload).exists());
+        System.out.println(new File(extract).exists());
     }
 
     private String getServerUploadDirectory() throws Exception {

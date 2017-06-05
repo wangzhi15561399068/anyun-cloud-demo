@@ -35,6 +35,7 @@ public class JettyApiManagementServer extends AbstractJettyApiServer {
     protected void initServerConfig() throws Exception {
         ApiManagementServerConfigEntity config = distributedManagementService.getManagementApiServerConfig();
         setConfig(config.asConfig());
+//        getServerInstance().setErrorHandler(new DefaultManagerApiErrorHandler());
     }
 
     @Override

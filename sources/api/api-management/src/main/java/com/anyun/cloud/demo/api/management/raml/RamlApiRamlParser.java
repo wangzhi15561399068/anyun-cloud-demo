@@ -10,7 +10,7 @@ import java.io.File;
  * @since 1.0.0 on 23/05/2017
  */
 public interface RamlApiRamlParser {
-
+    String ENCODING = "utf-8";
     /**
      * @param raml
      * @return

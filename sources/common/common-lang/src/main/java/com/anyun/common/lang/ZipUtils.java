@@ -89,7 +89,7 @@ public class ZipUtils {
      * @param destDir
      * @throws IOException
      */
-    public static void extractZipData(String zipFileName, File destDir) throws IOException {
+    public static void extractZipData(String zipFileName, File destDir) throws Exception {
         ZipFile zipFile = new ZipFile(zipFileName);
         Enumeration<? extends ZipEntry> zipEntryEnumeration = zipFile.entries();
         while (zipEntryEnumeration.hasMoreElements()) {
