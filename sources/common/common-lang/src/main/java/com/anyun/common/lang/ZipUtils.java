@@ -97,16 +97,20 @@ public class ZipUtils {
             byte data[] = new byte[BUFFER];
             ZipEntry entry = zipEntryEnumeration.nextElement();
             String path = destDir.getAbsolutePath() + "/" + entry.getName();
-            FileOutputStream fileOutputStream = new FileOutputStream(path);
-            BufferedOutputStream dest = new
-                    BufferedOutputStream(fileOutputStream, BUFFER);
-            InputStream inputStream = zipFile.getInputStream(entry);
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-            while ((count = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
-                dest.write(data, 0, count);
+            if (entry.isDirectory())
+                FileUtil.mkdir(path, false);
+            else {
+                FileOutputStream fileOutputStream = new FileOutputStream(path);
+                BufferedOutputStream dest = new
+                        BufferedOutputStream(fileOutputStream, BUFFER);
+                InputStream inputStream = zipFile.getInputStream(entry);
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                while ((count = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
+                    dest.write(data, 0, count);
+                }
+                dest.flush();
+                dest.close();
             }
-            dest.flush();
-            dest.close();
         }
     }
 

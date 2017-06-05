@@ -44,14 +44,15 @@ public class DefaultApiServlet extends HttpServlet {
         String responseContentType = getResponseContentType(request);
         LOGGER.debug("Remote IP: {}", request.getRemoteAddr());
         LOGGER.debug("Path info: {}{}  @{}", request.getServletPath(), pathInfo, request.getMethod());
-        ApiCallback callback = RequestUtil.getApiCallback(request);
-        if (callback == null) {
-            LOGGER.debug("Not found api callback by path info [{}]", pathInfo);
-            String errorMessage = "Not found api callback by path info [" + pathInfo + "]";
-            response.sendError(ERROR_404, errorMessage);
-            return;
-        }
         try {
+            ApiCallback callback = RequestUtil.getApiCallback(request);
+            if (callback == null) {
+                LOGGER.debug("Not found api callback by path info [{}]", pathInfo);
+                String errorMessage = "Not found api callback by path info [" + pathInfo + "]";
+                response.sendError(ERROR_404, errorMessage);
+                return;
+            }
+
             BaseResponseEntity entity = callback.callback(request);
             if (entity == null)
                 entity = new DefaultResponseEntity();

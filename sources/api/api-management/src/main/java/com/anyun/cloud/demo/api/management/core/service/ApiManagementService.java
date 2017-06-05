@@ -10,10 +10,10 @@ public interface ApiManagementService {
 
     /**
      *
-     * @param raml
+     * @param zipFileName
      * @throws Exception
      */
-    String deploy(String raml) throws Exception;
+    String deploy(String zipFileName) throws Exception;
 
     /**
      *

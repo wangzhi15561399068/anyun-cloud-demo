@@ -1,6 +1,9 @@
 package com.anyun.cloud.demo.api.management.raml;
 
+import com.anyun.cloud.demo.api.management.raml.api.ApiEntity;
 import org.raml.v2.api.model.v10.api.Api;
+
+import java.io.File;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -9,30 +12,32 @@ import org.raml.v2.api.model.v10.api.Api;
 public interface RamlApiRamlParser {
 
     /**
-     *
      * @param raml
      * @return
      */
     DefaultApiRamlParser withRamlString(String raml);
 
     /**
-     *
+     * @param file
+     * @return
+     */
+    DefaultApiRamlParser withRamlFile(File file);
+
+    /**
      * @param encoding
      * @return
      */
     DefaultApiRamlParser withEncoding(String encoding);
 
     /**
-     *
      * @return
      * @throws Exception
      */
     Api buildV10Api() throws Exception;
 
     /**
-     *
      * @return
      * @throws Exception
      */
-    RamlApiEntity buildApi() throws Exception;
+    ApiEntity buildApi() throws Exception;
 }

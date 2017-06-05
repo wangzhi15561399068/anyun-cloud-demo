@@ -5,6 +5,8 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -21,6 +23,8 @@ import java.util.Map;
  * @since 1.0.0 on 22/05/2017
  */
 public class RequestUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtil.class);
+
     /**
      * @param queryParam
      * @return
@@ -55,13 +59,20 @@ public class RequestUtil {
         return sb.toString();
     }
 
-    public static ApiCallback getApiCallback(HttpServletRequest request) {
+    public static ApiCallback getApiCallback(HttpServletRequest request) throws Exception {
         Named moduleName = Names.named(ApiServer.NAMED_CALLBACK + request.getServletPath());
         Injector injector = InjectorsBuilder.getBuilder().getInjector();
         AbstractApiCallbackBindModule apiCallbackBindModule =
                 injector.getInstance(Key.get(AbstractApiCallbackBindModule.class, moduleName));
         ApiCallback callback = apiCallbackBindModule.getCallbackByName(
                 request.getPathInfo(), ApiCallback.HttpMethod.valueOf(request.getMethod()));
+        if (request.getMethod().equals(ApiCallback.HttpMethod.POST.name())
+                || request.getMethod().equals(ApiCallback.HttpMethod.PUT.name())) {
+            if (!request.getContentType().contains(callback.getAccpetContentType())) {
+                LOGGER.debug("Illegal content type [{}]", request.getContentType());
+                throw new Exception("Illegal content type [" + request.getContentType() + "]");
+            }
+        }
         return callback;
     }
 }

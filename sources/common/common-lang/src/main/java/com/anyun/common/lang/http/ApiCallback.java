@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface ApiCallback<T extends BaseResponseEntity> {
 
     /**
-     *
      * @param request
      * @return
      * @throws Exception
@@ -23,6 +22,10 @@ public interface ApiCallback<T extends BaseResponseEntity> {
      */
     default HttpMethod getMethod() {
         return HttpMethod.ALL;
+    }
+
+    default String getAccpetContentType() {
+        return "application/json";
     }
 
     /**

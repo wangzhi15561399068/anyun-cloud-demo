@@ -1,12 +1,24 @@
 package com.anyun.cloud.demo.api.management.raml;
 
+import com.anyun.cloud.demo.api.management.raml.api.*;
+import com.anyun.common.lang.StringUtils;
 import org.raml.v2.api.RamlModelBuilder;
 import org.raml.v2.api.RamlModelResult;
+import org.raml.v2.api.model.common.ValidationResult;
 import org.raml.v2.api.model.v10.api.Api;
+import org.raml.v2.api.model.v10.api.DocumentationItem;
+import org.raml.v2.api.model.v10.datamodel.ObjectTypeDeclaration;
+import org.raml.v2.api.model.v10.datamodel.TypeDeclaration;
+import org.raml.v2.api.model.v10.methods.Method;
+import org.raml.v2.api.model.v10.resources.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -16,6 +28,10 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultApiRamlParser.class);
     private static final String ENCODING = "raml.parser.encoding";
     private String ramlContent;
+    private File ramlFile;
+    private Api api;
+    private StringBuilder dsb;
+    private List<ApiResourceEntity> apiResourceEntities = new ArrayList<>();
 
     @Inject
     public DefaultApiRamlParser() {
@@ -29,6 +45,12 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
     }
 
     @Override
+    public DefaultApiRamlParser withRamlFile(File file) {
+        this.ramlFile = file;
+        return this;
+    }
+
+    @Override
     public DefaultApiRamlParser withEncoding(String encoding) {
         System.setProperty(ENCODING, encoding);
         return this;
@@ -36,17 +58,137 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
 
     @Override
     public Api buildV10Api() throws Exception {
-        LOGGER.debug("RAML content [{}]", ramlContent);
-        RamlModelResult ramlModelResult = new RamlModelBuilder().buildApi(ramlContent);
-        Api api = ramlModelResult.getApiV10();
-        return api;
+        RamlModelResult ramlModelResult = null;
+        if (ramlFile != null && ramlFile.exists() && ramlFile.isFile()) {
+            LOGGER.debug("RAML file [{}]", ramlFile);
+            ramlModelResult = new RamlModelBuilder().buildApi(ramlFile);
+        } else if (StringUtils.isNotEmpty(ramlContent)) {
+            LOGGER.debug("RAML content [{}]", ramlContent);
+            ramlModelResult = new RamlModelBuilder().buildApi(ramlContent);
+        }
+        StringBuilder errorBuilder = new StringBuilder();
+        if (ramlModelResult.hasErrors()) {
+            for (ValidationResult validationResult : ramlModelResult.getValidationResults()) {
+                errorBuilder.append(validationResult.getMessage());
+                System.out.println(validationResult.getMessage());
+            }
+            throw new Exception(errorBuilder.toString());
+        } else {
+            api = ramlModelResult.getApiV10();
+            return api;
+        }
     }
 
     @Override
-    public RamlApiEntity buildApi() throws Exception {
+    public ApiEntity buildApi() throws Exception {
+        dsb = new StringBuilder();
         Api api = buildV10Api();
-        RamlApiEntity entity = new RamlApiEntity();
+        ApiEntity entity = new ApiEntity();
         entity.setTitle(api.title().value());
+        entity.setDescription(api.description().value());
+        entity.setDocuments(getDocs());
+        parseApiResource();
+        entity.setResources(apiResourceEntities);
         return entity;
+    }
+
+    private List<ApiDocuementEntity> getDocs() {
+        List<ApiDocuementEntity> docs = new LinkedList<>();
+        for (DocumentationItem doc : api.documentation()) {
+            docs.add(new ApiDocuementEntity(doc.title().value(), doc.content().value()));
+        }
+        return docs;
+    }
+
+    private void parseApiResource() throws Exception {
+        for (Resource resource : api.resources()) {
+            if (resource.resources().size() != 0)
+                getResources(resource.resources());
+            getResource(resource);
+        }
+    }
+
+    private void getResources(List<Resource> resources) throws Exception {
+        for (Resource resource : resources) {
+            if (resource.resources().size() != 0)
+                getResources(resource.resources());
+            getResource(resource);
+        }
+    }
+
+    private void getResource(Resource resource) throws Exception {
+        ApiResourceEntity resourceEntity = new ApiResourceEntity();
+        dsb.append("Path: " + resource.resourcePath()).append("\n");
+        dsb.append("Name: " + resource.displayName().value()).append("\n");
+        dsb.append("Desc: " + resource.description().value()).append("\n");
+        resourceEntity.setPath(resource.resourcePath());
+        resourceEntity.setName(resource.displayName().value());
+        resourceEntity.setDesc(resource.description().value());
+        Method method = resource.methods().get(0);
+        parseMethodEntity(method, resourceEntity);
+        parseRequestBody(method, api, resourceEntity);
+        displayResponses(method, api);
+        dsb.append("----------------------------------------------------------------------------------").append("\n");
+    }
+
+    private void parseMethodEntity(Method method, ApiResourceEntity resourceEntity) {
+        dsb.append("Method Name: " + method.method()).append("\n");
+        resourceEntity.setMethod(method.method().toUpperCase());
+        for (TypeDeclaration typeDeclaration : method.queryParameters()) {
+            dsb.append("  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^").append("\n");
+            dsb.append("  Param Name: " + typeDeclaration.name()).append("\n");
+            dsb.append("  Param Desc: " + typeDeclaration.description().value()).append("\n");
+            dsb.append("  Param Type: " + typeDeclaration.type()).append("\n");
+            dsb.append("  Param Required: " + typeDeclaration.required()).append("\n");
+            ApiMethodParamEntity paramEntity = new ApiMethodParamEntity();
+            paramEntity.setName(typeDeclaration.name());
+            paramEntity.setDescription(typeDeclaration.description().value());
+            paramEntity.setType(typeDeclaration.type());
+            paramEntity.setRequired(typeDeclaration.required());
+            if (typeDeclaration.example() != null) {
+                dsb.append("  Param Example: " + typeDeclaration.example().value()).append("\n");
+                paramEntity.setExample(typeDeclaration.example().value());
+            }
+        }
+    }
+
+    private void parseRequestBody(Method method, Api api, ApiResourceEntity resourceEntity) {
+        if (!method.method().equals("post") && !method.method().equals("put"))
+            return;
+        ApiRequestBody requestBody = new ApiRequestBody();
+        System.out.println("****************************Request body********************************");
+        TypeDeclaration body = method.body().get(0);
+        dsb.append("    Content Type: " + body.name()).append("\n");
+        dsb.append("    Type Name: " + body.type()).append("\n");
+        requestBody.setContentType(body.name());
+        ObjectTypeDeclaration type = findObjectTypeByName(body.type());
+        if (type == null)
+            return;
+        displayType(type.properties());
+    }
+
+
+    private void parserObjectTypeByName(String name,ApiTypeEntity typeEntity) {
+        ObjectTypeDeclaration type = null;
+        for (TypeDeclaration typeDeclaration : api.types()) {
+            if (typeDeclaration.name().equals(name)) {
+                type = (ObjectTypeDeclaration) typeDeclaration;
+                break;
+            }
+        }
+        if (type == null)
+            return;
+        for (TypeDeclaration prop : type.properties()) {
+            dsb.append("      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^").append("\n");
+            dsb.append("      Prop Type:" + prop.type()).append("\n");
+            dsb.append("      Prop Required:" + prop.required()).append("\n");
+            ApiTypePropEntity propEntity = new ApiTypePropEntity();
+            propEntity.setType(prop.type());
+            propEntity.setRequired(prop.required());
+            if (prop.example() != null) {
+                dsb.append("      Prop Example:" + prop.example().value()).append("\n");
+                propEntity.setExample(prop.example().value());
+            }
+        }
     }
 }

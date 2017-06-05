@@ -5,6 +5,7 @@ import org.raml.v2.api.RamlModelBuilder;
 import org.raml.v2.api.RamlModelResult;
 import org.raml.v2.api.model.v10.api.Api;
 import org.raml.v2.api.model.v10.bodies.MimeType;
+import org.raml.v2.api.model.v10.resources.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class RamlReaderTest extends BaseApiNodeTest {
 
     @Test
     public void testRAMLReader() throws Exception {
-        System.setProperty("raml.parser.encoding","UTF-8");
+        System.setProperty("raml.parser.encoding", "UTF-8");
         URL url = RamlReaderTest.class.getClassLoader().getResource("./data/example1.raml");
         System.out.println(url);
         File file = new File(url.toURI());

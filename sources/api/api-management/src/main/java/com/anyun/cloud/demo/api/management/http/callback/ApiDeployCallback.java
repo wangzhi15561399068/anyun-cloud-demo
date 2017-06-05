@@ -2,18 +2,17 @@ package com.anyun.cloud.demo.api.management.http.callback;
 
 import com.anyun.cloud.demo.api.management.core.service.ApiManagementService;
 import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
-import com.anyun.common.lang.FileUtil;
-import com.anyun.common.lang.RandomUtils;
-import com.anyun.common.lang.Resources;
-import com.anyun.common.lang.StringUtils;
+import com.anyun.common.lang.*;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.http.ApiCallback;
 import com.anyun.common.lang.http.ApiServer;
 import com.anyun.common.lang.http.entity.BaseResponseEntity;
+import com.anyun.common.lang.http.entity.DefaultResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -34,6 +33,8 @@ public class ApiDeployCallback implements ApiCallback {
 
     @Override
     public BaseResponseEntity callback(HttpServletRequest request) throws Exception {
+        int contentSize = request.getContentLength();
+        LOGGER.debug("Upload content size: {} bytes", contentSize);
         String uploadDir = getServerUploadDirectory();
         FileUtil.mkdir(uploadDir, false);
         String expression = "yyyyMMdd-HHmmss";
@@ -42,19 +43,18 @@ public class ApiDeployCallback implements ApiCallback {
         String fileName = uploadDir + filePrefix + randomFileName;
         LOGGER.debug("Upload file [{}]", fileName);
         FileUtil.write(fileName, request.getInputStream(), false);
-//        String raml = RequestUtil.getPostBody(request);
-//        LOGGER.debug("Deploy RAML body [\n{}\n]", raml);
-//        DefaultResponseEntity responseEntity = new DefaultResponseEntity();
-//        Api api = null;
-//        try {
-//            api = ramlApiRamlParser.buildV10Api();
-//            if (api == null)
-//                throw new Exception("Bad RAML format");
-//        } catch (Exception ex) {
-//            responseEntity.setCode(500);
-//            responseEntity.setMessage(ex.getMessage());
-//        }
-//        return responseEntity;
+        String extractDir = uploadDir + "/../extract/" + filePrefix + randomFileName;
+        LOGGER.debug("Unzip directory: {}", extractDir);
+        FileUtil.mkdir(extractDir, false);
+        ZipUtils.extractZipData(fileName, new File(extractDir));
+        try {
+            String apiId = apiManagementService.deploy(extractDir);
+        } catch (Exception ex) {
+            DefaultResponseEntity response = new DefaultResponseEntity();
+            response.setCode(500);
+            response.setMessage(ex.getMessage());
+            return response;
+        }
         return null;
     }
 
@@ -81,5 +81,10 @@ public class ApiDeployCallback implements ApiCallback {
     @Override
     public HttpMethod getMethod() {
         return HttpMethod.PUT;
+    }
+
+    @Override
+    public String getAccpetContentType() {
+        return "application/zip";
     }
 }
