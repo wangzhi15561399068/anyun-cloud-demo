@@ -5,9 +5,9 @@ import com.anyun.cloud.demo.common.registry.entity.NodeNetworkEntity;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.cloud.demo.common.registry.service.NodeRegistService;
 import com.anyun.cloud.demo.common.registry.utils.DeviceIdGenerator;
-import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.anyun.common.lang.NetworkUtils;
 import com.anyun.common.lang.json.GsonUtil;
+import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.google.inject.Inject;
 import org.apache.zookeeper.CreateMode;
 import org.slf4j.Logger;
@@ -23,8 +23,7 @@ import java.util.Map;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 25/05/2017
  */
-public class
-NodeRegistServiceImpl implements NodeRegistService {
+public class NodeRegistServiceImpl implements NodeRegistService {
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeRegistService.class);
     private ZookeeperClient zkClient;
 
@@ -43,7 +42,7 @@ NodeRegistServiceImpl implements NodeRegistService {
         }
         String path = PATH_NODE + "/" + nodeEntity.getUid();
         zkClient.createPath(path, GsonUtil.getUtil().toJson(nodeEntity), CreateMode.EPHEMERAL);
-        return path;
+        return nodeEntity.getUid();
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.anyun.cloud.demo.api.management.http;
 import com.anyun.cloud.demo.api.management.core.distributed.management.DistributedManagementService;
 import com.anyun.cloud.demo.api.management.module.HttpApiServerBindingModule;
 import com.anyun.common.lang.http.AbstractJettyApiServer;
-import com.anyun.common.lang.http.ServletMapping;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,6 +39,12 @@ public class JettyApiManagementServer extends AbstractJettyApiServer {
 
     @Override
     protected void registToCluster() throws Exception {
-        distributedManagementService.regist();
+        String uid = distributedManagementService.regist();
+//        Injector inject = InjectorsBuilder.getBuilder().getInjector();
+//        Key<ScheduledExecutorServiceRunner> key =
+//                Key.get(ScheduledExecutorServiceRunner.class, Names.named("TTL-UPDATER"));
+//        TtlUpdater runner = (TtlUpdater) inject.getInstance(key);
+//        runner.setNodeId(uid);
+//        runner.start();
     }
 }

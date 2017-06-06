@@ -26,6 +26,7 @@
 
     <modules>
         <module>common-lang</module>
+        <module>common-service</module>
         <module>common-etcd</module>
         <module>common-registry</module>
     </modules>

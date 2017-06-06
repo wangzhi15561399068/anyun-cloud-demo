@@ -18,5 +18,5 @@ public interface DistributedManagementService {
     /**
      * @throws Exception
      */
-    void regist() throws Exception;
+    String regist() throws Exception;
 }

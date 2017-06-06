@@ -1,9 +1,12 @@
 package com.anyun.cloud.demo.api.management;
 
-import com.anyun.cloud.demo.api.management.module.*;
-import com.anyun.common.lang.http.ApiServer;
+import com.anyun.cloud.demo.api.management.module.CommonBindingModule;
+import com.anyun.cloud.demo.api.management.module.EtcdApiClientBindingModule;
+import com.anyun.cloud.demo.api.management.module.HttpApiServerBindingModule;
+import com.anyun.cloud.demo.api.management.module.ServiceBindingModule;
 import com.anyun.cloud.demo.common.registry.service.RegistryBindingModule;
 import com.anyun.common.lang.bean.InjectorsBuilder;
+import com.anyun.common.lang.http.ApiServer;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>

@@ -1,8 +1,10 @@
 package test.com.anyun.cloud.demo.message.client;
 
+import com.anyun.cloud.demo.message.client.statistics.StatisticsRunnable;
 import io.nats.client.*;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -19,6 +21,7 @@ public class SenderTest {
     public static void main(String[] args) throws Exception {
         ConnectionFactory factory = new ConnectionFactory(CONNSTR);
         Connection nc = factory.createConnection();
+        new StatisticsRunnable(nc).withLoopTime(5).start();
         new Thread(() -> {
             try {
                 while(true) {
@@ -31,8 +34,15 @@ public class SenderTest {
                 e.printStackTrace();
             }
         }).start();
-        Message message = nc.subscribe(CHANNEL_TEST).nextMessage();
-        System.out.println(message);
-        nc.publish(message.getReplyTo(),"test".getBytes());
+        nc.subscribe(CHANNEL_TEST,message -> {
+            System.out.println(message);
+            try {
+                Thread.sleep(new Random().nextInt(10* 1000));
+                byte[] m = new String("ReplyTo-" + System.currentTimeMillis()).getBytes();
+                nc.publish(message.getReplyTo(),m);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -15,10 +15,9 @@ import java.util.Map;
  * @since 1.0.0 on 2017/5/18
  */
 public class OkHttpRestfullyApiClient implements HttpRestfullyApiClient {
-    public static final MediaType MIME_TEXT
-            = MediaType.parse("text/html; charset=utf-8");
-    public static final MediaType MIME_JSON
-            = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType MIME_TEXT = MediaType.parse("text/html; charset=utf-8");
+    public static final MediaType MIME_JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType MIME_URLENCODED = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     private static final Logger LOGGER = LoggerFactory.getLogger(OkHttpRestfullyApiClient.class);
     private ClientConfig config;
     private OkHttpClient client;
@@ -191,7 +190,7 @@ public class OkHttpRestfullyApiClient implements HttpRestfullyApiClient {
             return null;
         MediaType mediaType = null;
         if (StringUtils.isEmpty(type))
-            mediaType = MIME_TEXT;
+            mediaType = MIME_URLENCODED;
         return RequestBody.create(mediaType, value);
     }
 
