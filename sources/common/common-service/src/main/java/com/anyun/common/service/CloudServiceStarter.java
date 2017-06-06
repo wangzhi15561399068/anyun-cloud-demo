@@ -30,6 +30,7 @@ public class CloudServiceStarter {
             if (starter == null)
                 starter = new CloudServiceStarter();
         }
+
         return starter;
     }
 
@@ -44,7 +45,8 @@ public class CloudServiceStarter {
         Enumeration<?> propKeys = properties.propertyNames();
         String namespace = properties.getProperty(NAMESPACE);
         String collectionName = properties.getProperty(COLLECTION_NAME);
-        LOGGER.debug("");
+        LOGGER.debug("Namespace: {}",namespace);
+        LOGGER.debug("Collection Name: {}",collectionName);
         while (propKeys.hasMoreElements()) {
             String key = propKeys.nextElement().toString();
             if (!key.startsWith(SERVICE_PREFIX))
@@ -63,6 +65,5 @@ public class CloudServiceStarter {
         if (busName == null || busName.equals(""))
             busName = serviceClass.getCanonicalName();
         LOGGER.debug("Service [{}] bus name [{}]", serviceClass.getCanonicalName(), busName);
-
     }
 }

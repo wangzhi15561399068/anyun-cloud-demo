@@ -1,5 +1,6 @@
 package com.anyun.cloud.demo.message.client.statistics;
 
+import com.google.inject.Inject;
 import io.nats.client.Connection;
 import io.nats.client.Statistics;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class StatisticsRunnable implements Runnable {
     private Exception lastException;
     private long lastStopTime;
 
+    @Inject
     public StatisticsRunnable(Connection connection) {
         this.connection = connection;
     }
