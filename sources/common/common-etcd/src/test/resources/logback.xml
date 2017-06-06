@@ -29,4 +29,5 @@
     <logger name="test.com.anyun" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
+
 </configuration>

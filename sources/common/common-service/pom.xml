@@ -5,41 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.anyun.cloud.demo</groupId>
-        <artifactId>anyun-cloud-demo-api-parent</artifactId>
+        <artifactId>anyun-cloud-demo-common-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
     <groupId>com.anyun.cloud.demo</groupId>
-    <artifactId>anyun-cloud-demo-restfully-api-management</artifactId>
+    <artifactId>anyun-common-service</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>Restfully API Management</name>
-
-    <description>
-        A restfully api management implementation
-        for Anyun Cloud PaaS platform
-    </description>
+    <name>AnyunCloud Commons Service</name>
 
     <properties>
+
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.anyun.cloud.demo</groupId>
-            <artifactId>anyun-common-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.anyun.cloud.demo</groupId>
-            <artifactId>anyun-cloud-demo-common-etcd</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.anyun.cloud.demo</groupId>
-            <artifactId>anyun-cloud-demo-common-registry</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.raml</groupId>
-            <artifactId>raml-parser-2</artifactId>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -55,18 +35,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.nats</groupId>
-            <artifactId>jnats</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
         </dependency>
     </dependencies>
 
@@ -89,7 +57,6 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.anyun.cloud.demo.api.management.com.anyun.example.service.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

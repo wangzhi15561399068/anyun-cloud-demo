@@ -7,7 +7,6 @@ import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.cloud.demo.common.registry.service.NodeRegistService;
-import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,7 @@ public class DistributedManagementServiceImpl implements DistributedManagementSe
     }
 
     @Override
-    public void regist() throws Exception {
-        nodeRegistService.registNode(NodeType.MGR_NODE);
+    public String regist() throws Exception {
+        return nodeRegistService.registNode(NodeType.MGR_NODE);
     }
 }

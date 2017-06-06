@@ -5,7 +5,6 @@ import com.anyun.common.lang.http.entity.DefaultResponseEntity;
 import com.anyun.common.lang.http.entity.ResponseRootNode;
 import com.anyun.common.lang.http.format.FormatBuilder;
 import com.anyun.common.lang.http.format.ResponseFormatBuilder;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
