@@ -32,13 +32,4 @@ public class ApiResponseEntity {
     public void setTypeEntity(ApiTypeEntity typeEntity) {
         this.typeEntity = typeEntity;
     }
-
-    @Override
-    public String toString() {
-        return "ApiResponseEntity{" +
-                "code=" + code +
-                ", contentType='" + contentType + '\'' +
-                ", typeEntity=" + typeEntity +
-                '}';
-    }
 }
