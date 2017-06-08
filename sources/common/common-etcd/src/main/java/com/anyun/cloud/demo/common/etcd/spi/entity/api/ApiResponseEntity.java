@@ -35,10 +35,10 @@ public class ApiResponseEntity {
 
     @Override
     public String toString() {
-        return "ApiResponseEntity {" + "\n" +
-                "    code=" + code + "\n" +
-                "    contentType='" + contentType + "\'\n" +
-                "    typeEntity=" + typeEntity + "\n" +
+        return "ApiResponseEntity{" +
+                "code=" + code +
+                ", contentType='" + contentType + '\'' +
+                ", typeEntity=" + typeEntity +
                 '}';
     }
 }
