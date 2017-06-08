@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 2017/6/6
  */
-@Component
+
 public class HelloWorldCommands implements CommandMarker {
 
     private boolean simpleCommandExecuted = false;

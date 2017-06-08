@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.api.management.raml;
 
-import com.anyun.cloud.demo.api.management.raml.api.ApiEntity;
+import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiEntity;
 import org.raml.v2.api.model.v10.api.Api;
 
 import java.io.File;

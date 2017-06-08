@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.api.management.raml;
 
-import com.anyun.cloud.demo.api.management.raml.api.*;
+import com.anyun.cloud.demo.common.etcd.spi.entity.api.*;
 import com.anyun.common.lang.StringUtils;
 import org.raml.v2.api.RamlModelBuilder;
 import org.raml.v2.api.RamlModelResult;
@@ -71,7 +71,6 @@ public class DefaultApiRamlParser implements RamlApiRamlParser {
         if (ramlModelResult.hasErrors()) {
             for (ValidationResult validationResult : ramlModelResult.getValidationResults()) {
                 errorBuilder.append(validationResult.getMessage());
-                System.out.println(validationResult.getMessage());
             }
             throw new Exception(errorBuilder.toString());
         } else {

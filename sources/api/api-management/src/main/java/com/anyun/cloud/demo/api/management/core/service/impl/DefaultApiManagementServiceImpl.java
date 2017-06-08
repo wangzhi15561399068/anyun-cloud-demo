@@ -3,7 +3,8 @@ package com.anyun.cloud.demo.api.management.core.service.impl;
 import com.anyun.cloud.demo.api.management.core.service.ApiManagementService;
 import com.anyun.cloud.demo.api.management.core.service.ApiStatusEntity;
 import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
-import com.anyun.cloud.demo.api.management.raml.api.ApiEntity;
+import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiEntity;
+import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +19,14 @@ import java.util.List;
  */
 public class DefaultApiManagementServiceImpl implements ApiManagementService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiManagementService.class);
+
     private RamlApiRamlParser ramlApiRamlParser;
+    private HttpRestfullyApiClient apiClient;
 
     @Inject
-    public DefaultApiManagementServiceImpl(RamlApiRamlParser ramlApiRamlParser) {
+    public DefaultApiManagementServiceImpl(RamlApiRamlParser ramlApiRamlParser, HttpRestfullyApiClient apiClient) {
         this.ramlApiRamlParser = ramlApiRamlParser;
+        this.apiClient = apiClient;
     }
 
     @Override
@@ -39,11 +43,11 @@ public class DefaultApiManagementServiceImpl implements ApiManagementService {
             LOGGER.error("Not find api define file");
             throw new Exception("Not find api define file");
         }
+        ApiResourceDeployer resourceDeployer = new ApiResourceDeployer(apiClient);
         for (File file : new File(zipFileName).listFiles()) {
             ApiEntity api = ramlApiRamlParser.withEncoding(RamlApiRamlParser.ENCODING).withRamlFile(file).buildApi();
-            LOGGER.debug("Entity Info: \n{}", api.toString());
+            resourceDeployer.withApi(api).deploy();
         }
-
         return null;
     }
 

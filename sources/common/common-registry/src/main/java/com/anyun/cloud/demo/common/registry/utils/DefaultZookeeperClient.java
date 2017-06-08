@@ -13,6 +13,8 @@ import org.apache.zookeeper.CreateMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 2017/5/18
@@ -59,6 +61,27 @@ public class DefaultZookeeperClient implements ZookeeperClient {
             return;
         }
         curatorFramework.create().creatingParentsIfNeeded().withMode(createMode).forPath(path, data.getBytes());
+    }
+
+    @Override
+    public List<String> getChildren(String path) throws Exception {
+        if (!exist(path)) {
+            LOGGER.warn("Path [{}] exist..", path);
+            return null;
+        }
+        return curatorFramework.getChildren().forPath(path);
+    }
+
+    @Override
+    public String getStringData(String path) throws Exception {
+        if (!exist(path)) {
+            LOGGER.warn("Path [{}] exist..", path);
+            return null;
+        }
+        byte[] data = curatorFramework.getData().forPath(path);
+        if (data == null || data.length == 0)
+            return null;
+        return new String(data);
     }
 
     @Override

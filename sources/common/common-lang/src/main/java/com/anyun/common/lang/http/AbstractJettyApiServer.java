@@ -46,20 +46,20 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
     @Override
     public void start() throws Exception {
         if (runnable != null) {
-            LOGGER.error("Management api server is running");
+            LOGGER.error("Api server is running");
             throw new Exception("Management api server is running");
         }
         if (apiProcessServlets == null || apiProcessServlets.isEmpty())
             throw new Exception("process servlets in not set");
         countDownLatch = new CountDownLatch(1);
         server = new Server();
-        LOGGER.info("Release a management api server instance");
+        LOGGER.info("Release a api server instance");
         ServerConnector http = new ServerConnector(server);
         initServerConfig();
         http.setHost(config.getHost());
-        LOGGER.info("Bind management api server host to [{}]", config.getHost());
+        LOGGER.info("Bind api server host to [{}]", config.getHost());
         http.setPort(config.getPort());
-        LOGGER.info("Bind management api server port to [{}]", config.getPort());
+        LOGGER.info("Bind api server port to [{}]", config.getPort());
         http.setIdleTimeout(config.getIdleTimeout());
         server.addConnector(http);
         for (ServletMapping servlet : apiProcessServlets) {
@@ -71,13 +71,13 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
         server.setHandler(apiHandler);
         runnable = new JettyServerThreadRunnable(this);
         runnable.start();
-        LOGGER.info("Waiting for management api server start");
+        LOGGER.info("Waiting for api server start");
         countDownLatch.await();
     }
 
     @Override
     public void stop() throws Exception {
-        LOGGER.info("Restarting management api server instance..............");
+        LOGGER.info("Restarting api server instance..............");
         server.stop();
         apiHandler.setServletMappings(null);
         runnable = null;

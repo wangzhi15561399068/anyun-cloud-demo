@@ -15,6 +15,12 @@
 
 package com.anyun.common.lang;
 
+import com.sun.management.OperatingSystemMXBean;
+
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
@@ -32,5 +38,40 @@ public class RuntimeUtil {
             pid = Integer.parseInt(name.substring(0, index));
         }
         return pid;
+    }
+
+    public static double getProcessCpuLoad() throws Exception {
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+        AttributeList list = mbs.getAttributes(name, new String[]{"ProcessCpuLoad"});
+        if (list.isEmpty()) return Double.NaN;
+        Attribute att = (Attribute) list.get(0);
+        Double value = (Double) att.getValue();
+        if (value == -1.0) return Double.NaN;
+        return ((int) (value * 1000) / 10.0);
+    }
+
+    public static double getJVMCpuUsage(int availableProcessors) {
+        com.sun.management.OperatingSystemMXBean operatingSystemMXBean =
+                (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        if (availableProcessors == 0)
+            availableProcessors = operatingSystemMXBean.getAvailableProcessors();
+        long prevUpTime = runtimeMXBean.getUptime();
+        long prevProcessCpuTime = operatingSystemMXBean.getProcessCpuTime();
+        double cpuUsage;
+        try {
+            Thread.sleep(500);
+        } catch (Exception ignored) {
+        }
+
+        operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        long upTime = runtimeMXBean.getUptime();
+        long processCpuTime = operatingSystemMXBean.getProcessCpuTime();
+        long elapsedCpu = processCpuTime - prevProcessCpuTime;
+        long elapsedTime = upTime - prevUpTime;
+
+        cpuUsage = Math.min(99F, elapsedCpu / (elapsedTime * 10000F * availableProcessors));
+        return cpuUsage;
     }
 }

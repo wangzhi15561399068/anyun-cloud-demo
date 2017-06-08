@@ -94,6 +94,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.anyun.cloud.demo.common.registry.client.Registry</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

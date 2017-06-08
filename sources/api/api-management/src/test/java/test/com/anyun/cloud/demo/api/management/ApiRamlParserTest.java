@@ -2,7 +2,7 @@ package test.com.anyun.cloud.demo.api.management;
 
 import com.anyun.cloud.demo.api.management.raml.DefaultApiRamlParser;
 import com.anyun.cloud.demo.api.management.raml.RamlApiRamlParser;
-import com.anyun.cloud.demo.api.management.raml.api.ApiEntity;
+import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.raml.v2.api.model.v10.api.Api;

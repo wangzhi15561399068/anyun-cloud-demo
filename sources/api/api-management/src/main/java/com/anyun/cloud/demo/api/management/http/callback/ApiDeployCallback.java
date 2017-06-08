@@ -58,7 +58,7 @@ public class ApiDeployCallback implements ApiCallback {
             return response;
         }
         try {
-            String apiId = apiManagementService.deploy(extractDir);
+            apiManagementService.deploy(extractDir);
         } catch (Exception ex) {
             DefaultResponseEntity response = new DefaultResponseEntity();
             response.setCode(500);
@@ -73,8 +73,6 @@ public class ApiDeployCallback implements ApiCallback {
     private void clearDeployFiles(String upload, String extract) {
         FileUtil.rm(upload, true);
         FileUtil.rm(extract, true);
-        System.out.println(new File(upload).exists());
-        System.out.println(new File(extract).exists());
     }
 
     private String getServerUploadDirectory() throws Exception {

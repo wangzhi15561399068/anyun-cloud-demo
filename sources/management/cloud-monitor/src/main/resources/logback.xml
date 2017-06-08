@@ -26,4 +26,13 @@
     <logger name="com.anyun" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
+    <logger name="org.apache.zookeeper" level="error" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.apache.curator.framework" level="error" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="ch.qos.logback" level="error" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 </configuration>

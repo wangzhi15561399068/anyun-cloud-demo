@@ -20,6 +20,7 @@ public class EtcdModule extends AbstractCloudModules {
         etcdApiClientConfig.setHost("192.168.103.7");
         HttpRestfullyApiClient etcdClient = new OkHttpRestfullyApiClient(etcdApiClientConfig);
         bind(HttpRestfullyApiClient.class).annotatedWith(Names.named("etcd")).toInstance(etcdClient);
+        bind(HttpRestfullyApiClient.class).toInstance(etcdClient);
         LOGGER.info("Bind etcd api client to: {}", OkHttpRestfullyApiClient.class.getCanonicalName());
     }
 }
