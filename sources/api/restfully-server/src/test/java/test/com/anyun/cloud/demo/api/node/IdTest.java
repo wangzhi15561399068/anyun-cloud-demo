@@ -12,8 +12,11 @@ public class IdTest extends Assert {
 
     @Test
     public void test() throws Exception {
-        String id = "/app1/api/v1_0_0/api1";
-        System.out.println(HashIdGenerator.generate(id));
-        System.out.println(HashIdGenerator.generate("/app1/api/v1_0_0/api1/api1_1"));
+        String id1 = "/app1/api/v1_0_0/api1";
+        String id2 = "/app1/api/v1_0_0/api1/api1";
+        String id3 = "/app1/api/v1_0_0/api1/api1-1";
+        System.out.println(HashIdGenerator.generate(id1));
+        System.out.println(HashIdGenerator.generate(id2));
+        System.out.println(HashIdGenerator.generate(id3));
     }
 }

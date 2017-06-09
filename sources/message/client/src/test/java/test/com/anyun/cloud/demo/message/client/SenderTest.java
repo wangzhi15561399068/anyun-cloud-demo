@@ -11,7 +11,7 @@ import java.util.Random;
  * @since 1.0.0 on 2017/6/5
  */
 public class SenderTest {
-    private static final String CONNSTR = "nats://192.168.103.6:4222";
+    private static final String CONNSTR = "msg://192.168.103.6:4222";
     private static final String CHANNEL_TEST = "foo";
 
     public SenderTest() throws IOException {

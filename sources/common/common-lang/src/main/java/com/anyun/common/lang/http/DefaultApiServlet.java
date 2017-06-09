@@ -58,7 +58,7 @@ public class DefaultApiServlet extends HttpServlet {
             rootNode.setResult(entity);
             rootNode.setAction(pathInfo);
             FormatBuilder formatBuilder = new ResponseFormatBuilder().withType(responseContentType).build();
-            LOGGER.debug("Matched format builder [{}]", formatBuilder);
+            LOGGER.debug("Matched format msg [{}]", formatBuilder);
             if (formatBuilder == null)
                 throw new Exception("Unsupported format type [" + responseContentType + "]");
             rootNode.setSystemDate(new Date(System.currentTimeMillis()));

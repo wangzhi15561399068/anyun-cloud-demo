@@ -5,7 +5,6 @@ import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionNode;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
-import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiEntity;
 import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiResourceEntity;
 import com.anyun.common.lang.StringUtils;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
@@ -80,9 +79,11 @@ public class DefaultApiFinder implements ApiFinder {
                 return null;
             ApiResourceEntity entity = GsonUtil.getUtil().getGson()
                     .fromJson(response.getActionNode().getValue(), ApiResourceEntity.class);
-            if (entity != null && StringUtils.isNotEmpty(entity.getPath()))
+            if (entity != null && StringUtils.isNotEmpty(entity.getPath())) {
                 LOGGER.debug("Queried API resource structure： [\n{}\n]", entity.toString());
-            return entity;
+                return entity;
+            }
+            return null;
         } catch (Exception ex) {
             return null;
         }

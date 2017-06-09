@@ -2,6 +2,7 @@ package com.anyun.cloud.demo.api.node.module;
 
 import com.anyun.cloud.demo.api.node.http.ApiNodeServlet;
 import com.anyun.cloud.demo.api.node.http.JettyApiNodeServer;
+import com.anyun.cloud.demo.api.node.http.ResourceCache;
 import com.anyun.common.lang.http.ApiServer;
 import com.anyun.common.lang.http.ServletMapping;
 import com.google.inject.AbstractModule;
@@ -34,5 +35,7 @@ public class HttpBindingModule extends AbstractModule {
 
         bind(ApiServer.class).to(JettyApiNodeServer.class);
         LOGGER.info("Bind http server implement to: {}", JettyApiNodeServer.class.getCanonicalName());
+
+        bind(ResourceCache.class).toInstance(new ResourceCache());
     }
 }

@@ -1,7 +1,10 @@
 package com.anyun.cloud.demo.api.node.core;
 
+import com.anyun.cloud.demo.api.node.core.common.ApiCache;
+import com.anyun.cloud.demo.api.node.core.common.ApiDeployer;
 import com.anyun.cloud.demo.api.node.core.common.ApiFinder;
 import com.anyun.cloud.demo.api.node.core.common.NodeApiComponent;
+import com.anyun.cloud.demo.api.node.core.common.entity.ApiDeployEntity;
 import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiResourceEntity;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -15,10 +18,14 @@ public class DefaultNodeApiComponent implements NodeApiComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNodeApiComponent.class);
     private static final int DEPLOY_COUNT_MIN = 3;
     private ApiFinder apiFinder;
+    private ApiDeployer deployer;
+    private ApiCache apiCache;
 
     @Inject
-    public DefaultNodeApiComponent(ApiFinder apiFinder) {
+    public DefaultNodeApiComponent(ApiFinder apiFinder, ApiDeployer deployer, ApiCache apiCache) {
         this.apiFinder = apiFinder;
+        this.deployer = deployer;
+        this.apiCache = apiCache;
     }
 
     @Override
@@ -26,8 +33,11 @@ public class DefaultNodeApiComponent implements NodeApiComponent {
         ApiResourceEntity apiResourceEntity = apiFinder.findApiResourceDeployInfo(id);
         if (apiResourceEntity == null)
             return null;
-        if (!method.toLowerCase().equals(apiResourceEntity.getMethod().toLowerCase()))
+        if (!method.toLowerCase().equals(apiResourceEntity.getMethod().toLowerCase())) {
+            LOGGER.debug("Found resource [{}],but resource method is not match [{}]", id, method);
             return null;
+        }
+
         return apiResourceEntity;
     }
 
@@ -38,5 +48,10 @@ public class DefaultNodeApiComponent implements NodeApiComponent {
         if (deployCount < DEPLOY_COUNT_MIN)
             return true;
         return false;
+    }
+
+    @Override
+    public void deployResource(ApiDeployEntity deployEntity) throws Exception {
+        deployer.deploy(deployEntity);
     }
 }

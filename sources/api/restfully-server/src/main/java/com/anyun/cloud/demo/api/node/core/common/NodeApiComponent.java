@@ -1,5 +1,6 @@
 package com.anyun.cloud.demo.api.node.core.common;
 
+import com.anyun.cloud.demo.api.node.core.common.entity.ApiDeployEntity;
 import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiResourceEntity;
 
 /**
@@ -22,4 +23,11 @@ public interface NodeApiComponent {
      * @throws Exception
      */
     boolean mustDeploy(String id) throws Exception;
+
+    /**
+     *
+     * @param deployEntity
+     * @throws Exception
+     */
+    void deployResource(ApiDeployEntity deployEntity) throws Exception;
 }

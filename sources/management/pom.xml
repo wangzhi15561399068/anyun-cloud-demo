@@ -25,7 +25,8 @@
     </properties>
 
     <modules>
-        <module>cloud-monitor</module>
+        <module>cloud-management-cli</module>
+        <module>cloud-dispatch</module>
     </modules>
 
     <dependencyManagement>
