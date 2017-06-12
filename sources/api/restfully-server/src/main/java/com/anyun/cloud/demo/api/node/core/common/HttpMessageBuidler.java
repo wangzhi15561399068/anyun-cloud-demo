@@ -1,15 +1,17 @@
-package com.anyun.cloud.demo.api.node.nats.msg;
+package com.anyun.cloud.demo.api.node.core.common;
 
-import com.anyun.cloud.demo.common.etcd.GsonUtil;
-import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.common.lang.FileUtil;
+import com.anyun.common.lang.http.RequestUtil;
 import com.anyun.common.lang.msg.GeneralMessage;
-import io.nats.client.Message;
+import com.anyun.common.lang.msg.MessageBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hashids.Hashids;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -20,8 +22,9 @@ public class HttpMessageBuidler implements MessageBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpMessageBuidler.class);
     private static final List<String> SUPPORTED_CONTENT_TYPES = new ArrayList<>();
     private static final String REQUEST_ENCODING = "utf-8";
-    private static final String HTTP_HEADER_PREFIX = "API.HTTP.HEADER.";
-    private static final String SUBJECT = "anyuncloud service invoke";
+    private static final String HTTP_HEADER_PREFIX = "API-HTTP-HEADER.";
+    private static final String HTTP_QUERY_PREFIX = "API-HTTP-QUERY.";
+    private static final String SUBJECT = "RESOURCE-";
 
     static {
         SUPPORTED_CONTENT_TYPES.addAll(Arrays.asList(
@@ -43,31 +46,27 @@ public class HttpMessageBuidler implements MessageBuilder {
     }
 
     public HttpMessageBuidler withDeviceId(String deviceId) {
-        this.deviceId = NodeType.API_REST_NODE.name() + "." + deviceId;
+        this.deviceId = "API_REST_NODE." + deviceId;
         return this;
     }
 
-    public void withServiceNode(String serviceNode) {
+    public HttpMessageBuidler withServiceNode(String serviceNode) {
         this.serviceNode = serviceNode;
+        return this;
     }
 
 
     @Override
-    public Message build() {
+    public String build() {
         GeneralMessage generalMessage = new GeneralMessage();
         generalMessage.setBody(getRequestBody());
         generalMessage.setFrom(deviceId);
         generalMessage.setHeaders(getHeaders());
         generalMessage.setMessageId(generateMessageId());
-        generalMessage.setSubject(SUBJECT);
-        generalMessage.setTo(serviceNode);
-        Message message = new Message();
-        String json = GsonUtil.getUtil().toJson(generalMessage);
-        LOGGER.debug("Build message: \n {}", json);
-        message.setData(json.getBytes());
-        message.setReplyTo(deviceId);
-        message.setSubject(SUBJECT);
-        return message;
+        generalMessage.setSubject(SUBJECT + serviceNode);
+        generalMessage.setTo("SERVICE-NODE {RANDOM}");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(generalMessage);
     }
 
     private Map<String, String> getHeaders() {
@@ -76,6 +75,16 @@ public class HttpMessageBuidler implements MessageBuilder {
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             headers.put(HTTP_HEADER_PREFIX + headerName, request.getHeader(headerName));
+        }
+        try {
+            Map<String, List<String>> map = RequestUtil.getUriQueryParameters(request.getQueryString());
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            for (Map.Entry<String, List<String>> p : map.entrySet()) {
+                headers.put(HTTP_QUERY_PREFIX + p.getKey(), gson.toJson(p.getValue()));
+            }
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error("Query string parse error [{}]", e.getMessage());
         }
         return headers;
     }
@@ -90,7 +99,7 @@ public class HttpMessageBuidler implements MessageBuilder {
         if (request.getMethod().equals("GET")
                 || request.getMethod().equals("HEAD")
                 || request.getMethod().equals("DELETE")) {
-            LOGGER.warn("Unsupported request method [{}]", request.getMethod());
+            LOGGER.warn("Unsupported body parse with method [{}]", request.getMethod());
             return "";
         }
         if (!isSupportedContentType()) {

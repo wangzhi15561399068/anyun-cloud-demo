@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.common.registry.utils;
 
-import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtendService;
 import com.anyun.cloud.demo.common.etcd.spi.entity.ZookeeperConfigEntity;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.google.inject.Inject;
@@ -25,7 +25,7 @@ public class DefaultZookeeperClient implements ZookeeperClient {
     private CuratorFramework curatorFramework;
 
     @Inject
-    public DefaultZookeeperClient(EtcdExtenedService extenedService) throws Exception {
+    public DefaultZookeeperClient(EtcdExtendService extenedService) throws Exception {
         ZookeeperConfigEntity config = extenedService.getZookeeperConfigResponse();
         String zookeeperConnectionString = config.getConnectingString();
         int sleepTime = config.getRetryPolicySleepTime();

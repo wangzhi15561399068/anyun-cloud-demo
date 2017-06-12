@@ -1,6 +1,6 @@
 package com.anyun.cloud.demo.monitor.modules;
 
-import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtendService;
 import com.anyun.cloud.demo.common.etcd.spi.impl.EtcdExtenedServiceImpl;
 import com.anyun.cloud.demo.common.registry.utils.DefaultZookeeperClient;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
@@ -13,7 +13,7 @@ import com.google.inject.AbstractModule;
 public class ZookeeperModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(EtcdExtenedService.class).to(EtcdExtenedServiceImpl.class);
+        bind(EtcdExtendService.class).to(EtcdExtenedServiceImpl.class);
         bind(ZookeeperClient.class).to(DefaultZookeeperClient.class);
     }
 }

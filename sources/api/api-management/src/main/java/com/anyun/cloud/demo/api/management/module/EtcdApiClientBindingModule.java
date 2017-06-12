@@ -4,7 +4,7 @@ import com.anyun.cloud.demo.common.etcd.client.ClientConfig;
 import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.client.OkHttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.client.TtlUpdater;
-import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtendService;
 import com.anyun.cloud.demo.common.etcd.spi.impl.EtcdExtenedServiceImpl;
 import com.anyun.common.lang.thread.ScheduledExecutorServiceRunner;
 import com.google.inject.AbstractModule;
@@ -29,7 +29,7 @@ public class EtcdApiClientBindingModule extends AbstractModule {
         bind(HttpRestfullyApiClient.class).to(OkHttpRestfullyApiClient.class);
         LOGGER.info("Bind etcd api client to: {}", OkHttpRestfullyApiClient.class.getCanonicalName());
 
-        bind(EtcdExtenedService.class).to(EtcdExtenedServiceImpl.class);
+        bind(EtcdExtendService.class).to(EtcdExtenedServiceImpl.class);
         LOGGER.info("Bind etcd api extend service to: {}", EtcdExtenedServiceImpl.class.getCanonicalName());
 
         bind(ScheduledExecutorServiceRunner.class).annotatedWith(Names.named("TTL-UPDATER")).to(TtlUpdater.class);

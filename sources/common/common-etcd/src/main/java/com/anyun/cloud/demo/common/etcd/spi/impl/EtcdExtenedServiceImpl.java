@@ -3,7 +3,7 @@ package com.anyun.cloud.demo.common.etcd.spi.impl;
 import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionResponse;
 import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
-import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtendService;
 import com.anyun.cloud.demo.common.etcd.spi.entity.ZookeeperConfigEntity;
 import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import com.google.inject.Inject;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 2017/5/18
  */
-public class EtcdExtenedServiceImpl implements EtcdExtenedService {
+public class EtcdExtenedServiceImpl implements EtcdExtendService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EtcdExtenedServiceImpl.class);
     private HttpRestfullyApiClient client;
 
@@ -48,5 +48,10 @@ public class EtcdExtenedServiceImpl implements EtcdExtenedService {
         LOGGER.debug("Discovered zk retry policy max retries: " + config.getRetryPolicyMaxRetries());
         LOGGER.debug("Discovered zk retry policy retry policy sleep time: " + config.getRetryPolicySleepTime());
         return config;
+    }
+
+    @Override
+    public HttpRestfullyApiClient getClient() {
+        return client;
     }
 }

@@ -4,7 +4,7 @@ import com.anyun.cloud.demo.common.etcd.client.ClientConfig;
 import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.client.OkHttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.EtcdErrorResponseException;
-import com.anyun.cloud.demo.common.etcd.spi.EtcdExtenedService;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtendService;
 import com.anyun.cloud.demo.common.etcd.spi.entity.ZookeeperConfigEntity;
 import com.anyun.cloud.demo.common.etcd.spi.impl.EtcdExtenedServiceImpl;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import org.junit.Test;
 public class EtcdServiceTest extends BaseEtcdTest {
     private ClientConfig config;
     private HttpRestfullyApiClient client;
-    private EtcdExtenedService spi;
+    private EtcdExtendService spi;
 
     @Before
     public void before() throws Exception {

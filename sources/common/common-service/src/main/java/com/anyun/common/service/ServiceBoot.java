@@ -5,6 +5,7 @@ import com.anyun.cloud.demo.common.registry.client.RegistryModule;
 import com.anyun.cloud.demo.common.registry.client.RegistryOptions;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.common.lang.bean.InjectorsBuilder;
+import com.anyun.common.lang.msg.NatsClient;
 import com.anyun.common.service.common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +39,13 @@ public class ServiceBoot {
             allCloudServiceClasses.addAll(boot.resolver.withBaseClass(ServiceBoot.class)
                     .scanCloudServiceClassByPackageName(packageName));
         }
-        for (Class<? extends Service> cloudServiceClass : allCloudServiceClasses) {
-            InjectorsBuilder.getBuilder().getInstanceByType(ServiceDeployer.class).deploy(cloudServiceClass);
-        }
-        boot.registerClient.regist(Arrays.asList(NodeType.SERVICE_NODE));
+        String deviceID = boot.registerClient.regist(Arrays.asList(NodeType.SERVICE_NODE));
+        InjectorsBuilder.getBuilder().getInstanceByType(ServiceCache.class).setDeviceId(deviceID);
         boot.registerClient.loopThread();
+        InjectorsBuilder.getBuilder().getInstanceByType(NatsClient.class).start();
+        for (Class<? extends Service> cloudServiceClass : allCloudServiceClasses) {
+            InjectorsBuilder.getBuilder().getInstanceByType(ServiceDeployer.class).deploy(deviceID, cloudServiceClass);
+        }
     }
 
     private void initGuiceService(String[] args) {
@@ -52,7 +55,6 @@ public class ServiceBoot {
                 new RegistryModule(options),
                 new ServiceCommonModule());
     }
-
 
     private List<String> getServicePackages() throws Exception {
         List<String> servicePackageNames = new ArrayList<>();

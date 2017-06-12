@@ -1,19 +1,20 @@
 package com.anyun.common.service.exchange;
 
-import com.anyun.common.service.context.ServiceContext;
+import com.anyun.common.service.context.SessionContext;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 06/06/2017
  */
 public interface Exchange {
-    ExchangeContent getIn();
 
-    void setIn(ExchangeContent content);
+    /**
+     * @return
+     */
+    ExchangeBond getIn();
 
-    ExchangeContent getOut();
-
-    void setOut(ExchangeContent content);
-
-    ServiceContext getContext();
+    /**
+     * @return
+     */
+    SessionContext getSessionContext();
 }

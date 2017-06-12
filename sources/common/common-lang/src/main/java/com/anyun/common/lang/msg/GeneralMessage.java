@@ -1,5 +1,7 @@
 package com.anyun.common.lang.msg;
 
+import com.anyun.common.lang.bean.InjectorsBuilder;
+
 import java.util.Map;
 
 /**
@@ -60,5 +62,17 @@ public class GeneralMessage implements Message {
 
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    @Override
+    public String toString() {
+        return "GeneralMessage{" +
+                "messageId='" + messageId + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", subject='" + subject + '\'' +
+                ", headers=" + headers +
+                ", body='" + body + '\'' +
+                '}';
     }
 }

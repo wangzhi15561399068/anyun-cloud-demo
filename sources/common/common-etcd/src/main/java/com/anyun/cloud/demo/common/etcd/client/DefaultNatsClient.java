@@ -1,14 +1,17 @@
-package com.anyun.cloud.demo.api.node.nats;
+package com.anyun.cloud.demo.common.etcd.client;
 
 import com.anyun.cloud.demo.common.etcd.GsonUtil;
-import com.anyun.cloud.demo.common.etcd.client.HttpRestfullyApiClient;
 import com.anyun.cloud.demo.common.etcd.response.EtcdActionNode;
+import com.anyun.cloud.demo.common.etcd.spi.EtcdExtendService;
+import com.anyun.common.lang.msg.NatsClient;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.nats.client.Connection;
 import io.nats.client.ConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -22,16 +25,18 @@ public class DefaultNatsClient implements NatsClient, Runnable {
     private ConnectionFactory connectionFactory;
     private Connection connection;
     private Thread natsThread;
-
+    private CountDownLatch latch;
     @Inject
-    public DefaultNatsClient(HttpRestfullyApiClient etcd) {
-        this.etcd = etcd;
+    public DefaultNatsClient(EtcdExtendService etcdExtendService) {
+        this.etcd = etcdExtendService.getClient();
     }
 
     @Override
     public void start() throws Exception {
         natsThread = new Thread(this);
+        latch = new CountDownLatch(1);
         natsThread.start();
+        latch.await();
     }
 
     @Override
@@ -40,6 +45,11 @@ public class DefaultNatsClient implements NatsClient, Runnable {
         connection = null;
         connectionFactory = null;
         natsThread = null;
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 
     @Override
@@ -53,6 +63,7 @@ public class DefaultNatsClient implements NatsClient, Runnable {
             connectionFactory = new ConnectionFactory(connectionString);
             connection = connectionFactory.createConnection();
             LOGGER.info("Nats server connection created");
+            latch.countDown();
         } catch (Exception ex) {
             LOGGER.error("Nats client start error: {}", ex.getMessage(), ex);
             System.exit(1);

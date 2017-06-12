@@ -4,10 +4,10 @@ import com.anyun.cloud.demo.api.node.module.ComponentsModule;
 import com.anyun.cloud.demo.api.node.module.EtcdBindingModule;
 import com.anyun.cloud.demo.api.node.module.HttpBindingModule;
 import com.anyun.cloud.demo.api.node.module.NatsBindingModule;
-import com.anyun.cloud.demo.api.node.nats.NatsClient;
 import com.anyun.cloud.demo.common.registry.service.RegistryBindingModule;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.http.ApiServer;
+import com.anyun.common.lang.msg.NatsClient;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>

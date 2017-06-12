@@ -1,5 +1,7 @@
 package com.anyun.common.service.common;
 
+import com.anyun.cloud.demo.common.etcd.client.DefaultNatsClient;
+import com.anyun.common.lang.msg.NatsClient;
 import com.google.inject.AbstractModule;
 
 /**
@@ -9,6 +11,8 @@ import com.google.inject.AbstractModule;
 public class ServiceCommonModule extends AbstractModule {
     @Override
     protected void configure() {
+        bind(ServiceCache.class).toInstance(new ServiceCache());
+        bind(NatsClient.class).to(DefaultNatsClient.class);
         bind(ServiceDeployer.class).to(DefaultServiceDeployer.class);
     }
 }

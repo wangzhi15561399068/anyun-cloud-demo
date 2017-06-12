@@ -1,4 +1,6 @@
-package com.anyun.cloud.demo.api.node.nats;
+package com.anyun.common.lang.msg;
+
+import io.nats.client.Connection;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -20,4 +22,10 @@ public interface NatsClient {
      * @throws Exception
      */
     void stop() throws Exception;
+
+    /**
+     *
+     * @return
+     */
+    Connection getConnection();
 }

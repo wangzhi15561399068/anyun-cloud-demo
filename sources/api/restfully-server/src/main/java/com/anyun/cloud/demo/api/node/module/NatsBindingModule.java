@@ -1,7 +1,7 @@
 package com.anyun.cloud.demo.api.node.module;
 
-import com.anyun.cloud.demo.api.node.nats.DefaultNatsClient;
-import com.anyun.cloud.demo.api.node.nats.NatsClient;
+import com.anyun.cloud.demo.common.etcd.client.DefaultNatsClient;
+import com.anyun.common.lang.msg.NatsClient;
 import com.google.inject.AbstractModule;
 
 /**

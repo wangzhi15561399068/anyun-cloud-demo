@@ -1,11 +1,19 @@
 package com.anyun.cloud.demo.api.node.http;
 
+import com.anyun.cloud.demo.api.node.core.common.HttpMessageBuidler;
 import com.anyun.cloud.demo.api.node.core.common.NodeApiComponent;
 import com.anyun.cloud.demo.api.node.core.common.entity.ApiDeployEntity;
+import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import com.anyun.cloud.demo.common.etcd.spi.entity.api.ApiResourceEntity;
 import com.anyun.common.lang.HashIdGenerator;
 import com.anyun.common.lang.bean.InjectorsBuilder;
+import com.anyun.common.lang.http.ApiServer;
 import com.anyun.common.lang.http.RequestUtil;
+import com.anyun.common.lang.msg.GeneralMessage;
+import com.anyun.common.lang.msg.NatsClient;
+import com.google.gson.Gson;
+import io.nats.client.Connection;
+import io.nats.client.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +36,15 @@ public class ApiNodeServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiNodeServlet.class);
     private NodeApiComponent nodeApiComponent;
     private ResourceCache resourceCache;
+    private String deviceId;
+    private Connection connection;
 
     public ApiNodeServlet() {
         nodeApiComponent = InjectorsBuilder.getBuilder().getInstanceByType(NodeApiComponent.class);
         resourceCache = InjectorsBuilder.getBuilder().getInstanceByType(ResourceCache.class);
+        deviceId = ((JettyApiNodeServer) InjectorsBuilder.getBuilder()
+                .getInstanceByType(ApiServer.class)).getDeviceId();
+        connection = InjectorsBuilder.getBuilder().getInstanceByType(NatsClient.class).getConnection();
     }
 
     @Override
@@ -54,6 +67,19 @@ public class ApiNodeServlet extends HttpServlet {
                 return;
             }
             deployApi(resourceId, request.getMethod(), pathInfo, resource);
+            HttpMessageBuidler messageBuidler = new HttpMessageBuidler()
+                    .withDeviceId(deviceId)
+                    .withHttpRequest(request)
+                    .withServiceNode(resourceId);
+            String message = messageBuidler.build();
+            Message requestMessage = connection.request(resourceId, message.getBytes(), 5000);
+            if (requestMessage == null)
+                throw new Exception("Resource [" + resourceId + "] service timeout");
+            Gson gson = GsonUtil.getUtil().getGson();
+            GeneralMessage generalMessage = gson.fromJson(new String(requestMessage.getData()), GeneralMessage.class);
+            String content = generalMessage.getBody();
+            response.getWriter().write(content);
+            response.getWriter().flush();
         } catch (Exception e) {
             response.sendError(ERROR_500, e.getMessage());
             return;

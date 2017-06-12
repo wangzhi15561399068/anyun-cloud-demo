@@ -1,4 +1,4 @@
-package com.anyun.cloud.demo.api.node.nats;
+package com.anyun.common.lang.msg;
 
 import io.nats.client.Message;
 
