@@ -17,4 +17,10 @@ public @interface CloudService {
      * @return
      */
     String servicePath();
+
+    /**
+     *
+     * @return
+     */
+    boolean publishApi() default true;
 }

@@ -6,13 +6,11 @@ import com.anyun.cloud.demo.common.registry.client.RegistryOptions;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.msg.NatsClient;
+import com.anyun.common.service.annotation.CloudService;
 import com.anyun.common.service.common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -21,30 +19,42 @@ import java.util.*;
  */
 public class ServiceBoot {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceBoot.class);
-    private static final String PREFIX_SERVICE_PKG = "service.package.";
-    private static final String FILE_PROP = "META-INF/services.properties";
+    private static final String PREFIX_SERVICE_PKG = "service.";
+    private static final String FILE_PROP = "services.properties";
     private PackageScanClassResolver resolver = new PackageScanClassResolver();
     private RegisterClient registerClient;
 
     private ServiceBoot() {
     }
 
-    public static void boot(String[] args) throws Exception {
+    public static void boot(Class<?> clazz, String[] args) throws Exception {
         ServiceBoot boot = new ServiceBoot();
         boot.initGuiceService(args);
         boot.registerClient = InjectorsBuilder.getBuilder().getInstanceByType(RegisterClient.class);
-        List<String> packageNames = boot.getServicePackages();
+//        List<String> packageNames = boot.getServicePackages(clazz);
+        List<String> serviceNames = boot.getServices(clazz);
         List<Class<? extends Service>> allCloudServiceClasses = new ArrayList<>();
-        for (String packageName : packageNames) {
-            allCloudServiceClasses.addAll(boot.resolver.withBaseClass(ServiceBoot.class)
-                    .scanCloudServiceClassByPackageName(packageName));
+        for (String serviceName : serviceNames) {
+//            allCloudServiceClasses.addAll(boot.resolver.withClassLoad(clazz.getClassLoader())
+//                    .scanCloudServiceClassByPackageName(packageName));
+            Class loadClass = Class.forName(serviceName);
+            if (loadClass.getAnnotation(CloudService.class) != null) {
+                Arrays.stream(loadClass.getInterfaces()).filter(c -> {
+                    if (c.getName().equals(Service.class.getName())) {
+                        LOGGER.debug("Resolve cloud service class: {}", loadClass);
+                        allCloudServiceClasses.add((Class<? extends Service>) loadClass);
+                        return true;
+                    }
+                    return false;
+                }).findAny();
+            }
         }
-        String deviceID = boot.registerClient.regist(Arrays.asList(NodeType.SERVICE_NODE));
-        InjectorsBuilder.getBuilder().getInstanceByType(ServiceCache.class).setDeviceId(deviceID);
+        String deviceId = boot.registerClient.regist(Arrays.asList(NodeType.SERVICE_NODE));
+        InjectorsBuilder.getBuilder().getInstanceByType(ServiceCache.class).setDeviceId(deviceId);
         boot.registerClient.loopThread();
         InjectorsBuilder.getBuilder().getInstanceByType(NatsClient.class).start();
         for (Class<? extends Service> cloudServiceClass : allCloudServiceClasses) {
-            InjectorsBuilder.getBuilder().getInstanceByType(ServiceDeployer.class).deploy(deviceID, cloudServiceClass);
+            InjectorsBuilder.getBuilder().getInstanceByType(ServiceDeployer.class).deploy(deviceId, cloudServiceClass);
         }
     }
 
@@ -56,22 +66,20 @@ public class ServiceBoot {
                 new ServiceCommonModule());
     }
 
-    private List<String> getServicePackages() throws Exception {
-        List<String> servicePackageNames = new ArrayList<>();
-        ClassLoader classLoader = ServiceBoot.class.getClassLoader();
-        File propertiesFile = Resources.getResourceAsFile(classLoader, FILE_PROP);
+    private List<String> getServices(Class<?> clazz) throws Exception {
+        List<String> serviceNames = new ArrayList<>();
+//        File propertiesFile = Resources.getResourceAsFile(clazz.getClassLoader(), FILE_PROP);
         Properties properties = new Properties();
-        InputStream inputStream = new FileInputStream(propertiesFile);
-        properties.load(inputStream);
+        properties.load(Resources.getResourceAsStream(clazz.getClassLoader(), FILE_PROP));
         Enumeration<?> propKeys = properties.propertyNames();
         while (propKeys.hasMoreElements()) {
             String key = propKeys.nextElement().toString();
             if (!key.startsWith(PREFIX_SERVICE_PKG))
                 continue;
-            String servicePackageName = properties.getProperty(key);
-            LOGGER.debug("Cloud service package name: {}", servicePackageName);
-            servicePackageNames.add(servicePackageName);
+            String serviceName = properties.getProperty(key);
+            LOGGER.debug("Cloud service package name: {}", serviceName);
+            serviceNames.add(serviceName);
         }
-        return servicePackageNames;
+        return serviceNames;
     }
 }

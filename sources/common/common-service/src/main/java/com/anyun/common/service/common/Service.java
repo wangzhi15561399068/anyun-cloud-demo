@@ -8,5 +8,5 @@ import com.anyun.common.service.exchange.Exchange;
  */
 public interface Service <T> {
 
-    T onExchange(Exchange exchange);
+    T onExchange(Exchange exchange) throws Exception;
 }

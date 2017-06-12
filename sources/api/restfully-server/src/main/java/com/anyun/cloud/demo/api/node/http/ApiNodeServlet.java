@@ -58,6 +58,12 @@ public class ApiNodeServlet extends HttpServlet {
             LOGGER.debug("Path info: [{}]  [{}]  @{}", request.getServletPath(), pathInfo, request.getMethod());
             String resourceId = HashIdGenerator.generate(pathInfo);
             LOGGER.debug("Resource [{}] ID: {}", pathInfo, resourceId);
+
+            new Thread(() -> {
+                LOGGER.debug("Resource [{}] access count increment", resourceId);
+                LOGGER.debug("");
+            }).start();
+
             ApiResourceEntity resource = nodeApiComponent.findResource(resourceId, request.getMethod());
             if (resource != null) {
                 LOGGER.debug("Found resource [{}]", resourceId);

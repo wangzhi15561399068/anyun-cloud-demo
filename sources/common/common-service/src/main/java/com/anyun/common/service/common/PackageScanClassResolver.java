@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.jar.JarInputStream;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -34,14 +35,14 @@ public class PackageScanClassResolver {
         List<Class<?>> classes = new ArrayList<>();
         if (classLoader == null) {
             if (baseClass == null)
-                classLoader = PackageScanClassResolver.class.getClassLoader();
+                classLoader = Thread.currentThread().getContextClassLoader();
             else
                 classLoader = baseClass.getClassLoader();
         }
         try {
             URL url = Resources.getResourceURL(classLoader, path);
-            LOGGER.debug("Resolve file path: {}", url);
-            File files[] = new File(url.getPath()).listFiles(new FilenameFilter() {
+            LOGGER.debug("Resolve file path: {}", url.getFile());
+            File files[] = new File(url.getFile()).listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
                     if (name.endsWith(".class"))
@@ -49,6 +50,7 @@ public class PackageScanClassResolver {
                     return false;
                 }
             });
+            JarInputStream jarInputStream = new JarInputStream(null);
             LOGGER.debug("Resolve file names: {}", files);
             for (File file : files) {
                 String classNameTemp = path.replace("/", ".") + "." + file.getName();

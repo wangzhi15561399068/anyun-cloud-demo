@@ -23,10 +23,10 @@
         <level value="ERROR"/>
         <appender-ref ref="STDOUT"/>
     </root>
-    <logger name="com.anyun" level="debug" additivity="false">
+    <logger name="com.anyun" level="ERROR" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="test.com.anyun" level="debug" additivity="false">
+    <logger name="test.com.anyun" level="ERROR" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.eclipse.jetty" level="error" additivity="false">

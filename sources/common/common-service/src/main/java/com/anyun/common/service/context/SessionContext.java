@@ -5,4 +5,5 @@ package com.anyun.common.service.context;
  * @since 1.0.0 on 12/06/2017
  */
 public interface SessionContext {
+    Router getRouter();
 }

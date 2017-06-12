@@ -1,13 +1,17 @@
 package com.anyun.common.service.common;
 
+import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import com.anyun.common.lang.HashIdGenerator;
 import com.anyun.common.lang.msg.NatsClient;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.anyun.common.service.annotation.CloudService;
 import com.google.inject.Inject;
 import io.nats.client.Connection;
+import org.apache.zookeeper.CreateMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -38,10 +42,37 @@ public class DefaultServiceDeployer implements ServiceDeployer {
         String servicePath = PATH_SERVICE + "/" + resourceId;
         LOGGER.debug("Deploying service path: {}", servicePath);
         String devicePath = servicePath + "/" + deviceId;
+        ServiceDeployEntity entity = new ServiceDeployEntity();
+        entity.setDateTime(new Date());
+        entity.setDevice(deviceId);
+        String data = GsonUtil.getUtil().toJson(entity);
+        zk.createPath(devicePath, data, CreateMode.EPHEMERAL);
+        LOGGER.debug("Deploy resource [{}] to zookeeper,data [\n{}\n]", resourceId, data);
         Connection connection = natsClient.getConnection();
         String queueName = QUEUE_PREFIX + resourceId;
         serviceCache.addService(resourceId, cloudServiceClass.newInstance());
         connection.subscribe(resourceId, queueName, new ServiceMessageHandler(resourceId, connection));
         LOGGER.debug("Subscribe [{}][{}]", resourceId, queueName);
+    }
+
+    public static class ServiceDeployEntity {
+        private Date dateTime;
+        private String device;
+
+        public Date getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(Date dateTime) {
+            this.dateTime = dateTime;
+        }
+
+        public String getDevice() {
+            return device;
+        }
+
+        public void setDevice(String device) {
+            this.device = device;
+        }
     }
 }

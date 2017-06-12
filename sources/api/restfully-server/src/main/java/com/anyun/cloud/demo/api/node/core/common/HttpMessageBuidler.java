@@ -72,6 +72,7 @@ public class HttpMessageBuidler implements MessageBuilder {
     private Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();
         Enumeration<String> headerNames = request.getHeaderNames();
+        headers.put(HTTP_HEADER_PREFIX + "REMOTE", request.getRemoteHost());
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             headers.put(HTTP_HEADER_PREFIX + headerName, request.getHeader(headerName));

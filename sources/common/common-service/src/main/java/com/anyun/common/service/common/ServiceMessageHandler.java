@@ -3,12 +3,12 @@ package com.anyun.common.service.common;
 import com.anyun.common.lang.RandomUtils;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.msg.GeneralMessage;
+import com.anyun.common.service.annotation.CloudService;
+import com.anyun.common.service.context.DefaultRouter;
 import com.anyun.common.service.context.DefaultSessionContext;
+import com.anyun.common.service.context.ServiceContext;
 import com.anyun.common.service.context.SessionContext;
-import com.anyun.common.service.exchange.DefaultBondBuilder;
-import com.anyun.common.service.exchange.DefaultExchange;
-import com.anyun.common.service.exchange.Exchange;
-import com.anyun.common.service.exchange.ExchangeBond;
+import com.anyun.common.service.exchange.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.nats.client.Connection;
@@ -16,6 +16,10 @@ import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -53,30 +57,64 @@ public class ServiceMessageHandler implements MessageHandler {
 
         @Override
         public void run() {
+            Thread currentThread = Thread.currentThread();
+            String threadName = "THREAD-SERVICE-" + RandomUtils.generateByhashId(8);
+            currentThread.setName(threadName);
+            LOGGER.debug("THREAD: {}", currentThread.getName());
+            String content = new String(message.getData());
+            LOGGER.debug("Receive message: {}", content);
+            Service service = InjectorsBuilder.getBuilder().
+                    getInstanceByType(ServiceCache.class).getService(resourceId);
+            if (service == null) {
+                LOGGER.error("Not find service by resourceId [{}]", resourceId);
+            }
+            CloudService cloudServiceDefine = service.getClass().getAnnotation(CloudService.class);
+            SessionContext sessionContext = new DefaultSessionContext(new DefaultRouter(connection));
+            ServiceContext.setSessionContext(sessionContext);
             try {
-                Thread currentThread = Thread.currentThread();
-                String threadName = "THREAD-SERVICE-" + RandomUtils.generateByhashId(8);
-                currentThread.setName(threadName);
-                LOGGER.debug("THREAD: {}", currentThread.getName());
-                String content = new String(message.getData());
-                LOGGER.debug("Receive message: {}", content);
-                Service service = InjectorsBuilder.getBuilder().
-                        getInstanceByType(ServiceCache.class).getService(resourceId);
-                if (service == null) {
-                    LOGGER.error("Not find service by resourceId [{}]", resourceId);
+                Exchange exchange = buildInExchange();
+                if (cloudServiceDefine.publishApi() == false) {
+                    ExchangeBond inExchangeBond = exchange.getIn();
+                    List<String> sourceType = inExchangeBond.getHeaders().get(Exchange.HTTP_HEADER_SOURCE);
+                    if (sourceType == null || sourceType.isEmpty() || !sourceType.get(0).startsWith("service.node.")) {
+                        LOGGER.debug("No publish api service [{}]", service.getClass().getName());
+                        throw new Exception("No publish api service [" + cloudServiceDefine.servicePath() + "]");
+                    }
                 }
-                SessionContext sessionContext = new DefaultSessionContext();
-                Exchange exchange = new DefaultExchange();
-                Object obj = service.getClass().getMethod("onExchange", Exchange.class).invoke(service, exchange);
+                Object obj = null;
+                try {
+                    obj = service.getClass().getMethod("onExchange", Exchange.class).invoke(service, exchange);
+                } catch (InvocationTargetException ex) {
+                    throw ex.getTargetException();
+                }
                 ExchangeBond outBond = buildOutExchangeBond(obj);
                 LOGGER.debug("Send Messgae: {}", outBond.getMessage());
                 Message sendMessage = new Message();
                 sendMessage.setSubject(message.getReplyTo());
                 sendMessage.setData(outBond.getMessage().getBytes());
                 connection.publish(sendMessage);
-            } catch (Exception ex) {
+            } catch (Throwable ex) {
                 ex.printStackTrace();
+                ServiceErrorEntity errorEntity = new ServiceErrorEntity();
+                errorEntity.setMessage(ex.getMessage());
+                ExchangeBond outBond = buildOutExchangeBond(errorEntity);
+                Message sendErrorMessage = new Message();
+                sendErrorMessage.setSubject(message.getReplyTo());
+                sendErrorMessage.setData(outBond.getMessage().getBytes());
+                try {
+                    connection.publish(sendErrorMessage);
+                    LOGGER.debug("Publish error: {}", errorEntity);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    LOGGER.error("Send message error: {}", e.getMessage(), e);
+                }
             }
+        }
+
+        private Exchange buildInExchange() throws Exception {
+            InExchangeBond exchangeBond = new InExchangeBond(message);
+            DefaultExchange exchange = new DefaultExchange(exchangeBond);
+            return exchange;
         }
 
         private ExchangeBond buildOutExchangeBond(Object obj) {

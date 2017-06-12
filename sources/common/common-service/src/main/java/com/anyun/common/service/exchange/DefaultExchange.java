@@ -1,23 +1,19 @@
 package com.anyun.common.service.exchange;
 
-import com.anyun.common.service.context.SessionContext;
-
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 12/06/2017
  */
 public class DefaultExchange implements Exchange {
-    private SessionContext sessionContext;
     private ExchangeBond inBond;
-    private ExchangeBond outExchangeBond;
+
+    public DefaultExchange(ExchangeBond inBond) {
+        this.inBond = inBond;
+    }
 
     @Override
     public ExchangeBond getIn() {
-        return null;
+        return inBond;
     }
 
-    @Override
-    public SessionContext getSessionContext() {
-        return null;
-    }
 }
