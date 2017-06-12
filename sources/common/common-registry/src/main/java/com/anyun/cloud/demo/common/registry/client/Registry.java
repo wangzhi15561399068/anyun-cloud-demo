@@ -9,7 +9,6 @@ import com.anyun.common.lang.bean.InjectorsBuilder;
 public class Registry {
     public static void main(String[] args) throws Exception {
         RegistryOptions options = new RegistryOptions(args);
-        options.buildOptions();
         InjectorsBuilder injectorsBuilder = InjectorsBuilder.getBuilder();
         injectorsBuilder.build(new RegistryModule(options));
         RegisterClient registerClient = injectorsBuilder.getInstanceByType(RegisterClient.class);

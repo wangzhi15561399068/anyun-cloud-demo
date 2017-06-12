@@ -16,10 +16,25 @@
     <name>AnyunCloud Commons Service</name>
 
     <properties>
-
+        <version.anyun.common>1.0.0</version.anyun.common>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.anyun.cloud.demo</groupId>
+            <artifactId>anyun-common-lang</artifactId>
+            <version>${version.anyun.common}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.anyun.cloud.demo</groupId>
+            <artifactId>anyun-cloud-demo-common-etcd</artifactId>
+            <version>${version.anyun.common}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.anyun.cloud.demo</groupId>
+            <artifactId>anyun-cloud-demo-common-registry</artifactId>
+            <version>${version.anyun.common}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

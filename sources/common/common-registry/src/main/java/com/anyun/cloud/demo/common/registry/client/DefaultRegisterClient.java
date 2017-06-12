@@ -41,13 +41,18 @@ public class DefaultRegisterClient implements RegisterClient {
         String[] types = cl.getOptionValue(OPT_TYPES).split(",");
         if (types == null || types.length == 0)
             throw new Exception("Node type argument is not set");
-        NodeEntity entity = new NodeEntity();
         List<NodeType> nodeTypes = new ArrayList<>();
         for (String type : types) {
             nodeTypes.add(NodeType.valueOf(type));
         }
         if (nodeTypes.isEmpty())
             throw new Exception("Node type argument is not set");
+        return regist(nodeTypes);
+    }
+
+    @Override
+    public String regist(List<NodeType> nodeTypes) throws Exception {
+        NodeEntity entity = new NodeEntity();
         String deviceId = DeviceIdGenerator.getGenerator().generate();
         long currentTime = System.currentTimeMillis();
         entity.setUid(deviceId);

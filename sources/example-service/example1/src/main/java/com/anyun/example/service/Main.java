@@ -1,6 +1,6 @@
 package com.anyun.example.service;
 
-import com.anyun.common.service.CloudServiceStarter;
+import com.anyun.common.service.ServiceBoot;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -8,6 +8,6 @@ import com.anyun.common.service.CloudServiceStarter;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        CloudServiceStarter.getStarter().start(Main.class);
+        ServiceBoot.boot(args);
     }
 }

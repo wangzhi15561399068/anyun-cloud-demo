@@ -14,8 +14,7 @@ import java.lang.annotation.Target;
 public @interface CloudService {
 
     /**
-     *
      * @return
      */
-    String busName() default "";
+    String servicePath();
 }

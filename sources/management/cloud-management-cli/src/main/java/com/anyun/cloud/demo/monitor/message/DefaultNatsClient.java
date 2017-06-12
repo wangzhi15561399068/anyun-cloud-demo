@@ -21,7 +21,7 @@ import java.net.URI;
  */
 @Singleton
 public class DefaultNatsClient implements NatsClient {
-    public static final String KEY_CONFIG_NATS = "/keys/config/msg";
+    public static final String KEY_CONFIG_NATS = "/keys/config/nats";
     public static final String KEY_NATS_CONNECTION_STR = "connection-string";
     public static final String KEY_NATS_WEB_PORT = "http-port";
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNatsClient.class);

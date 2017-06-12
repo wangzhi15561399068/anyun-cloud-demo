@@ -94,7 +94,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.anyun.cloud.demo.api.node.com.anyun.example.service.Main</mainClass>
+                            <mainClass>com.anyun.cloud.demo.api.node.ApiNode</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
