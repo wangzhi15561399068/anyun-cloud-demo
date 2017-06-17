@@ -1,4 +1,6 @@
-package com.anyun.common.service.context;
+package com.anyun.cloud.service.common.context;
+
+import com.anyun.cloud.service.common.Router;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -6,4 +8,5 @@ package com.anyun.common.service.context;
  */
 public interface SessionContext {
     Router getRouter();
+    ServiceContext getServiceContext();
 }

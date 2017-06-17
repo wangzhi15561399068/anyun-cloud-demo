@@ -21,7 +21,7 @@ import java.util.List;
  * @since 1.0.0 on 31/05/2017
  */
 public class ApiRamlParserTest extends BaseTest {
-    private static final String EXT_DIR = "D:\\Develop\\Workspace\\HohhotCloudDemo\\doc-api\\example1";
+    private static final String EXT_DIR = "/Users/twitchgg/Develop/Projects/hohot-cloud-demo/doc-api/example1";
     private static final String ENCODING = "utf-8";
     private File ramlDir;
     private File[] ramlFiles = null;

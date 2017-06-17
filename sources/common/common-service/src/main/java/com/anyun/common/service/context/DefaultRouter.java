@@ -1,8 +1,11 @@
 package com.anyun.common.service.context;
 
+import com.anyun.cloud.service.common.Router;
 import com.anyun.common.lang.HashIdGenerator;
 import com.anyun.common.lang.StringUtils;
+import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.msg.GeneralMessage;
+import com.anyun.common.service.common.ServiceCache;
 import com.anyun.common.service.common.ServiceErrorEntity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,12 +38,13 @@ public class DefaultRouter implements Router {
     public <T> T route(String resourceId, Map<String, String> headers, String requestBody, Class<T> responseType) throws Exception {
         if (StringUtils.isEmpty(requestBody))
             requestBody = "";
+        String deviceId = InjectorsBuilder.getBuilder().getInstanceByType(ServiceCache.class).getDeviceId();
         String hashId = HashIdGenerator.generate(resourceId);
         LOGGER.debug("Resource [{}] router", hashId);
         GeneralMessage generalMessage = new GeneralMessage();
         generalMessage.setBody(requestBody);
-        generalMessage.setFrom(ServiceContext.getDeviceId());
-        generalMessage.setHeaders(getHeaders(headers));
+        generalMessage.setFrom(deviceId);
+        generalMessage.setHeaders(getHeaders(headers, deviceId));
         generalMessage.setMessageId(generateMessageId());
         generalMessage.setSubject(SUBJECT + hashId);
         generalMessage.setTo("SERVICE-NODE {RANDOM}");
@@ -67,9 +71,9 @@ public class DefaultRouter implements Router {
         return hashids.encode(System.nanoTime());
     }
 
-    private Map<String, String> getHeaders(Map<String, String> headers) {
+    private Map<String, String> getHeaders(Map<String, String> headers, String deviceId) {
         Map<String, String> allHeaders = new HashMap<>();
-        allHeaders.put(HTTP_HEADER_PREFIX + "SOURCE", "service.node." + ServiceContext.getDeviceId());
+        allHeaders.put(HTTP_HEADER_PREFIX + "SOURCE", "service.node." + deviceId);
         if (headers == null)
             return allHeaders;
         for (Map.Entry<String, String> head : headers.entrySet()) {

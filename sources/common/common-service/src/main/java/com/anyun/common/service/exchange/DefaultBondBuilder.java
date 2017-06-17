@@ -2,6 +2,7 @@ package com.anyun.common.service.exchange;
 
 import com.anyun.cloud.demo.common.etcd.GsonUtil;
 import com.anyun.cloud.demo.common.registry.entity.NodeType;
+import com.anyun.cloud.service.common.exchange.ExchangeBond;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.msg.GeneralMessage;
 import com.anyun.common.service.common.ServiceCache;

@@ -1,4 +1,6 @@
-package com.anyun.common.service.exchange;
+package com.anyun.cloud.service.common.exchange;
+
+import com.anyun.cloud.service.common.context.SessionContext;
 
 import java.util.List;
 import java.util.Map;
@@ -15,5 +17,7 @@ public interface ExchangeBond {
 
     Map<String, List<String>> getHeaders();
 
-    Map<String,List<String>> getQuery();
+    Map<String, List<String>> getQuery();
+
+    SessionContext getSessionContext();
 }

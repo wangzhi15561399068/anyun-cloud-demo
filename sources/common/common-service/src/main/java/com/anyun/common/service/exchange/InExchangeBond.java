@@ -1,6 +1,9 @@
 package com.anyun.common.service.exchange;
 
 import com.anyun.cloud.demo.common.etcd.GsonUtil;
+import com.anyun.cloud.service.common.context.SessionContext;
+import com.anyun.cloud.service.common.exchange.Exchange;
+import com.anyun.cloud.service.common.exchange.ExchangeBond;
 import com.anyun.common.lang.msg.GeneralMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +24,7 @@ public class InExchangeBond implements ExchangeBond {
     private static final Logger LOGGER = LoggerFactory.getLogger(InExchangeBond.class);
     private GeneralMessage message;
     private Map<String, List<String>> query;
+    private SessionContext sessionContext;
 
     public InExchangeBond(Message inMessage) throws Exception {
         Gson gson = new GsonBuilder().create();
@@ -66,5 +70,10 @@ public class InExchangeBond implements ExchangeBond {
     @Override
     public Map<String, List<String>> getQuery() {
         return query;
+    }
+
+    @Override
+    public SessionContext getSessionContext() {
+        return null;
     }
 }

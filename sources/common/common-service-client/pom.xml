@@ -5,46 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.anyun.cloud.demo</groupId>
-        <artifactId>anyun-cloud-demo-service-example-parent</artifactId>
+        <artifactId>anyun-cloud-demo-common-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
     <groupId>com.anyun.cloud.demo</groupId>
-    <artifactId>anyun-cloud-demo-service1</artifactId>
+    <artifactId>anyun-common-service-client</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>Service Example 1</name>
-
-    <description>
-        Service example 1
-    </description>
-
-    <properties>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.anyun.cloud.demo</groupId>
-            <artifactId>anyun-common-service-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-    </dependencies>
+    <name>AnyunCloud Commons Service Client</name>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -61,7 +30,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>

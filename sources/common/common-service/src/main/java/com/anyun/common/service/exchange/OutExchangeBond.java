@@ -1,5 +1,8 @@
 package com.anyun.common.service.exchange;
 
+import com.anyun.cloud.service.common.context.SessionContext;
+import com.anyun.cloud.service.common.exchange.ExchangeBond;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +12,7 @@ import java.util.Map;
  */
 public class OutExchangeBond implements ExchangeBond {
     private String message;
+    private SessionContext sessionContext;
 
     @Override
     public String getMessage() {
@@ -28,6 +32,11 @@ public class OutExchangeBond implements ExchangeBond {
     @Override
     public Map<String, List<String>> getQuery() {
         return null;
+    }
+
+    @Override
+    public SessionContext getSessionContext() {
+        return sessionContext;
     }
 }
 

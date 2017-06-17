@@ -1,5 +1,8 @@
 package com.anyun.common.service.common;
 
+import com.anyun.cloud.service.common.Service;
+import com.anyun.common.service.classloader.CloudServiceClassLoader;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +13,7 @@ import java.util.Map;
 public class ServiceCache {
     private Map<String, Service> services;
     private String deviceId;
+    private CloudServiceClassLoader cloudServiceClassLoader;
 
     public ServiceCache() {
         services = new HashMap<>();
@@ -37,5 +41,13 @@ public class ServiceCache {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public CloudServiceClassLoader getCloudServiceClassLoader() {
+        return cloudServiceClassLoader;
+    }
+
+    public void setCloudServiceClassLoader(CloudServiceClassLoader cloudServiceClassLoader) {
+        this.cloudServiceClassLoader = cloudServiceClassLoader;
     }
 }

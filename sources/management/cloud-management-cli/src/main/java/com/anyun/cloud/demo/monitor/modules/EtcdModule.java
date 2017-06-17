@@ -17,7 +17,7 @@ public class EtcdModule extends AbstractCloudModules {
     @Override
     protected void init() throws Exception {
         ClientConfig etcdApiClientConfig = new ClientConfig();
-        etcdApiClientConfig.setHost("192.168.103.7");
+        etcdApiClientConfig.setHost("node1.etcd.dev.hohhot.ga.gov");
         HttpRestfullyApiClient etcdClient = new OkHttpRestfullyApiClient(etcdApiClientConfig);
         bind(HttpRestfullyApiClient.class).annotatedWith(Names.named("etcd")).toInstance(etcdClient);
         bind(HttpRestfullyApiClient.class).toInstance(etcdClient);

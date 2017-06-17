@@ -1,11 +1,8 @@
 package com.anyun.example.service.impl;
 
-import com.anyun.common.lang.StringUtils;
-import com.anyun.common.service.annotation.CloudService;
-import com.anyun.common.service.common.Service;
-import com.anyun.common.service.context.ServiceContext;
-import com.anyun.common.service.context.SessionContext;
-import com.anyun.common.service.exchange.Exchange;
+import com.anyun.cloud.service.common.CloudService;
+import com.anyun.cloud.service.common.Service;
+import com.anyun.cloud.service.common.exchange.Exchange;
 
 import java.util.Date;
 import java.util.List;
@@ -29,23 +26,12 @@ public class ExampleService1 implements Service<ExampleService1.TestResultEntity
             System.out.println("Query Name: " + entry.getKey() + "    Value: " + entry.getValue());
         }
 
-        String deviceId = ServiceContext.getDeviceId();
-        SessionContext sessionContext = ServiceContext.getSessionContext();
+        String deviceId = exchange.getSessionContext().getServiceContext().getDeviceId();
         TestResultEntity entity = new TestResultEntity();
         entity.setDeviceId(deviceId);
-        entity.setDate(StringUtils.formatDate(new Date(), null));
+        entity.setDate(new Date().toString());
         return entity;
     }
-
-
-//    @Override
-//    public String onExchange(Exchange exchange) throws Exception {
-//        String resourceId = "/np/app1/service1";
-//        SessionContext sessionContext = ServiceContext.getSessionContext();
-//        Router router = sessionContext.getRouter();
-//        String result = router.route(resourceId, null, null, String.class);
-//        return result;
-//    }
 
     public static class TestResultEntity {
         private String deviceId;

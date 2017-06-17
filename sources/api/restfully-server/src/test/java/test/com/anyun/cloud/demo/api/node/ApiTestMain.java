@@ -12,7 +12,7 @@ public class ApiTestMain {
         String PATH = "/app1/api/v1_0_0/api1";
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.setBasePathSegment("api");
-        clientConfig.setHost("127.0.0.1");
+        clientConfig.setHost("192.168.101.51");
         clientConfig.setPort(8080);
         OkHttpRestfullyApiClient client = new OkHttpRestfullyApiClient(clientConfig);
         while (true) {

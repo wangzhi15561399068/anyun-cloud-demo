@@ -17,9 +17,15 @@
 
     <properties>
         <version.anyun.common>1.0.0</version.anyun.common>
+        <version.fcs>2.0.21</version.fcs>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.anyun.cloud.demo</groupId>
+            <artifactId>anyun-common-service-client</artifactId>
+            <version>${version.anyun.common}</version>
+        </dependency>
         <dependency>
             <groupId>com.anyun.cloud.demo</groupId>
             <artifactId>anyun-common-lang</artifactId>
@@ -55,6 +61,11 @@
             <groupId>io.nats</groupId>
             <artifactId>jnats</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.lukehutch</groupId>
+            <artifactId>fast-classpath-scanner</artifactId>
+            <version>${version.fcs}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,6 +87,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.anyun.common.service.ServiceLauncher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -1,4 +1,4 @@
-package com.anyun.common.service.annotation;
+package com.anyun.cloud.service.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

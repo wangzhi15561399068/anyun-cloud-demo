@@ -1,6 +1,7 @@
 package com.anyun.common.service.common;
 
-import com.anyun.common.service.annotation.CloudService;
+import com.anyun.cloud.service.common.Service;
+import com.anyun.cloud.service.common.CloudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

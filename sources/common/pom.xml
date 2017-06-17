@@ -29,6 +29,7 @@
         <module>common-etcd</module>
         <module>common-registry</module>
         <module>common-service</module>
+        <module>common-service-client</module>
     </modules>
 
     <dependencyManagement>

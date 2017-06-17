@@ -1,14 +1,20 @@
 package com.anyun.common.service.common;
 
+import com.anyun.cloud.service.common.CloudService;
+import com.anyun.cloud.service.common.Service;
+import com.anyun.cloud.service.common.context.ServiceContext;
+import com.anyun.cloud.service.common.context.SessionContext;
+import com.anyun.cloud.service.common.exchange.Exchange;
+import com.anyun.cloud.service.common.exchange.ExchangeBond;
 import com.anyun.common.lang.RandomUtils;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.msg.GeneralMessage;
-import com.anyun.common.service.annotation.CloudService;
+import com.anyun.common.service.context.DefauleServiceContext;
 import com.anyun.common.service.context.DefaultRouter;
 import com.anyun.common.service.context.DefaultSessionContext;
-import com.anyun.common.service.context.ServiceContext;
-import com.anyun.common.service.context.SessionContext;
-import com.anyun.common.service.exchange.*;
+import com.anyun.common.service.exchange.DefaultBondBuilder;
+import com.anyun.common.service.exchange.DefaultExchange;
+import com.anyun.common.service.exchange.InExchangeBond;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.nats.client.Connection;
@@ -30,9 +36,18 @@ public class ServiceMessageHandler implements MessageHandler {
     private Connection connection;
     private String resourceId;
 
+    public ServiceMessageHandler(Connection connection) {
+        this.connection = connection;
+    }
+
     public ServiceMessageHandler(String resourceId, Connection connection) {
         this.connection = connection;
         this.resourceId = resourceId;
+    }
+
+    public ServiceMessageHandler withResourceId(String resourceId) {
+        this.resourceId = resourceId;
+        return this;
     }
 
     @Override
@@ -69,10 +84,10 @@ public class ServiceMessageHandler implements MessageHandler {
                 LOGGER.error("Not find service by resourceId [{}]", resourceId);
             }
             CloudService cloudServiceDefine = service.getClass().getAnnotation(CloudService.class);
-            SessionContext sessionContext = new DefaultSessionContext(new DefaultRouter(connection));
-            ServiceContext.setSessionContext(sessionContext);
+            ServiceContext serviceContext = new DefauleServiceContext();
+            SessionContext sessionContext = new DefaultSessionContext(serviceContext, new DefaultRouter(connection));
             try {
-                Exchange exchange = buildInExchange();
+                Exchange exchange = buildInExchange(sessionContext);
                 if (cloudServiceDefine.publishApi() == false) {
                     ExchangeBond inExchangeBond = exchange.getIn();
                     List<String> sourceType = inExchangeBond.getHeaders().get(Exchange.HTTP_HEADER_SOURCE);
@@ -111,9 +126,9 @@ public class ServiceMessageHandler implements MessageHandler {
             }
         }
 
-        private Exchange buildInExchange() throws Exception {
+        private Exchange buildInExchange(SessionContext sessionContext) throws Exception {
             InExchangeBond exchangeBond = new InExchangeBond(message);
-            DefaultExchange exchange = new DefaultExchange(exchangeBond);
+            DefaultExchange exchange = new DefaultExchange(sessionContext, exchangeBond);
             return exchange;
         }
 

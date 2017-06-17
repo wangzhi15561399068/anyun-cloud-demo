@@ -1,6 +1,6 @@
 package test.com.anyun.common.service;
 
-import com.anyun.common.service.annotation.CloudService;
+import com.anyun.cloud.service.common.CloudService;
 import com.anyun.common.service.common.PackageScanClassResolver;
 import org.junit.Test;
 

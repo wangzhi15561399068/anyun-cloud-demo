@@ -1,10 +1,11 @@
 package com.anyun.common.service.common;
 
 import com.anyun.cloud.demo.common.etcd.GsonUtil;
+import com.anyun.cloud.service.common.Service;
 import com.anyun.common.lang.HashIdGenerator;
 import com.anyun.common.lang.msg.NatsClient;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
-import com.anyun.common.service.annotation.CloudService;
+import com.anyun.cloud.service.common.CloudService;
 import com.google.inject.Inject;
 import io.nats.client.Connection;
 import org.apache.zookeeper.CreateMode;

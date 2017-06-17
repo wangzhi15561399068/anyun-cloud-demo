@@ -1,10 +1,9 @@
 package com.anyun.example.service.impl;
 
-import com.anyun.common.lang.StringUtils;
-import com.anyun.common.service.annotation.CloudService;
-import com.anyun.common.service.common.Service;
-import com.anyun.common.service.context.ServiceContext;
-import com.anyun.common.service.exchange.Exchange;
+import com.anyun.cloud.service.common.CloudService;
+import com.anyun.cloud.service.common.context.ServiceContext;
+import com.anyun.cloud.service.common.exchange.Exchange;
+import com.anyun.cloud.service.common.Service;
 
 import java.util.Date;
 
@@ -17,6 +16,7 @@ public class ExampleNoPublishService1 implements Service<String> {
 
     @Override
     public String onExchange(Exchange exchange) {
-        return "inner_service1@" + ServiceContext.getDeviceId() + " time: "+ StringUtils.formatDate(new Date(),null);
+        String deviceId = exchange.getSessionContext().getServiceContext().getDeviceId();
+        return "inner_service1@" + deviceId + " time: " + new Date();
     }
 }
