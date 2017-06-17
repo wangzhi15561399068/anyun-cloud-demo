@@ -1,5 +1,6 @@
 package com.anyun.cloud.demo.dispatch.watcher;
 
+import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.api.CuratorWatcher;
 import org.apache.zookeeper.WatchedEvent;
@@ -10,10 +11,12 @@ import org.apache.zookeeper.WatchedEvent;
  */
 public abstract class CloudWatcher implements CuratorWatcher {
     private String watchPath = "";
+    private ZookeeperClient zk;
     private CuratorFramework curatorFramework;
 
-    public CloudWatcher(CuratorFramework curatorFramework) {
-        this.curatorFramework = curatorFramework;
+    public CloudWatcher(ZookeeperClient zk) {
+        this.zk = zk;
+        this.curatorFramework = zk.getContext(CuratorFramework.class.getName(), CuratorFramework.class);
     }
 
     public CloudWatcher withPath(String path) {
@@ -22,17 +25,26 @@ public abstract class CloudWatcher implements CuratorWatcher {
     }
 
     public void start() throws Exception {
-        watch();
+        curatorFramework.getChildren().usingWatcher(this).forPath(watchPath);
     }
 
     @Override
     public void process(WatchedEvent watchedEvent) throws Exception {
-        watch();
+        watch(watchedEvent);
     }
 
-    private void watch() throws Exception {
+    private void watch(WatchedEvent watchedEvent) throws Exception {
         curatorFramework.getChildren().usingWatcher(this).forPath(watchPath);
+        watcherProcess(watchedEvent);
     }
 
     public abstract void watcherProcess(WatchedEvent watchedEvent) throws Exception;
+
+    protected ZookeeperClient getZk() {
+        return zk;
+    }
+
+    public String getWatchPath() {
+        return watchPath;
+    }
 }

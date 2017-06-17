@@ -33,7 +33,6 @@ public interface ZookeeperClient {
     void createPath(String path, String data, CreateMode createMode) throws Exception;
 
     /**
-     *
      * @param path
      * @return
      * @throws Exception
@@ -41,7 +40,6 @@ public interface ZookeeperClient {
     List<String> getChildren(String path) throws Exception;
 
     /**
-     *
      * @param path
      * @return
      * @throws Exception
@@ -62,4 +60,12 @@ public interface ZookeeperClient {
      * @throws Exception
      */
     void restart() throws Exception;
+
+    /**
+     * @param T
+     * @param query
+     * @param <T>
+     * @return
+     */
+    <T> T getContext(String query, Class<T> T);
 }

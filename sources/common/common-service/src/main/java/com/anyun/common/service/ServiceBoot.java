@@ -27,7 +27,6 @@ public class ServiceBoot {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceBoot.class);
     private PackageScanClassResolver resolver = new PackageScanClassResolver();
     private RegisterClient registerClient;
-    private CloudServiceClassLoader cloudServiceClassLoader;
 
     private ServiceBoot() {
     }

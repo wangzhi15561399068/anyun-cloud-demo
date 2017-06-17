@@ -101,4 +101,11 @@ public class DefaultZookeeperClient implements ZookeeperClient {
         stop();
         start();
     }
+
+    @Override
+    public <T> T getContext(String query, Class<T> T) {
+        if (query.equals(CuratorFramework.class.getName()))
+            return (T) curatorFramework;
+        return null;
+    }
 }
