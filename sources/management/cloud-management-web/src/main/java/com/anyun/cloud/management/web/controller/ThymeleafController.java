@@ -1,5 +1,7 @@
 package com.anyun.cloud.management.web.controller;
 
+import org.thymeleaf.context.WebContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +10,5 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0.0 on 22/06/2017
  */
 public interface ThymeleafController {
-    String process(
-            HttpServletRequest request, HttpServletResponse response) throws Exception;
+    String process(HttpServletRequest request, HttpServletResponse response, WebContext context) throws Exception;
 }

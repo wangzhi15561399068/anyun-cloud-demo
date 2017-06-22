@@ -63,7 +63,11 @@ public class DefaultThymeleafControllerResolver implements ThymeleafControllerRe
 
     @Override
     public ThymeleafController resolve(HttpServletRequest request) {
-        LOGGER.debug("Resolve controller by request URI: {}", request.getRequestURI());
-        return controllers.get(request.getRequestURI());
+        String requestURI = request.getRequestURI();
+        String controllerPath = requestURI;
+        if (requestURI.endsWith(".html"))
+            controllerPath = requestURI.substring(0, ".html".length());
+        LOGGER.debug("Resolve controller by controller path: {}", controllerPath);
+        return controllers.get(controllerPath);
     }
 }

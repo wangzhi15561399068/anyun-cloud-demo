@@ -1,6 +1,7 @@
 package com.anyun.cloud.management.web.filter;
 
 import com.anyun.cloud.management.web.template.ThymeleafContext;
+import com.anyun.cloud.management.web.template.ThymesApplicationVariablesBuilder;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import org.thymeleaf.context.WebContext;
 
@@ -8,6 +9,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -15,6 +18,7 @@ import java.io.IOException;
  */
 public abstract class AbstractThymesTemplateFilter implements Filter {
     private static final String TEMPLATE_SUFFIX = ".html";
+    private static final String VARIABLES_KEY = "web_app_variables";
     private ServletContext servletContext;
     private ThymeleafContext thymeleafContext;
 
@@ -38,8 +42,17 @@ public abstract class AbstractThymesTemplateFilter implements Filter {
                 (HttpServletRequest) request,
                 (HttpServletResponse) response,
                 servletContext, request.getLocale());
+        ctx.setVariables(getApplicationVariables((HttpServletRequest) request));
         if (!process((HttpServletRequest) request, (HttpServletResponse) response, ctx))
             chain.doFilter(request, response);
+    }
+
+    private Map<String, Object> getApplicationVariables(HttpServletRequest request) {
+        Map<String, Object> variablesMap = new HashMap<>();
+        ThymesApplicationVariablesBuilder variablesBuilder = InjectorsBuilder.getBuilder()
+                .getInstanceByType(ThymesApplicationVariablesBuilder.class);
+        variablesMap.put(VARIABLES_KEY, variablesBuilder.build(servletContext, request));
+        return variablesMap;
     }
 
     @Override

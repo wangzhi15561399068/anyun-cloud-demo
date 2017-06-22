@@ -21,7 +21,6 @@ public interface ThymeleafContext {
     ThymeleafController resolveControllerForRequest(HttpServletRequest request);
 
     /**
-     *
      * @return
      */
     ResourceResolver getResourceResolver();

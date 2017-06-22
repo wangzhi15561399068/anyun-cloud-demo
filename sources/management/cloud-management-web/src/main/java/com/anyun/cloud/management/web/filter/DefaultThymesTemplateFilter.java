@@ -27,8 +27,12 @@ public class DefaultThymesTemplateFilter extends AbstractThymesTemplateFilter {
         ThymeleafController controller = getThymeleafContext().resolveControllerForRequest(request);
         if (controller == null)
             response.sendError(404, "Unsupported controller by [ " + request.getRequestURI() + "]");
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
         try {
-            String templateURI = controller.process(request, response);
+            String templateURI = controller.process(request, response, webContext);
             if (StringUtils.isEmpty(templateURI))
                 throw new Exception("Template uri is null");
             getThymeleafContext().templateProcess(webContext, templateURI, response.getWriter());

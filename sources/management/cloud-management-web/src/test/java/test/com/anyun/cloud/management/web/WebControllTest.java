@@ -12,8 +12,7 @@ import com.anyun.cloud.management.web.resource.DefaultResourceResolver;
 import com.anyun.cloud.management.web.resource.ResourceResolver;
 import com.anyun.cloud.management.web.server.DefaultWebServer;
 import com.anyun.cloud.management.web.server.WebServer;
-import com.anyun.cloud.management.web.template.DefaultThymeleafContext;
-import com.anyun.cloud.management.web.template.ThymeleafContext;
+import com.anyun.cloud.management.web.template.*;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.options.ApplicationOptions;
 import com.google.inject.AbstractModule;
@@ -41,6 +40,7 @@ public class WebControllTest extends BaseTest {
         @Override
         protected void configure() {
             bind(ApplicationOptions.class).toInstance(new WebServerOptions(args));
+
             bind(WebAppConfigBuilder.class).to(DefaultWebAppConfigBuilder.class);
             bind(HandlerListBuilder.class).to(DefaultHandlerListBuilder.class);
             bind(WebServer.class).to(DefaultWebServer.class);
@@ -56,6 +56,7 @@ public class WebControllTest extends BaseTest {
             bind(ControllerPackageNames.class).toInstance(packageNames);
             bind(ThymeleafControllerResolver.class).to(DefaultThymeleafControllerResolver.class);
             bind(ResourceResolver.class).to(DefaultResourceResolver.class);
+            bind(ThymesApplicationVariablesBuilder.class).to(DefaultThymesApplicationVariablesBuilder.class);
         }
     }
 }
