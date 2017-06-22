@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,13 +25,31 @@ public class DefaultApiService implements ApiService {
     }
 
     @Override
-    public List<String> getUnDeployedApis() throws Exception {
+    public List<String> getNotDeployedServiceIds() throws Exception {
+        List<String> notDeployServiceNames = new ArrayList<>();
         List<CloudResourceEntity> cloudResourceEntities = etcd.getDeployedApiResources();
-        List<String> deployedApiNames = zk.getDeployedApiNames();
-        LOGGER.debug("Must deploy api size: {},is deployed api size: {}",
-                cloudResourceEntities.size(), deployedApiNames.size());
-        return null;
+        List<String> deployedApiServiceNames = zk.getDeployedApiServiceNames();
+        LOGGER.debug("Must deploy service size: {},deployed service size: {}",
+                cloudResourceEntities.size(), deployedApiServiceNames.size());
+        for (CloudResourceEntity entity : cloudResourceEntities) {
+            String resourceId = entity.getResourceId();
+            boolean flag = false;
+            for (String deployedName : deployedApiServiceNames) {
+                if (deployedName.equals(resourceId)) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag == false) {
+                LOGGER.debug("Not deploy service: {}[{}]", entity.getEntity().getPath(), entity.getResourceId());
+                notDeployServiceNames.add(entity.getResourceId());
+            }
+        }
+        return notDeployServiceNames;
     }
 
+    @Override
+    public void deployServices() throws Exception {
 
+    }
 }

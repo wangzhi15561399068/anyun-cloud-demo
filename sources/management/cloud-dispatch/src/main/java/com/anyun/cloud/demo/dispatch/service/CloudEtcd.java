@@ -43,7 +43,7 @@ public class CloudEtcd implements Etcd {
 
             for (EtcdActionNode resNode : response.getActionNode().getActionNodes()) {
                 ApiResourceEntity resourceEntity = GsonUtil.getUtil().getGson()
-                        .fromJson(node.getValue(), ApiResourceEntity.class);
+                        .fromJson(resNode.getValue(), ApiResourceEntity.class);
                 int keyIndex = resNode.getKey().lastIndexOf("/") + 1;
                 String resourceId = resNode.getKey().substring(keyIndex, resNode.getKey().length());
                 LOGGER.debug("Deploy resource id: {}", resourceId);

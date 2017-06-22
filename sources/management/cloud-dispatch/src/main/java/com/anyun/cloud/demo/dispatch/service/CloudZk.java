@@ -11,7 +11,7 @@ import java.util.List;
  * @since 1.0.0 on 17/06/2017
  */
 public class CloudZk implements Zk {
-    private static final String ZK_PATH_API = "/anyuncloud/api";
+    private static final String ZK_PATH_API = "/anyuncloud/service";
     private ZookeeperClient zk;
 
     @Inject
@@ -20,7 +20,7 @@ public class CloudZk implements Zk {
     }
 
     @Override
-    public List<String> getDeployedApiNames() throws Exception {
+    public List<String> getDeployedApiServiceNames() throws Exception {
         List<String> deployedApiNodeNames = new ArrayList<>();
         List<String> apiNodeNames = zk.getChildren(ZK_PATH_API);
         for (String name : apiNodeNames) {

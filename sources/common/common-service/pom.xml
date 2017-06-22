@@ -18,6 +18,7 @@
     <properties>
         <version.anyun.common>1.0.0</version.anyun.common>
         <version.fcs>2.0.21</version.fcs>
+        <version.jgit>3.5.0.201409260305-r</version.jgit>
     </properties>
 
     <dependencies>
@@ -65,6 +66,11 @@
             <groupId>io.github.lukehutch</groupId>
             <artifactId>fast-classpath-scanner</artifactId>
             <version>${version.fcs}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>${version.jgit}</version>
         </dependency>
     </dependencies>
 

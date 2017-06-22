@@ -7,5 +7,5 @@ import java.util.List;
  * @since 1.0.0 on 17/06/2017
  */
 public interface Zk {
-    List<String> getDeployedApiNames() throws Exception;
+    List<String> getDeployedApiServiceNames() throws Exception;
 }

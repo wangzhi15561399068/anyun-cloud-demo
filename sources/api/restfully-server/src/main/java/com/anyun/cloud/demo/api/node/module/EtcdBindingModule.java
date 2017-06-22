@@ -19,7 +19,7 @@ public class EtcdBindingModule extends AbstractModule {
     @Override
     protected void configure() {
         ClientConfig etcdApiClientConfig = new ClientConfig();
-        etcdApiClientConfig.setHost("node1.etcd.dev.hohhot.ga.gov");
+        etcdApiClientConfig.setHost("etcd.dev.hohhot.ga.gov");
         bind(ClientConfig.class).toInstance(etcdApiClientConfig);
         LOGGER.info("Bind etcd api client config to: {}", etcdApiClientConfig.toString());
 

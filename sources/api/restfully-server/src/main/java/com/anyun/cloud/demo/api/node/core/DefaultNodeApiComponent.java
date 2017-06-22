@@ -30,14 +30,17 @@ public class DefaultNodeApiComponent implements NodeApiComponent {
 
     @Override
     public ApiResourceEntity findResource(String id, String method) throws Exception {
-        ApiResourceEntity apiResourceEntity = apiFinder.findApiResourceDeployInfo(id);
+        ApiResourceEntity apiResourceEntity = apiCache.findApiResourceId(id);
+        if (apiResourceEntity == null) {
+            apiResourceEntity = apiFinder.findApiResourceDeployInfo(id);
+            apiCache.putResource(id, apiResourceEntity);
+        }
         if (apiResourceEntity == null)
             return null;
         if (!method.toLowerCase().equals(apiResourceEntity.getMethod().toLowerCase())) {
             LOGGER.debug("Found resource [{}],but resource method is not match [{}]", id, method);
             return null;
         }
-
         return apiResourceEntity;
     }
 

@@ -5,6 +5,8 @@ import com.anyun.cloud.demo.dispatch.watcher.NodesWatcher;
 import com.anyun.common.lang.zookeeper.ZookeeperClient;
 import com.google.inject.Inject;
 
+import java.util.List;
+
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 17/06/2017
@@ -23,7 +25,8 @@ public class DefaultDispatcher implements Dispatcher {
     @Override
     public void start() throws Exception {
         zk.start();
-        apiService.getUnDeployedApis();
+        List<String> names = apiService.getNotDeployedServiceIds();
+
         bootZkWatchers();
     }
 
