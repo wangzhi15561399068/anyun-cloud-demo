@@ -8,4 +8,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ThymeleafControllerResolver {
     ThymeleafController resolve(HttpServletRequest request);
+
+    ClassLoader getThymeleafControllerClassloader();
 }

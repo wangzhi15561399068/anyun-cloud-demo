@@ -1,10 +1,10 @@
 package com.anyun.cloud.management.web.thymeleaf;
 
+import com.anyun.cloud.management.web.common.ResourceResolver;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
-import com.anyun.cloud.management.web.server.WebServerOptions;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafController;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
-import com.anyun.cloud.management.web.common.ResourceResolver;
+import com.anyun.cloud.management.web.server.WebServerOptions;
 import com.anyun.common.lang.options.ApplicationOptions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Writer;
@@ -25,18 +25,24 @@ import java.io.Writer;
 @Singleton
 public class DefaultThymeleafContext implements ThymeleafContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultThymeleafContext.class);
-    private FileTemplateResolver templateResolver;
+    private ClassLoaderTemplateResolver templateResolver;
     private ThymeleafControllerResolver controllerResolver;
     private TemplateEngine templateEngine;
     private ResourceResolver resourceResolver;
 
     @Inject
     public DefaultThymeleafContext(ApplicationOptions options,
+                                   ThymeleafControllerClassloaderBuilder thymeleafControllerClassloaderBuilder,
                                    ThymeleafControllerResolver controllerResolver,
                                    ResourceResolver resourceResolver) throws Exception {
         this.controllerResolver = controllerResolver;
         this.resourceResolver = resourceResolver;
-        templateResolver = new FileTemplateResolver();
+        initThymeleafContext(options);
+    }
+
+    private void initThymeleafContext(ApplicationOptions options) throws Exception {
+        ClassLoader thymeleafControllerClassloader = controllerResolver.getThymeleafControllerClassloader();
+        templateResolver = new ClassLoaderTemplateResolver(thymeleafControllerClassloader);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         if (!options.getCommandLine().hasOption(WebServerOptions.WEB_DEPLOY_DIR))
             throw new Exception("Option [" + WebServerOptions.WEB_DEPLOY_DIR + "] not set");

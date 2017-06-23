@@ -7,13 +7,10 @@ import com.anyun.cloud.management.web.common.thymeleaf.ThymesApplicationVariable
 import com.anyun.cloud.management.web.common.thymeleaf.ThymesTemplateFilter;
 import com.anyun.cloud.management.web.common.HandlerListBuilder;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackageNames;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafControllerResolver;
+import com.anyun.cloud.management.web.thymeleaf.*;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
 import com.anyun.cloud.management.web.server.*;
 import com.anyun.cloud.management.web.server.DefaultResourceFilter;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafContext;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymesApplicationVariablesBuilder;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymesTemplateFilter;
 import com.anyun.cloud.management.web.common.ResourceResolver;
 import com.anyun.cloud.management.web.common.WebServer;
 import com.anyun.common.lang.bean.InjectorsBuilder;
@@ -35,9 +32,10 @@ public class WebControllTest extends BaseTest {
     }
 
     public static class TestThymesModule extends AbstractModule {
+        String path = "/Users/twitchgg/Develop/Projects/hohot-cloud-demo/sources/management/management-web/cloud-management-web-class/target";
         private String[] args = new String[]{
                 "-http_port", "8080",
-                "-webapp_deploy", "/Users/twitchgg/Develop/temp/hohot-cloud-demo/web"
+                "-webapp_deploy", path
         };
 
         @Override
@@ -55,11 +53,12 @@ public class WebControllTest extends BaseTest {
             bind(Filter.class).annotatedWith(ResourceFilter.class).to(DefaultResourceFilter.class);
 
             ThymeleafControllerPackageNames packageNames = new ThymeleafControllerPackageNames()
-                    .witchPackage(WebControllTest.class);
+                    .withPackage("com.anyun.cloud.management.web.controller");
             bind(ThymeleafControllerPackageNames.class).toInstance(packageNames);
             bind(ThymeleafControllerResolver.class).to(DefaultThymeleafControllerResolver.class);
             bind(ResourceResolver.class).to(DefaultResourceResolver.class);
             bind(ThymesApplicationVariablesBuilder.class).to(DefaultThymesApplicationVariablesBuilder.class);
+            bind(ThymeleafControllerClassloaderBuilder.class).to(DefaultThymeleafControllerClassloaderBuilder.class);
         }
     }
 }

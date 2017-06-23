@@ -1,9 +1,9 @@
 package com.anyun.cloud.management.web.thymeleaf;
 
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackageNames;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymesController;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafController;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackageNames;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymesController;
 import com.google.inject.Inject;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.slf4j.Logger;
@@ -18,14 +18,19 @@ import java.util.*;
  */
 public class DefaultThymeleafControllerResolver implements ThymeleafControllerResolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultThymeleafControllerResolver.class);
+    private ThymeleafControllerClassloaderBuilder thymeleafControllerClassloaderBuilder;
     private List<String> controllerPackageNames;
     private Map<String, ThymeleafController> controllers;
     private ThymeleafControllerPackageNames packageNames;
     private FastClasspathScanner scanner;
+    private ThymeleafControllerClassloader thymeleafControllerClassloader;
 
     @Inject
-    public DefaultThymeleafControllerResolver(ThymeleafControllerPackageNames packageNames) {
+    public DefaultThymeleafControllerResolver(ThymeleafControllerClassloaderBuilder thymeleafControllerClassloaderBuilder,
+                                              ThymeleafControllerPackageNames packageNames) throws Exception {
         this.packageNames = packageNames;
+        this.thymeleafControllerClassloaderBuilder = thymeleafControllerClassloaderBuilder;
+        this.thymeleafControllerClassloader = thymeleafControllerClassloaderBuilder.build();
         controllerPackageNames = new ArrayList<>();
         controllers = new HashMap<>();
         scanner = new FastClasspathScanner();
@@ -33,7 +38,7 @@ public class DefaultThymeleafControllerResolver implements ThymeleafControllerRe
             //add default controllers package of 'ControllerPackageNames.class.getPackage().getName()'
             controllerPackageNames.add(ThymeleafControllerPackageNames.class.getPackage().getName());
         }
-        scanner.addClassLoader(this.getClass().getClassLoader());
+        scanner.addClassLoader(thymeleafControllerClassloader);
         scanner.matchClassesWithAnnotation(ThymesController.class,
                 aClass -> Arrays.stream(aClass.getInterfaces()).filter(c -> {
                     if (!matchPackage(aClass))
@@ -72,5 +77,10 @@ public class DefaultThymeleafControllerResolver implements ThymeleafControllerRe
             controllerPath = requestURI.substring(0, ".html".length());
         LOGGER.debug("Resolve controller by controller path: {}", controllerPath);
         return controllers.get(controllerPath);
+    }
+
+    @Override
+    public ClassLoader getThymeleafControllerClassloader() {
+        return thymeleafControllerClassloader;
     }
 }

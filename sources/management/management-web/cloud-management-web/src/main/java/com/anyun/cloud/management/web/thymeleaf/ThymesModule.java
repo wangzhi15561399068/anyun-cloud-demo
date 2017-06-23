@@ -1,19 +1,10 @@
 package com.anyun.cloud.management.web.thymeleaf;
 
 import com.anyun.cloud.management.web.common.ResourceFilter;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymesTemplateFilter;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackageNames;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafControllerResolver;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafController;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
-import com.anyun.cloud.management.web.server.DefaultResourceFilter;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymesTemplateFilter;
-import com.anyun.cloud.management.web.server.DefaultResourceResolver;
 import com.anyun.cloud.management.web.common.ResourceResolver;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafContext;
-import com.anyun.cloud.management.web.thymeleaf.DefaultThymesApplicationVariablesBuilder;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymesApplicationVariablesBuilder;
+import com.anyun.cloud.management.web.common.thymeleaf.*;
+import com.anyun.cloud.management.web.server.DefaultResourceFilter;
+import com.anyun.cloud.management.web.server.DefaultResourceResolver;
 import com.google.inject.AbstractModule;
 
 import javax.servlet.Filter;
@@ -44,5 +35,6 @@ public class ThymesModule extends AbstractModule {
         bind(ThymeleafControllerResolver.class).to(DefaultThymeleafControllerResolver.class);
         bind(ResourceResolver.class).to(DefaultResourceResolver.class);
         bind(ThymesApplicationVariablesBuilder.class).to(DefaultThymesApplicationVariablesBuilder.class);
+        bind(ThymeleafControllerClassloaderBuilder.class).to(DefaultThymeleafControllerClassloaderBuilder.class);
     }
 }
