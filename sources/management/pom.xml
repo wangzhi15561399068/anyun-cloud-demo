@@ -26,8 +26,8 @@
 
     <modules>
         <module>cloud-management-cli</module>
-        <module>cloud-management-web</module>
         <module>cloud-dispatch</module>
+        <module>management-web</module>
     </modules>
 
     <dependencyManagement>
@@ -40,11 +40,6 @@
             <dependency>
                 <groupId>com.anyun.cloud.demo</groupId>
                 <artifactId>anyun-cloud-demo-common-etcd</artifactId>
-                <version>${version.anyun.common}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.anyun.cloud.demo</groupId>
-                <artifactId>anyun-cloud-demo-message-client</artifactId>
                 <version>${version.anyun.common}</version>
             </dependency>
             <dependency>

@@ -27,10 +27,7 @@
             <groupId>com.anyun.cloud.demo</groupId>
             <artifactId>anyun-cloud-demo-common-etcd</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.anyun.cloud.demo</groupId>
-            <artifactId>anyun-cloud-demo-message-client</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>io.nats</groupId>
             <artifactId>jnats</artifactId>
