@@ -34,7 +34,7 @@ public class DefaultThymesTemplateFilter extends AbstractThymesTemplateFilter {
         try {
             String templateURI = controller.process(request, response, webContext);
             if (StringUtils.isEmpty(templateURI))
-                throw new Exception("Template uri is null");
+                return false;
             getThymeleafContext().templateProcess(webContext, templateURI, response.getWriter());
         } catch (Exception ex) {
             response.sendError(501, ex.getMessage());
