@@ -10,7 +10,7 @@ import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackag
 import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafControllerResolver;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
 import com.anyun.cloud.management.web.server.*;
-import com.anyun.cloud.management.web.thymeleaf.DefaultResourceFilter;
+import com.anyun.cloud.management.web.server.DefaultResourceFilter;
 import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafContext;
 import com.anyun.cloud.management.web.thymeleaf.DefaultThymesApplicationVariablesBuilder;
 import com.anyun.cloud.management.web.thymeleaf.DefaultThymesTemplateFilter;

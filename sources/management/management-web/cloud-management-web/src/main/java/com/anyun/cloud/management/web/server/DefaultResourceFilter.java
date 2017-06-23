@@ -1,4 +1,4 @@
-package com.anyun.cloud.management.web.thymeleaf;
+package com.anyun.cloud.management.web.server;
 
 import com.anyun.cloud.management.web.common.ResourceResolver;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;

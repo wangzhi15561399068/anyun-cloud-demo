@@ -1,4 +1,4 @@
-package com.anyun.cloud.management.web;
+package com.anyun.cloud.management.web.thymeleaf;
 
 import com.anyun.cloud.management.web.common.ResourceFilter;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymesTemplateFilter;
@@ -6,7 +6,7 @@ import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackag
 import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafControllerResolver;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafController;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
-import com.anyun.cloud.management.web.thymeleaf.DefaultResourceFilter;
+import com.anyun.cloud.management.web.server.DefaultResourceFilter;
 import com.anyun.cloud.management.web.thymeleaf.DefaultThymesTemplateFilter;
 import com.anyun.cloud.management.web.server.DefaultResourceResolver;
 import com.anyun.cloud.management.web.common.ResourceResolver;

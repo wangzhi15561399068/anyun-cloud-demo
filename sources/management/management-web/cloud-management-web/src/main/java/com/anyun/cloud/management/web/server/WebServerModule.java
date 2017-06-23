@@ -1,4 +1,4 @@
-package com.anyun.cloud.management.web;
+package com.anyun.cloud.management.web.server;
 
 import com.anyun.cloud.management.web.common.HandlerListBuilder;
 import com.anyun.cloud.management.web.common.WebAppConfigBuilder;
