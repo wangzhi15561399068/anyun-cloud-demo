@@ -1,7 +1,7 @@
 package test.com.anyun.cloud.management.web;
 
-import com.anyun.cloud.management.web.annotation.ThymesController;
-import com.anyun.cloud.management.web.controller.ThymeleafController;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymesController;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafController;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.http.HttpServletRequest;

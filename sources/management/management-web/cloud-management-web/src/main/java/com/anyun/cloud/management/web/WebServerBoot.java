@@ -1,8 +1,6 @@
 package com.anyun.cloud.management.web;
 
-import com.anyun.cloud.management.web.inject.ThymesModule;
-import com.anyun.cloud.management.web.inject.WebServerModule;
-import com.anyun.cloud.management.web.server.WebServer;
+import com.anyun.cloud.management.web.common.WebServer;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 
 /**

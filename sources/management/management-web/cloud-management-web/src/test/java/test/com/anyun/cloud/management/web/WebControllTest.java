@@ -1,18 +1,21 @@
 package test.com.anyun.cloud.management.web;
 
-import com.anyun.cloud.management.web.annotation.ResourceFilter;
-import com.anyun.cloud.management.web.annotation.ThymesTemplateFilter;
-import com.anyun.cloud.management.web.config.*;
-import com.anyun.cloud.management.web.controller.ControllerPackageNames;
-import com.anyun.cloud.management.web.controller.DefaultThymeleafControllerResolver;
-import com.anyun.cloud.management.web.controller.ThymeleafControllerResolver;
-import com.anyun.cloud.management.web.filter.DefaultResourceFilter;
-import com.anyun.cloud.management.web.filter.DefaultThymesTemplateFilter;
-import com.anyun.cloud.management.web.resource.DefaultResourceResolver;
-import com.anyun.cloud.management.web.resource.ResourceResolver;
-import com.anyun.cloud.management.web.server.DefaultWebServer;
-import com.anyun.cloud.management.web.server.WebServer;
-import com.anyun.cloud.management.web.template.*;
+import com.anyun.cloud.management.web.common.WebAppConfigBuilder;
+import com.anyun.cloud.management.web.common.ResourceFilter;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymesApplicationVariablesBuilder;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymesTemplateFilter;
+import com.anyun.cloud.management.web.common.HandlerListBuilder;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackageNames;
+import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafControllerResolver;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
+import com.anyun.cloud.management.web.server.*;
+import com.anyun.cloud.management.web.thymeleaf.DefaultResourceFilter;
+import com.anyun.cloud.management.web.thymeleaf.DefaultThymeleafContext;
+import com.anyun.cloud.management.web.thymeleaf.DefaultThymesApplicationVariablesBuilder;
+import com.anyun.cloud.management.web.thymeleaf.DefaultThymesTemplateFilter;
+import com.anyun.cloud.management.web.common.ResourceResolver;
+import com.anyun.cloud.management.web.common.WebServer;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.options.ApplicationOptions;
 import com.google.inject.AbstractModule;
@@ -51,9 +54,9 @@ public class WebControllTest extends BaseTest {
             bind(Filter.class).annotatedWith(ThymesTemplateFilter.class).to(DefaultThymesTemplateFilter.class);
             bind(Filter.class).annotatedWith(ResourceFilter.class).to(DefaultResourceFilter.class);
 
-            ControllerPackageNames packageNames = new ControllerPackageNames()
+            ThymeleafControllerPackageNames packageNames = new ThymeleafControllerPackageNames()
                     .witchPackage(WebControllTest.class);
-            bind(ControllerPackageNames.class).toInstance(packageNames);
+            bind(ThymeleafControllerPackageNames.class).toInstance(packageNames);
             bind(ThymeleafControllerResolver.class).to(DefaultThymeleafControllerResolver.class);
             bind(ResourceResolver.class).to(DefaultResourceResolver.class);
             bind(ThymesApplicationVariablesBuilder.class).to(DefaultThymesApplicationVariablesBuilder.class);

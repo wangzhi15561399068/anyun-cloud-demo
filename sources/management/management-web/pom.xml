@@ -26,6 +26,7 @@
     </properties>
 
     <modules>
+        <module>cloud-management-common</module>
         <module>cloud-management-web</module>
     </modules>
 
