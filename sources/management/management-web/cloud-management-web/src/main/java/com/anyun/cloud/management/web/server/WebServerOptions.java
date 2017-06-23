@@ -8,9 +8,9 @@ import com.anyun.common.lang.options.AbstractApplicationOptions;
  */
 public class WebServerOptions extends AbstractApplicationOptions {
     public static final String OPT_HTTP_PORT = "http_port";
-    public static final String WEB_CONTEXT_WAR = "webapp_jar";
     public static final String WEB_DEPLOY_DIR = "webapp_deploy";
     public static final String TEMPLATE_CACHE_TTL = "template_cache_ttl";
+    public static final String WEB_GIT_URL = "web_git_url";
 
     public WebServerOptions(String[] args) {
         super(args);
@@ -21,5 +21,6 @@ public class WebServerOptions extends AbstractApplicationOptions {
         getOptions().addOption(OPT_HTTP_PORT, true, "Http server port");
         getOptions().addOption(WEB_DEPLOY_DIR, true, "Web app deploy directory");
         getOptions().addOption(TEMPLATE_CACHE_TTL, true, "Template cache TTL");
+        getOptions().addOption(WEB_GIT_URL, true, "Web app git url");
     }
 }
