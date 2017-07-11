@@ -29,6 +29,7 @@ public class DefaultThymeleafContext implements ThymeleafContext {
     private ThymeleafControllerResolver controllerResolver;
     private TemplateEngine templateEngine;
     private ResourceResolver resourceResolver;
+    private ClassLoader thymeleafControllerClassloader;
 
     @Inject
     public DefaultThymeleafContext(ApplicationOptions options,
@@ -41,7 +42,7 @@ public class DefaultThymeleafContext implements ThymeleafContext {
     }
 
     private void initThymeleafContext(ApplicationOptions options) throws Exception {
-        ClassLoader thymeleafControllerClassloader = controllerResolver.getThymeleafControllerClassloader();
+        thymeleafControllerClassloader = controllerResolver.getThymeleafControllerClassloader();
         templateResolver = new ClassLoaderTemplateResolver(thymeleafControllerClassloader);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         if (!options.getCommandLine().hasOption(WebServerOptions.WEB_DEPLOY_DIR))
@@ -76,5 +77,10 @@ public class DefaultThymeleafContext implements ThymeleafContext {
             LOGGER.error("Template engine process error: {}", ex.getMessage(), ex);
             throw new Exception("Template engine process error");
         }
+    }
+
+    @Override
+    public ClassLoader getThymeleafControllerClassloader() {
+        return thymeleafControllerClassloader;
     }
 }
