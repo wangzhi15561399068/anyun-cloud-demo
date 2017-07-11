@@ -46,8 +46,7 @@ public class DefaultThymeleafContext implements ThymeleafContext {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         if (!options.getCommandLine().hasOption(WebServerOptions.WEB_DEPLOY_DIR))
             throw new Exception("Option [" + WebServerOptions.WEB_DEPLOY_DIR + "] not set");
-        templateResolver.setPrefix(options.getCommandLine().getOptionValue(
-                WebServerOptions.WEB_DEPLOY_DIR) + "/" + DIR_TEMPLATE);
+        templateResolver.setPrefix("/" + DIR_TEMPLATE);
         templateResolver.setSuffix(".html");
         if (options.getCommandLine().hasOption(WebServerOptions.TEMPLATE_CACHE_TTL)) {
             templateResolver.setCacheable(true);

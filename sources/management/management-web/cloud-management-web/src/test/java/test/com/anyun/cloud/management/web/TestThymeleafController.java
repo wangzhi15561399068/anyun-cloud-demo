@@ -12,10 +12,16 @@ import java.util.Date;
  * @auth TwitchGG <twitchgg@yahoo.com>
  * @since 1.0.0 on 22/06/2017
  */
+//注解路径为/test
 @ThymesController(mapping = "/test")
 public class TestThymeleafController implements ThymeleafController {
     private static final String TEMPLATE_TEST = "/test";
 
+    /**
+     * public final void setVariable(String name, Object value) {
+     this.variables.put(name, value);
+     }
+     */
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response, WebContext context) throws Exception {
         context.setVariable("entity", new TestEntity("张三", new Date()));
@@ -35,7 +41,7 @@ public class TestThymeleafController implements ThymeleafController {
             return name;
         }
 
-        public void setName(String name) {
+            public void setName(String name) {
             this.name = name;
         }
 

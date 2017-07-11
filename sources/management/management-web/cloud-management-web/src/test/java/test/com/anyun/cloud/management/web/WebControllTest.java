@@ -25,16 +25,17 @@ import javax.servlet.Filter;
  */
 public class WebControllTest extends BaseTest {
     public static void main(String[] args) throws Exception {
+        System.out.println("Classloader: " + WebControllTest.class.getClassLoader());
         InjectorsBuilder.getBuilder().build(
                 new TestThymesModule()
         );
         InjectorsBuilder.getBuilder().getInstanceByType(WebServer.class).start();
     }
-
+//C:\2017\6\anyun-cloud-demo\sources\management\management-web\cloud-management-web-class\target
     public static class TestThymesModule extends AbstractModule {
-        String path = "/Users/twitchgg/Develop/Projects/hohot-cloud-demo/sources/management/management-web/cloud-management-web-class/target";
+        String path = "C:\\2017\\6\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
         private String[] args = new String[]{
-                "-http_port", "8080",
+                "-http_port", "8081",
                 "-webapp_deploy", path
         };
 

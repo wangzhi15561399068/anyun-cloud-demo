@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @auth TwitchGG <twitchgg@yahoo.com>
- * @since 1.0.0 on 22/06/2017
+ * Created by wz on 2017/7/11.
  */
-public class DefaultResourceFilter implements Filter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceFilter.class);
+public class DefaultResourceFilter1 implements Filter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceFilter1.class);
     private ThymeleafContext thymeleafContext;
     private ResourceResolver resourceResolver;
-    private static final String RESOURCE_JS = ".js";
-    private static final String RESOURCE_CSS = ".css";
-
+    private static final String RESOURCE_PNG = ".png";
+    private static final String RESOURCE_GIF = ".gif";
+    private static final String RESOURCE_JPG = ".jpg";
+    private static final String RESOURCE_ICO = ".ico";
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         thymeleafContext = InjectorsBuilder.getBuilder().getInstanceByType(ThymeleafContext.class);
@@ -29,7 +29,7 @@ public class DefaultResourceFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (!isResource(request)) {
+        if (!isResourceImg(request)) {
             chain.doFilter(request, response);
             return;
         }
@@ -40,15 +40,12 @@ public class DefaultResourceFilter implements Filter {
     public void destroy() {
 
     }
-
-    private boolean isResource(ServletRequest request) {
+    private boolean isResourceImg(ServletRequest request) {
         String requestURI = ((HttpServletRequest) request).getRequestURI();
         String controllerResource = requestURI;
-        if (requestURI.endsWith(RESOURCE_JS) || requestURI.endsWith(RESOURCE_CSS))
-            controllerResource = requestURI.substring(0, requestURI.length() - RESOURCE_CSS.length() - RESOURCE_JS.length());
+        if (requestURI.endsWith(RESOURCE_JPG) || requestURI.endsWith(RESOURCE_PNG) || requestURI.endsWith(RESOURCE_GIF) || requestURI.endsWith(RESOURCE_ICO))
+            controllerResource = requestURI.substring(0, requestURI.length() - RESOURCE_JPG.length() - RESOURCE_PNG.length() - RESOURCE_GIF.length() - RESOURCE_ICO.length());
         LOGGER.debug("Resolve controller by controller resource: {}", controllerResource);
-            return true;
+        return true;
     }
-
-
 }
