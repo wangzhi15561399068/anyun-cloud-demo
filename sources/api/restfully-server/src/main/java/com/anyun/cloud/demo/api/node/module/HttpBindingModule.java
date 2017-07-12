@@ -35,7 +35,6 @@ public class HttpBindingModule extends AbstractModule {
 
         bind(ApiServer.class).to(JettyApiNodeServer.class);
         LOGGER.info("Bind http server implement to: {}", JettyApiNodeServer.class.getCanonicalName());
-
         bind(ResourceCache.class).toInstance(new ResourceCache());
     }
 }
