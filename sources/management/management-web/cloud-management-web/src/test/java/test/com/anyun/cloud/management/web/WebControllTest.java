@@ -37,6 +37,7 @@ public class WebControllTest extends BaseTest {
     public static class TestThymesModule extends AbstractModule {
         //"/Users/twitchgg/Develop/projects/thymeleaf-demo/" +"sources/management/management-web/cloud-management-web-class/target"
         //        String path = "C:\\2017\\6\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
+        //D:\myproject\170707\anyun-cloud-demo\sources\management\management-web\cloud-management-web-class\target"
         String path = "D:\\myproject\\170707\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
         private String[] args = new String[]{
                 "-http_port", "8081",
