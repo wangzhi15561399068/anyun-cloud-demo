@@ -3,12 +3,17 @@ package com.anyun.cloud.management.web.server;
 import com.anyun.cloud.management.web.common.ResourceResolver;
 import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
 import com.anyun.common.lang.bean.InjectorsBuilder;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -16,39 +21,33 @@ import java.io.IOException;
  */
 public class DefaultResourceFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceFilter.class);
-    private ThymeleafContext thymeleafContext;
-    private ResourceResolver resourceResolver;
-    private static final String RESOURCE_JS = ".js";
-    private static final String RESOURCE_CSS = ".css";
+    private ResourceHandler textResourceHandler;
+    private ResourceHandler imageResourceHandler;
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        thymeleafContext = InjectorsBuilder.getBuilder().getInstanceByType(ThymeleafContext.class);
-        this.resourceResolver = thymeleafContext.getResourceResolver();
+        this.textResourceHandler = InjectorsBuilder.getBuilder().getInjector()
+                .getInstance(Key.get(ResourceHandler.class, Names.named("text")));
+        this.imageResourceHandler = InjectorsBuilder.getBuilder().getInjector()
+                .getInstance(Key.get(ResourceHandler.class, Names.named("image")));
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (!isResource(request)) {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        if (textResourceHandler.isResource(request)) {
+            textResourceHandler.process(request, response);
+        } else if (imageResourceHandler.isResource(request))
+            imageResourceHandler.process(request, response);
+        else {
             chain.doFilter(request, response);
             return;
         }
-        String resource = resourceResolver.resolve((HttpServletRequest) request);
     }
 
     @Override
     public void destroy() {
 
     }
-
-    private boolean isResource(ServletRequest request) {
-        String requestURI = ((HttpServletRequest) request).getRequestURI();
-        String controllerResource = requestURI;
-        if (requestURI.endsWith(RESOURCE_JS) || requestURI.endsWith(RESOURCE_CSS))
-            controllerResource = requestURI.substring(0, requestURI.length() - RESOURCE_CSS.length() - RESOURCE_JS.length());
-        LOGGER.debug("Resolve controller by controller resource: {}", controllerResource);
-            return true;
-    }
-
-
 }

@@ -1,13 +1,21 @@
 package com.anyun.cloud.management.web.server;
 
 import com.anyun.cloud.management.web.common.ResourceResolver;
+import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
+import com.anyun.common.lang.Resources;
+import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.options.ApplicationOptions;
 import com.google.inject.Inject;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -15,23 +23,19 @@ import java.io.File;
  */
 public class DefaultResourceResolver implements ResourceResolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceResolver.class);
-    private static final String DIR_RESOURCE = "resources";
-    private ApplicationOptions options;
-    private String resourcePath;
 
-    @Inject
-    public DefaultResourceResolver(ApplicationOptions options) {
-        this.options = options;
-        this.resourcePath = ("/" + DIR_RESOURCE);
+    @Override
+    public InputStream resolve(HttpServletRequest request) throws IOException {
+        ClassLoader classLoader = InjectorsBuilder.getBuilder().getInstanceByType(ThymeleafContext.class).getThymeleafControllerClassloader();
+        String resourceURI = request.getRequestURI().substring(1);
+        LOGGER.debug("Resource classpath url [{}]", resourceURI);
+        return Resources.getResourceAsStream(classLoader, resourceURI);
     }
 
     @Override
-    public String resolve(HttpServletRequest request) {
-        String resourceURI = request.getRequestURI();
-        File resourceFile = new File(resourcePath + resourceURI);
-        LOGGER.debug("Resource URI: {} {}", resourceFile.exists(), resourceFile.getAbsolutePath());
-        if (!resourceFile.exists())
-            return null;
-        return resourcePath.valueOf(resourceFile);
+    public byte[] resolveResourceBytes(HttpServletRequest request) throws IOException {
+        InputStream inputStream = resolve(request);
+        byte[] bytes = IOUtils.toByteArray(inputStream);
+        return bytes;
     }
 }
