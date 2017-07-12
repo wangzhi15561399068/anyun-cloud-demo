@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by wz on 2017/7/7.
+ * Created by wz on 2017/7/12.
  */
-@ThymesController(mapping = "/administration")
-public class AdministrationController implements ThymeleafController {
-    private static final String TEMPLATE_ADMIN = "/administration";
-
+@ThymesController(mapping = "/applications")
+public class ApplicationsController implements ThymeleafController {
+    private static final String TEMPLATE_APPLICATIONS = "/applications";
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response, WebContext context) throws Exception {
-        return TEMPLATE_ADMIN;
+        return TEMPLATE_APPLICATIONS;
     }
 }

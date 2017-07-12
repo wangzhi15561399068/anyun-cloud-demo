@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" th:href="@{../resourceImg/assets/img/favicon.ico}">
+    <link rel="icon" type="image/ico" th:href="@{/images/favicon.ico}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>API Administration</title>
 
@@ -11,30 +11,30 @@
 
 
     <!-- Bootstrap core CSS     -->
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
 
     <!-- Animation library for notifications   -->
-    <link th:href="@{css/animate.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.min.css}" rel="stylesheet"/>
 
     <!--  Light Bootstrap Table core CSS    -->
-    <link th:href="@{css/light-bootstrap-dashboard.css}" rel="stylesheet"/>
+    <link th:href="@{/css/light-bootstrap-dashboard.css}" rel="stylesheet"/>
 
     <!--<link href="templates.resources.assets/css/bootstrap.css" rel="stylesheet">-->
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link rel="stylesheet" th:href="@{css/demo.css}" />
+    <link rel="stylesheet" th:href="@{/css/demo.css}" />
 
 
     <!--     Fonts and icons     -->
     <link th:href="@{http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{http://fonts.googleapis.com/css?family=Roboto:400,700,300}" rel='stylesheet' type='text/css'>
-    <link th:href="@{css/pe-icon-7-stroke.css}" rel="stylesheet" />
+    <link th:href="@{/css/pe-icon-7-stroke.css}" rel="stylesheet" />
     <!--二级菜单栏样式-->
-    <link th:href="@{css/second.css}" rel="stylesheet">
+    <link th:href="@{/css/second.css}" rel="stylesheet">
 
     <!--弹框-->
-    <script type="text/javascript" th:src="@{js/zDrag.js}"></script>
-    <script type="text/javascript" th:src="@{js/zDialog.js}"></script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/js/zDrag.js}"></script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/js/zDialog.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         function open1()
         {
@@ -61,7 +61,7 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="blue" data-image="templates.assets/img/sidebar-3.jpg">
+    <div class="sidebar" data-color="blue" data-image="/images/sidebar-3.jpg">
 
         <!--
 
@@ -525,26 +525,26 @@
 </body>
 
 <!--   Core JS Files   -->
-<script th:src="@{js/jquery-1.10.2.js}" th:inline="javascript"></script>
-<script th:src="@{js/bootstrap.min.js}" th:inline="javascript"></script>
+<script th:src="@{/js/jquery-1.10.2.js}" th:inline="javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" th:inline="javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
-<script th:src="@{js/bootstrap-checkbox-radio-switch.js}"></script>
+<script th:src="@{/js/bootstrap-checkbox-radio-switch.js}" th:inline="javascript"></script>
 
 <!--  Charts Plugin -->
-<script th:src="@{js/chartist.min.js}"></script>
+<script th:src="@{/js/chartist.min.js}" th:inline="javascript"></script>
 
 <!--  Notifications Plugin    -->
-<script th:src="@{js/bootstrap-notify.js}"></script>
+<script th:src="@{/js/bootstrap-notify.js}" th:inline="javascript"></script>
 
 <!--  Google Maps Plugin    -->
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-<script th:src="@{js/light-bootstrap-dashboard.js}"></script>
+<script th:src="@{/js/light-bootstrap-dashboard.js}" th:inline="javascript"></script>
 
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script th:src="@{js/demo.js}"></script>
+<script th:src="@{/js/demo.js}" th:inline="javascript"></script>
 
 <!--二级菜单-->
 <script th:inline="javascript">
