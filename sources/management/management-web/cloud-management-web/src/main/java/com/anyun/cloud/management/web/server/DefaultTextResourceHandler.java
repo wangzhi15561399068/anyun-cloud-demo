@@ -20,6 +20,10 @@ public class DefaultTextResourceHandler implements ResourceHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTextResourceHandler.class);
     private static final String RESOURCE_JS = ".js";
     private static final String RESOURCE_CSS = ".css";
+    private static final String RESOURCE_EOT = ".eot";
+    private static final String RESOURCE_TTF = ".ttf";
+    private static final String RESOURCE_WOFF = ".woff";
+    private static final String RESOURCE_SVG = ".svg";
     private ResourceResolver resourceResolver;
 
     public DefaultTextResourceHandler() {
@@ -41,7 +45,7 @@ public class DefaultTextResourceHandler implements ResourceHandler {
     public boolean isResource(ServletRequest request) {
         String requestURI = ((HttpServletRequest) request).getRequestURI();
         String resource = requestURI;
-        if (requestURI.toLowerCase().endsWith(RESOURCE_JS) || requestURI.toLowerCase().endsWith(RESOURCE_CSS)) {
+        if (requestURI.toLowerCase().endsWith(RESOURCE_JS) || requestURI.toLowerCase().endsWith(RESOURCE_CSS) || requestURI.toLowerCase().endsWith(RESOURCE_SVG) || requestURI.toLowerCase().endsWith(RESOURCE_EOT) || requestURI.toLowerCase().endsWith(RESOURCE_TTF) || requestURI.toLowerCase().endsWith(RESOURCE_WOFF)) {
             LOGGER.debug("Resolve resource: {}", resource);
             return true;
         }
@@ -54,6 +58,14 @@ public class DefaultTextResourceHandler implements ResourceHandler {
             return "text/javascript";
         if (requestURI.toLowerCase().endsWith(RESOURCE_CSS))
             return "text/css";
+        if (requestURI.toLowerCase().endsWith(RESOURCE_EOT))
+            return "text/eot";
+        if (requestURI.toLowerCase().endsWith(RESOURCE_SVG))
+            return "text/svg";
+        if (requestURI.toLowerCase().endsWith(RESOURCE_TTF))
+            return "text/ttf";
+        if (requestURI.toLowerCase().endsWith(RESOURCE_WOFF))
+            return "text/woff";
         return "text/html";
     }
 

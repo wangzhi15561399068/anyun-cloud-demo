@@ -18,3 +18,4 @@ public class ApplicationsController implements ThymeleafController {
         return TEMPLATE_APPLICATIONS;
     }
 }
+

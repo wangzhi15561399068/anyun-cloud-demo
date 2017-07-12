@@ -11,7 +11,7 @@ import java.io.IOException;
  * @since 1.0.0 on 2017/6/5
  */
 public class SenderTest {
-    private static final String CONNSTR = "nats://192.168.103.6:4222";
+    private static final String CONNSTR = "nats://172.20.2.1:4222";
     private static final String CHANNEL_TEST = "foo";
 
     public SenderTest() throws IOException {

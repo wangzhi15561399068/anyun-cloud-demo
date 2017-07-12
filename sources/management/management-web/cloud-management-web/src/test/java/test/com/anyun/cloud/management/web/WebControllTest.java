@@ -33,11 +33,8 @@ public class WebControllTest extends BaseTest {
         InjectorsBuilder.getBuilder().getInstanceByType(WebServer.class).start();
     }
 
-    //C:\2017\6\anyun-cloud-demo\sources\management\management-web\cloud-management-web-class\target
     public static class TestThymesModule extends AbstractModule {
-        //        String path = "C:\\2017\\6\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
-        String path = "/Users/twitchgg/Develop/projects/thymeleaf-demo/" +
-                "sources/management/management-web/cloud-management-web-class/target";
+        String path = "C:\\2017\\6\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
         private String[] args = new String[]{
                 "-http_port", "8081",
                 "-webapp_deploy", path

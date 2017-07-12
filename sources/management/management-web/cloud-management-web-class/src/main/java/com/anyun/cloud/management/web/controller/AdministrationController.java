@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 @ThymesController(mapping = "/administration")
 public class AdministrationController implements ThymeleafController {
     private static final String TEMPLATE_ADMIN = "/administration";
-
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response, WebContext context) throws Exception {
         return TEMPLATE_ADMIN;
