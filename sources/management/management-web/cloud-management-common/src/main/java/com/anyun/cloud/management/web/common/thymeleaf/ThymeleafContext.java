@@ -32,4 +32,10 @@ public interface ThymeleafContext {
      * @throws Exception
      */
     void templateProcess(WebContext context, String templateURI, Writer writer) throws Exception;
+
+    /**
+     *
+     * @return
+     */
+    ClassLoader getThymeleafControllerClassloader();
 }

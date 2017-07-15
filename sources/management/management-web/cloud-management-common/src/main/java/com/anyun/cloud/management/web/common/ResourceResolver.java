@@ -1,6 +1,8 @@
 package com.anyun.cloud.management.web.common;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -12,6 +14,15 @@ public interface ResourceResolver {
      *
      * @param request
      * @return
+     * @throws Exception
      */
-    String resolve(HttpServletRequest request);
+    InputStream resolve(HttpServletRequest request) throws IOException;
+
+    /**
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    byte[] resolveResourceBytes(HttpServletRequest request) throws IOException;
 }
