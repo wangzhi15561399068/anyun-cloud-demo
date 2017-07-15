@@ -74,7 +74,7 @@ public class DefaultThymeleafControllerResolver implements ThymeleafControllerRe
         String requestURI = request.getRequestURI();
         String controllerPath = requestURI;
         if (requestURI.endsWith(".html"))
-            controllerPath = requestURI.substring(0, ".html".length());
+            controllerPath = requestURI.substring(0, requestURI.length() - ".html".length());
         LOGGER.debug("Resolve controller by controller path: {}", controllerPath);
         return controllers.get(controllerPath);
     }
