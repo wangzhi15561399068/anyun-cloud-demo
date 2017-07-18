@@ -16,6 +16,7 @@
 package com.anyun.common.lang;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -47,7 +48,6 @@ public class FileUtil {
     }
 
     /**
-     *
      * @param fileName
      * @param content
      * @param append
@@ -371,6 +371,30 @@ public class FileUtil {
 
         }
         return paths;
+    }
+
+    public static List<URL> resolveJarsByDirectory(String path) throws Exception {
+        List<URL> allJarFileURLs = new ArrayList<>();
+        resolveJarsByDirectory(path, allJarFileURLs);
+        return allJarFileURLs;
+    }
+
+    private static void resolveJarsByDirectory(String path, List<URL> allJarFileURLs) throws Exception {
+        if (StringUtils.isEmpty(path))
+            return;
+        File file = new File(path);
+        if (!file.exists())
+            return;
+        if (file.isFile()) {
+            if (file.getName().endsWith(".jar")) {
+                allJarFileURLs.add(file.toURI().toURL());
+            }
+
+        } else if (file.isDirectory()) {
+            for (File aFile : file.listFiles()) {
+                resolveJarsByDirectory(aFile.getAbsolutePath(),allJarFileURLs);
+            }
+        }
     }
 
     public static enum FileType {

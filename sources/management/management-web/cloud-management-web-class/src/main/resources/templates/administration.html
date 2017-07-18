@@ -82,12 +82,12 @@
                     <div id="PARENT" class="row">
                         <ul id="nav" class="nav nav-pills nav-stacked">
                             <li><a href="#Menu=ChildMenu1"  onclick="DoMenu('ChildMenu1')"><i class="pe-7s-graph"></i><p>Dashboard</p></a>
-                                <ul id="ChildMenu1" class="collapsed">
-                                    <li class="active"><a th:href="@{administration.html}">API Administration</a></li>
-                                    <li><a href="#">Client Applications</a></li>
-                                    <li><a href="#">Custom Policies</a></li>
-                                    <li><a href="#">Alerts</a></li>
-                                    <li><a href="#">Analytics</a></li>
+                                <ul id="ChildMenu1">
+                                    <li class="active"><a th:href="@{administration.html}"><i class="pe-7s-way"></i>API Administration</a></li>
+                                    <li><a th:href="@{client.html}"><i class="pe-7s-way"></i>Client Applications</a></li>
+                                    <li><a th:href="@{policies.html}"><i class="pe-7s-way"></i>Custom Policies</a></li>
+                                    <li><a th:href="@{alerts.html}" ><i class="pe-7s-way"></i>Alerts</a></li>
+                                    <li><a th:href="@{analytics.html}" ><i class="pe-7s-way"></i>Analytics</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -118,10 +118,10 @@
                     </a>
                 </li>
                 <!--<li>-->
-                    <!--<a href="maps.html">-->
-                        <!--<i class="pe-7s-map-marker"></i>-->
-                        <!--<p>Maps</p>-->
-                    <!--</a>-->
+                <!--<a href="maps.html">-->
+                <!--<i class="pe-7s-map-marker"></i>-->
+                <!--<p>Maps</p>-->
+                <!--</a>-->
                 <!--</li>-->
                 <li>
                     <a href="notifications.html">
@@ -266,7 +266,7 @@
                                                 <div class="col-lg-7">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control"  placeholder="search">
-                                                            <span class="input-group-btn">
+                                                        <span class="input-group-btn">
 						                                        <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
 						                                        </button>
 					                                        </span>
@@ -301,7 +301,7 @@
                                                             </a>
                                                             <ul class="dropdown-menu">
                                                                 <li>
-                                                                    <a type="button" th:onclick="'open2()'">
+                                                                    <a type="button"  onclick="open2()">
                                                                         New Version
                                                                     </a>
                                                                 </li>
@@ -319,7 +319,7 @@
                                         <div class="col-md-1">
                                             <div class="form-group" >
                                                 <form class="bs-example bs-example-form" role="form">
-                                                    <li class="pe-7s-star"> </li><a href="#">v1.1.0</a>
+                                                    <li class="pe-7s-star"> </li><a th:href="@{settings.html}">v1.1.0</a>
                                                 </form>
                                             </div>
                                         </div>
@@ -343,7 +343,7 @@
                                         <div class="col-md-1">
                                             <div class="form-group" >
                                                 <form class="bs-example bs-example-form" role="form">
-                                                    <li class="pe-7s-star"> </li><a href="#">v1.1.1</a>
+                                                    <li class="pe-7s-star"> </li><a th:href="@{settings.html}">v1.1.1</a>
                                                 </form>
                                             </div>
                                         </div>
@@ -386,7 +386,7 @@
                                                             </a>
                                                             <ul class="dropdown-menu">
                                                                 <li>
-                                                                    <a type="button" th:onclick="'open2()'">
+                                                                    <a type="button"  onclick="open2()">
                                                                         New Version
                                                                     </a>
                                                                 </li>
@@ -404,7 +404,7 @@
                                         <div class="col-md-1">
                                             <div class="form-group" >
                                                 <form class="bs-example bs-example-form" role="form">
-                                                    <li class="pe-7s-star"></li><a href="#">v1.1.0</a>
+                                                    <li class="pe-7s-star"></li><a th:href="@{settings.html}">v1.1.0</a>
                                                 </form>
                                             </div>
                                         </div>
@@ -428,7 +428,7 @@
                                         <div class="col-md-1">
                                             <div class="form-group" >
                                                 <form class="bs-example bs-example-form" role="form">
-                                                    <li class="pe-7s-star"> </li><a href="#">v1.1.1</a>
+                                                    <li class="pe-7s-star"> </li><a th:href="@{settings.html}">v1.1.1</a>
                                                 </form>
                                             </div>
                                         </div>
@@ -460,7 +460,7 @@
                             <div class="content">
                                 <div class="author">
                                     <a href="#">
-                                        <img class="avatar border-gray" src="../resourceImg/assets/img/ver/v1.jpg" alt="..."/>
+                                        <img class="avatar border-gray" th:src="@{/images/ver/v1.jpg}" alt="..."/>
 
                                         <h4 class="title">Mike Andrew<br />
                                             <small>michael24</small>
@@ -514,7 +514,7 @@
                     </ul>
                 </nav>
                 <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a th:href="@{http://www.creative-tim.com}">Creative Tim</a>, made with love for a better web
+                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
                 </p>
             </div>
         </footer>

@@ -39,7 +39,8 @@
     <script type="text/javascript" th:inline="javascript" th:src="@{/js/zDialog.js}"></script>
 
     <!--列表的展开与收缩-->
-    <link th:href="@{/css/application.css}" rel="stylesheet"/>
+    <!--<link href="assets/css/application.css" rel="stylesheet"/>-->
+
     <script type="text/javascript" th:inline="javascript">
         var h = new Array(0,40,15,15,15);
         var tf = new Array(false,true,false,false,false);
@@ -103,7 +104,7 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a th:href="@{http://www.creative-tim.com}" class="simple-text">
+                <a href="http://www.creative-tim.com" class="simple-text">
                     Creative Tim
                 </a>
             </div>
@@ -116,33 +117,33 @@
                         <p>API Administration</p>
                     </a>
                 </li>
-                <li class="active">
-                    <a href="applications.html">
+                <li>
+                    <a th:href="@{applications.html}">
                         <i class="pe-7s-plugin"></i>
                         <p>Applications</p>
                     </a>
                 </li>
                 <li>
-                    <a href="permissions.html">
+                    <a th:href="@{permissions.html}">
                         <i class="pe-7s-medal"></i>
                         <p>Permissions</p>
                     </a>
                 </li>
                 <li>
-                    <a href="pol.html">
+                    <a th:href="@{pol.html}">
                         <i class="pe-7s-ribbon"></i>
                         <p>Policies</p>
                     </a>
                 </li>
                 <li>
-                    <a href="tiers.html">
+                    <a th:href="@{tiers.html}">
                         <i class="pe-7s-cup"></i>
                         <p>SLA Tiers</p>
                     </a>
                 </li>
 
-                <li>
-                    <a href="settings.html">
+                <li class="active">
+                    <a th:href="@{settings.html}">
                         <i class="pe-7s-settings"></i>
                         <p>Settings</p>
                     </a>
@@ -161,7 +162,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Applications</a>
+                    <a class="navbar-brand" href="#">Policies</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -288,21 +289,14 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3"></div>
-                                        <div class="col-md-9">In order to manage consumer applications for this API you first need to do two things:
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-1"></div>
-                                        <div class="col-md-2"><img th:src="@{/images/app1.jpg}"></div>
-                                        <div class="col-md-7" style="margin-left: 20px;margin-top: 25px">
-                                            <li><a href="">Set an API URL and deploy a proxy</a></li>
-                                            <li><a href="">Create & publish an API portal for this API version</a></li>
+                                        <div class="col-md-2"><img th:src="@{/images/pol.jpg}"></div>
+                                        <div class="col-md-7">
+                                            <a href="">Policies</a> allow you to manage security, quality of service, and compliance for your API version.
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3"></div>
-                                        <div class="col-md-9">Then application developers can request access to this API from the portal. Requests can be approved from this tab.
+                                        <div class="col-md-9" style="margin-top: 8px">
+                                            To enable policies, you need to <a href="">set the API URL.</a> Once your URL is set, this tab can be used to apply and remove policies.
+                                            Note that your endpoint must be registered with an<a href="">API Gateway</a> for policies to be enforced.
                                         </div>
                                     </div>
                                 </div>
@@ -314,73 +308,67 @@
         </div>
 
 
-
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                Home
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Company
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Portfolio
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-                </p>
-            </div>
-        </footer>
-    </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <nav class="pull-left">
+                <ul>
+                    <li>
+                        <a href="#">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Company
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Portfolio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <p class="copyright pull-right">
+                &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+            </p>
+        </div>
+    </footer>
+</div>
 </div>
 
 
 </body>
 
-
-
-
 <!--   Core JS Files   -->
-<script th:src="@{/js/jquery-1.10.2.js}" th:inline="javascript"></script>
-<script th:src="@{/js/bootstrap.min.js}" th:inline="javascript"></script>
+<script th:src="@{/js/jquery-1.10.2.js}" type="text/javascript" th:inline="javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript" th:inline="javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
-<script th:src="@{/js/bootstrap-checkbox-radio-switch.js}" th:inline="javascript"></script>
+<script th:src="@{/js/bootstrap-checkbox-radio-switch.js}"></script>
 
 <!--  Charts Plugin -->
-<script th:src="@{/js/chartist.min.js}" th:inline="javascript"></script>
+<script th:src="@{/js/chartist.min.js}"></script>
 
 <!--  Notifications Plugin    -->
-<script th:src="@{/js/bootstrap-notify.js}" th:inline="javascript"></script>
+<script th:src="@{/js/bootstrap-notify.js}"></script>
 
 <!--  Google Maps Plugin    -->
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-<script th:src="@{/js/light-bootstrap-dashboard.js}" th:inline="javascript"></script>
+<script th:src="@{/js/light-bootstrap-dashboard.js}"></script>
 
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script th:src="@{/js/demo.js}" th:inline="javascript"></script>
+<script th:src="@{/js/demo.js}"></script>
 
 
 <script type="text/javascript" th:inline="javascript">
-
     <!--
     var LastLeftID = "";
     function menuFix() {

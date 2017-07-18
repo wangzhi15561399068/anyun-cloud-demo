@@ -96,6 +96,11 @@
                 <version>${version.anyun}</version>
             </dependency>
             <dependency>
+                <groupId>com.anyun.cloud.demo</groupId>
+                <artifactId>anyun-common-service</artifactId>
+                <version>${version.anyun}</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${version.commons-lang2}</version>

@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" th:href="@{/images/favicon.ico}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>API Administration</title>
-
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -38,57 +37,8 @@
     <script type="text/javascript" th:inline="javascript" th:src="@{/js/zDrag.js}"></script>
     <script type="text/javascript" th:inline="javascript" th:src="@{/js/zDialog.js}"></script>
 
-    <!--列表的展开与收缩-->
-    <link th:href="@{/css/application.css}" rel="stylesheet"/>
-    <script type="text/javascript" th:inline="javascript">
-        var h = new Array(0,40,15,15,15);
-        var tf = new Array(false,true,false,false,false);
-        var minheight = 0;
-        var maxheight = 40;
-        function fn(likey,tag){
-            if (tf[tag]){
-                if (h[tag]>=minheight){
-                    document.getElementById("main"+tag).style.height = h[tag] + "px";
-                    setTimeout(function(){fn(likey,tag)},1);
-                    h[tag] -= 10;
-                } else {
-                    likey.innerHTML = '<img src="/images/bottom.PNG">';
-                    tf[tag] = !tf[tag];
-                    h[tag] += 10;
-                }
-            } else {
-                if (h[tag]<=maxheight){
-                    document.getElementById("main"+tag).style.height = h[tag] + "px";
-                    setTimeout(function(){fn(likey,tag)},1);
-                    h[tag] += 10;
-                } else {
-                    likey.innerHTML = '<img src="/images/up.PNG">';
-                    tf[tag] = !tf[tag];
-                    h[tag] -= 10;
-                }
-            }
-        }
-
-        window.onload=function(){
-            var oSr=document.getElementById('sr');
-            var oBtn=document.getElementById('btn');
-            var kg=true;
-            oBtn.onclick=function(){
-                if(kg){
-                    oSr.disabled=false;
-                }else{
-                    oSr.disabled=true;
-                }
-                kg=!kg;
-            }
-        }
-
-    </script>
-
 
 </head>
-
-
 <body>
 
 <div class="wrapper">
@@ -103,48 +53,68 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a th:href="@{http://www.creative-tim.com}" class="simple-text">
+                <a href="http://www.creative-tim.com" class="simple-text">
                     Creative Tim
                 </a>
             </div>
 
             <ul class="nav">
+                <div class="container">
+                    <div id="PARENT" class="row">
+                        <ul id="nav" class="nav nav-pills nav-stacked">
+                            <li><a href="#Menu=ChildMenu1"  onclick="DoMenu('ChildMenu1')"><i class="pe-7s-graph"></i><p>Dashboard</p></a>
+                                <ul id="ChildMenu1">
+                                    <li><a href="administration.html"><i class="pe-7s-way"></i>API Administration</a></li>
+                                    <li class="active"><a href="client.html"><i class="pe-7s-way"></i>Client Applications</a></li>
+                                    <li><a href="policies.html"><i class="pe-7s-way"></i>Custom Policies</a></li>
+                                    <li><a href="alerts.html"><i class="pe-7s-way"></i>Alerts</a></li>
+                                    <li><a href="analytics.html"><i class="pe-7s-way"></i>Analytics</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
                 <li>
-                    <a href="administration.html">
-                        <i class="pe-7s-back-2"></i>
-                        <p>API Administration</p>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="applications.html">
-                        <i class="pe-7s-plugin"></i>
-                        <p>Applications</p>
+                    <a href="user.html">
+                        <i class="pe-7s-user"></i>
+                        <p>User Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="permissions.html">
-                        <i class="pe-7s-medal"></i>
-                        <p>Permissions</p>
+                    <a href="table.html">
+                        <i class="pe-7s-note2"></i>
+                        <p>Table List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="pol.html">
-                        <i class="pe-7s-ribbon"></i>
-                        <p>Policies</p>
+                    <a href="typography.html">
+                        <i class="pe-7s-news-paper"></i>
+                        <p>Typography</p>
                     </a>
                 </li>
                 <li>
-                    <a href="tiers.html">
-                        <i class="pe-7s-cup"></i>
-                        <p>SLA Tiers</p>
+                    <a href="icons.html">
+                        <i class="pe-7s-science"></i>
+                        <p>Icons</p>
                     </a>
                 </li>
-
+                <!--<li>-->
+                <!--<a href="maps.html">-->
+                <!--<i class="pe-7s-map-marker"></i>-->
+                <!--<p>Maps</p>-->
+                <!--</a>-->
+                <!--</li>-->
                 <li>
-                    <a href="settings.html">
-                        <i class="pe-7s-settings"></i>
-                        <p>Settings</p>
+                    <a href="notifications.html">
+                        <i class="pe-7s-bell"></i>
+                        <p>Notifications</p>
+                    </a>
+                </li>
+                <li class="active-pro">
+                    <a href="upgrade.html">
+                        <i class="pe-7s-rocket"></i>
+                        <p>Upgrade to PRO</p>
                     </a>
                 </li>
             </ul>
@@ -161,7 +131,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Applications</a>
+                    <a class="navbar-brand" href="#">Client Applications</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -232,88 +202,68 @@
             </div>
         </nav>
 
+
+
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <div class="card" style="height: 600px">
-                            <div class="header">
-                                <h4>
-                                    <strong>
-                                        <input type="text" style="width: 100px;background-color:#FFFFFF" value="Test API"  disabled/>
-                                    </strong><i class="pe-7s-pen" style="margin-left: 15px"></i>
-                                </h4>
-                                <div class="input-group" style="float: right">
-                                    <input class="btn btn-info btn-fill pull-left" type="button" value="Export" onclick="" style="margin-right: 7px"/>
-                                    <!--</div>-->
-                                    <!--<div class="col-md-1">-->
-                                    <ul class="nav navbar-nav">
-                                        <li class="dropdown">
-                                            <p class="dropdown-toggle" data-toggle="dropdown" >
-                                                <button class="btn btn-info btn-fill pull-left">More<b class="pe-7s-angle-down"></b></button>
-                                            </p>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#"><p>Deprecate</p> </a></li>
-                                                <li><a href="#"><p>Delete</p> </a></li>
-                                                <li><a href="#"><p>Term&Conditions</p> </a></li>
-                                            </ul>
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="content">
+                                <form>
+                                    <div class="row">
+                                        <div class="form-group" >
+                                            <form class="bs-example bs-example-form" role="form">
+                                                <div class="col-md-12">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control"  placeholder="search">
+                                                        <span class="input-group-btn">
+                                                                <!--搜索图标-->
+						                                        <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
+						                                        </button>
+					                                        </span>
+                                                    </div><!-- /input-group -->
+                                                </div><!-- /.col-lg-7 -->
+                                            </form>
+                                        </div>
 
-                                        </li>
-                                    </ul>
-                                </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-user">
+                            <div class="image">
+                                <!--<img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>-->
                             </div>
                             <div class="content">
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-2">
-                                        <ul class="nav navbar-nav">
-                                            <li class="dropdown">
-                                                <p class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px">
-                                                    <input type="text" style="width: 70px;background-color:#FFFFFF" value="v 1.1.0"  disabled/>
-                                                    <b class="caret"></b>
-                                                </p>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#"><p>v 1.1.1</p> </a></li>
-                                                </ul>
+                                <div class="author">
+                                    <a href="#">
+                                        <img class="avatar border-gray" th:src="@{/images/ver/v1.jpg}" alt="..."/>
 
-                                            </li>
-                                        </ul>
-                                        <i class="pe-7s-pen" style="margin-left: 15px;font-size: 20px"></i>
-                                    </div>
-
-                                    <div class="row" style="margin-top: 40px;margin-bottom: 30px">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-3">API Status: <p class="pe-7s-less"></p>Unregistered</div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-3"></div>
-                                        <div class="col-md-9">In order to manage consumer applications for this API you first need to do two things:
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-2"><img th:src="@{/images/app1.jpg}"></div>
-                                        <div class="col-md-7" style="margin-left: 20px;margin-top: 25px">
-                                            <li><a href="">Set an API URL and deploy a proxy</a></li>
-                                            <li><a href="">Create & publish an API portal for this API version</a></li>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3"></div>
-                                        <div class="col-md-9">Then application developers can request access to this API from the portal. Requests can be approved from this tab.
-                                        </div>
-                                    </div>
+                                        <h4 class="title">Mike Andrew<br />
+                                            <small>michael24</small>
+                                        </h4>
+                                    </a>
                                 </div>
+                                <p class="description text-center"> "Lamborghini Mercy <br>
+                                    Your chick she so thirsty <br>
+                                    I'm in that two seat Lambo"
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
+                                <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
+                                <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
 
 
         <footer class="footer">
@@ -361,26 +311,25 @@
 <script th:src="@{/js/bootstrap.min.js}" th:inline="javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
-<script th:src="@{/js/bootstrap-checkbox-radio-switch.js}" th:inline="javascript"></script>
+<script th:src="@{/js/bootstrap-checkbox-radio-switch.js}"></script>
 
 <!--  Charts Plugin -->
-<script th:src="@{/js/chartist.min.js}" th:inline="javascript"></script>
+<script th:src="@{/js/chartist.min.js}"></script>
 
 <!--  Notifications Plugin    -->
-<script th:src="@{/js/bootstrap-notify.js}" th:inline="javascript"></script>
+<script th:src="@{/js/bootstrap-notify.js}"></script>
 
 <!--  Google Maps Plugin    -->
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-<script th:src="@{/js/light-bootstrap-dashboard.js}" th:inline="javascript"></script>
+<script th:src="@{/js/light-bootstrap-dashboard.js}"></script>
 
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script th:src="@{/js/demo.js}" th:inline="javascript"></script>
+<script th:src="@{/js/demo.js}"></script>
 
 
 <script type="text/javascript" th:inline="javascript">
-
     <!--
     var LastLeftID = "";
     function menuFix() {
@@ -464,6 +413,9 @@
     GetMenuID(); //*这两个function的顺序要注意一下，不然在Firefox里GetMenuID()不起效果
     menuFix();
     -->
+
+
+
 
 </script>
 

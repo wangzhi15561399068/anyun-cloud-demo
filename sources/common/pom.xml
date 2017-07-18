@@ -22,6 +22,7 @@
     <properties>
         <version.okhttp>3.8.0</version.okhttp>
         <version.gson>2.8.0</version.gson>
+        <version.jcl>2.9-SNAPSHOT</version.jcl>
     </properties>
 
     <modules>
@@ -34,6 +35,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.xeustechnologies</groupId>
+                <artifactId>jcl-core</artifactId>
+                <version>${version.jcl}</version>
+            </dependency>
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>

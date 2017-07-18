@@ -19,6 +19,7 @@
         <version.anyun.common>1.0.0</version.anyun.common>
         <version.fcs>2.0.21</version.fcs>
         <version.jgit>3.5.0.201409260305-r</version.jgit>
+        <version.mdnsjava>2.2.0</version.mdnsjava>
     </properties>
 
     <dependencies>

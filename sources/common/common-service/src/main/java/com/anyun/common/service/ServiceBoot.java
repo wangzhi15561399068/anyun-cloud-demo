@@ -64,11 +64,13 @@ public class ServiceBoot {
 
     private String getJarPath(CommServiceOptions options) {
 //        String jarPath = System.getenv("SERVICE_DEPLOY_DIR");
-        String jarPath = System.getProperty("SERVICE_DEPLOY_DIR");
+        String jarPath = System.getenv("SERVICE_DEPLOY_DIR");
         if (StringUtils.isNotEmpty(jarPath))
             return jarPath;
         if (options.getCommandLine().hasOption("service_dir"))
             jarPath = options.getCommandLine().getOptionValue("service_dir");
+        if (StringUtils.isEmpty(jarPath))
+            jarPath = "/opt/services";
         return jarPath;
     }
 }

@@ -1,12 +1,13 @@
 package com.anyun.common.service.classloader;
 
+import com.anyun.common.lang.FileUtil;
 import com.anyun.common.lang.StringUtils;
 import com.anyun.common.service.common.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -41,14 +42,10 @@ public class CloudServiceClassLoaderBuilder {
                 jarPath = Resources.getRunDirectoyPath(aClass).getPath() + "/" + SERVICE_PATH;
         }
         LOGGER.debug("Service deploy directory: {}", jarPath);
-        File[] files = new File(jarPath).listFiles((dir, name) -> {
-            if (name.endsWith(".jar"))
-                return true;
-            return false;
-        });
-        URL[] urls = new URL[files.length];
-        for (int i = 0; i < files.length; i++) {
-            urls[i] = new File(files[i].getAbsolutePath()).toURI().toURL();
+        List<URL> jarFileUrls = FileUtil.resolveJarsByDirectory(jarPath);
+        URL[] urls = new URL[jarFileUrls.size()];
+        for (int i = 0; i < urls.length; i++) {
+            urls[i] = jarFileUrls.get(i);
         }
         LOGGER.debug("Jar Files URL: {}", urls.length);
         CloudServiceClassLoader classLoader = new CloudServiceClassLoader(urls);

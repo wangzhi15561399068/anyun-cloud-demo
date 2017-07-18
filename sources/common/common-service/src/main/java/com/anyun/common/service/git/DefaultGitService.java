@@ -96,7 +96,7 @@ public class DefaultGitService implements GitService {
 
     private String getRemoteUrl() throws Exception {
 //        String remote = System.getenv(ENV_GIT_REMOTE);
-        String remote = System.getProperty(ENV_GIT_REMOTE);
+        String remote = System.getenv(ENV_GIT_REMOTE);
         if (StringUtils.isEmpty(remote))
             throw new Exception("Git remote is null");
         return remote;
