@@ -2,7 +2,7 @@ div .main {
     overflow:hidden;
 }
 #main1 {
-    height:40px;
+    height:50px;
     margin-top:5px;
     color:#9d9d9d;
     font-size: 13px;
@@ -32,4 +32,29 @@ div .main {
 #v3{
     background-color:#f8f7f7;
     box-shadow:3px 3px 5px gray;
+}
+ul,li,p,h1,h2,h3,h4,h5,h6,dl,dd{
+    margin:0;
+    padding:0;
+}
+.form-group .txt{
+    width:360px;
+    height:32px;
+    background:#F5F6F7;
+    border-left:2px solid #999;
+    border-right:2px solid #999;
+}
+.form-group .txta{
+    width: 650px;
+    height: 60px;
+    background:#F5F6F7;
+    border-left:2px solid #999;
+    border-right:2px solid #999;
+}
+.none{
+    display: none !important;
+}
+
+.block{
+    display: block;
 }

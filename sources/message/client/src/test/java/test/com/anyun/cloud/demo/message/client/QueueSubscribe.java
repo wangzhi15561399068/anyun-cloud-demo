@@ -10,7 +10,7 @@ import java.util.UUID;
  * @since 1.0.0 on 12/06/2017
  */
 public class QueueSubscribe {
-    private static final String CONNSTR = "nats://192.168.103.6:4222";
+    private static final String CONNSTR = "nats://172.20.2.1:4222";
     private static final String CHANNEL_TEST = "foo";
 
     public static void main(String[] args) throws Exception{

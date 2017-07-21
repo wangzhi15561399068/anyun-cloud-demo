@@ -1,0 +1,54 @@
+
+
+.t{
+    float: left;
+    line-height: 42px;
+}
+.txt{
+    width:450px;
+    height:32px;
+    background:#F5F6F7;
+    border-left:2px solid #999;
+    border-right:2px solid #999;
+}
+/*#pu:-ms-input-placeholder{*/
+    /*color: red;!important;*/
+/*}*/
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #c5c5c5;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #c5c5c5;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #c5c5c5;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #c5c5c5;
+}
+
+.radio{display: inline-block;*display: inline;*zoom:1;height: 24px; line-height: 24px; margin-right: 20px;}
+.radio ins{display: inline-block;*display: inline;*zoom:1; width: 23px; height: 22px;
+    vertical-align: middle; background: url(http://www.bootcss.com/p/icheck/skins/square/blue.png) no-repeat; margin-right: 8px;
+    -webkit-transition:all 0.1s linear; -moz-transition:all 0.1s linear; -o-transition:all 0.1s linear; -ms-transition:all 0.1s linear;
+    transition:all 0.1s linear;vertical-align: middle;}
+
+.radio ins{background-position: -120px 0px; }
+
+.radio .hover{background-position: -144px 0px;}
+.radio .checked{background-position: -168px 0px;}
+.radio .enable{background-position: -214px 0px;}
+.radio .disabled{background-position: -191px 0px;}
+.radio span{display: inline-block;*display: inline;*zoom:1;vertical-align: middle; }
+
+
+.btn-color{
+    border-color:#999;
+    color: black;
+    navbutton_background_color: #eae4e4;
+}
+.btn-color:hover{
+    background-color: #eae4e4; ;
+    color: #FFFFFF;
+}

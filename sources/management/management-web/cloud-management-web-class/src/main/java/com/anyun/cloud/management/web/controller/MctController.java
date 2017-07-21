@@ -8,17 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @auth TwitchGG <twitchgg@yahoo.com>
- * @since 1.0.0 on 22/06/2017
+ * Created by BenBen嚓 on 2017/7/17.
  */
-@ThymesController(mapping = "/index")
-public class IndexController implements ThymeleafController {
+@ThymesController(mapping = "/mct")
+public class MctController implements ThymeleafController {
+    private static final String TEMPLATE_MCT = "/mct";
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response, WebContext context) throws Exception {
-        System.out.println("Classloader for controller: " + this.getClass().getClassLoader());
-        //TODO Index page dynamic data filling
-//        request.getRequestDispatcher("/dashboard.html").forward(request, response);
-        response.sendRedirect("/dashboard.html");
-        return null;
+        return TEMPLATE_MCT;
     }
 }

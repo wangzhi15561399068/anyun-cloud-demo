@@ -32,6 +32,16 @@ public class DefaultHandlerListBuilder implements HandlerListBuilder {
         handlerList = new HandlerList();
     }
 
+    /**
+     * public void addFilter(FilterHolder holder, String pathSpec, EnumSet<DispatcherType> dispatches) {
+     this.getServletHandler().addFilterWithMapping(holder, pathSpec, dispatches);
+     }
+     public void addHandler(Handler handler) {
+     this.setHandlers((Handler[])ArrayUtil.addToArray(this.getHandlers(), handler, Handler.class));
+     }
+     * @return
+     * @throws Exception
+     */
     @Override
     public HandlerList build() throws Exception {
         ServletContextHandler context = new ServletContextHandler();
