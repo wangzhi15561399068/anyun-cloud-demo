@@ -61,7 +61,7 @@ public abstract class AbstractJettyApiServer implements ApiServer<Server> {
         http.setPort(config.getPort());
         LOGGER.info("Bind api server port to [{}]", config.getPort());
         http.setIdleTimeout(config.getIdleTimeout());
-        server.addConnector(http);
+            server.addConnector(http);
         for (ServletMapping servlet : apiProcessServlets) {
             String servletMappingPath = servlet.getApiServletMappingPath() + "/*";
             apiHandler.addServletWithMapping(servlet.getApiProcessServlet(), servletMappingPath);

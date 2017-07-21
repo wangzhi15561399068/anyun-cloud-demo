@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 public class IndexController implements ThymeleafController {
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response, WebContext context) throws Exception {
+        System.out.println("Classloader for controller: " + this.getClass().getClassLoader());
         //TODO Index page dynamic data filling
-        request.getRequestDispatcher("/dashboard.html").forward(request, response);
+//        request.getRequestDispatcher("/dashboard.html").forward(request, response);
+        response.sendRedirect("/dashboard.html");
         return null;
     }
 }
