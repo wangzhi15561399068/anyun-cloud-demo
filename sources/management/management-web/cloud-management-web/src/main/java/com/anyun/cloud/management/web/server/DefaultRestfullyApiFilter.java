@@ -15,12 +15,15 @@ import java.io.IOException;
  */
 public class DefaultRestfullyApiFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRestfullyApiFilter.class);
+    private static final String KEY_API_VERSION = "version.api.rest";
+    private static final String API_VERSION = "v1_0_0";
     private ResourceHandler apiResourceHandler;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.apiResourceHandler = InjectorsBuilder.getBuilder().getInjector()
                 .getInstance(Key.get(ResourceHandler.class, Names.named("api")));
+        filterConfig.getServletContext().setAttribute(KEY_API_VERSION, API_VERSION);
     }
 
     @Override

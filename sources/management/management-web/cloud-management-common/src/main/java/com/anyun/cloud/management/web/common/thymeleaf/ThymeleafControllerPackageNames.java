@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class ThymeleafControllerPackageNames {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThymeleafControllerPackageNames.class);
-    private List<String> packages = new ArrayList<>();
+    private List<String> controllerPackages = new ArrayList<>();
 
-    public ThymeleafControllerPackageNames(List<String> packages) {
-        this.packages = packages;
+    public ThymeleafControllerPackageNames(List<String> controllerPackages) {
+        this.controllerPackages = controllerPackages;
     }
 
 
@@ -23,7 +23,7 @@ public class ThymeleafControllerPackageNames {
     }
 
     public ThymeleafControllerPackageNames withPackage(String packageName) {
-        packages.add(packageName);
+        controllerPackages.add(packageName);
         LOGGER.debug("Add controller resolve parent package: {}", packageName);
         return this;
     }
@@ -32,11 +32,11 @@ public class ThymeleafControllerPackageNames {
         return withPackage(aClass.getPackage().getName());
     }
 
-    public List<String> getPackages() {
-        return packages;
+    public List<String> getControllerPackages() {
+        return controllerPackages;
     }
 
-    public void setPackages(List<String> packages) {
-        this.packages = packages;
+    public void setControllerPackages(List<String> controllerPackages) {
+        this.controllerPackages = controllerPackages;
     }
 }

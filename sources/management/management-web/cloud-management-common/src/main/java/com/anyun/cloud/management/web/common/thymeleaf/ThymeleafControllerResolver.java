@@ -7,7 +7,17 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0.0 on 22/06/2017
  */
 public interface ThymeleafControllerResolver {
+
+    /**
+     * resolve thymeleaf template controller
+     * @param request
+     * @return
+     */
     ThymeleafController resolve(HttpServletRequest request);
 
+    /**
+     * get thymeleaf template controller classloader
+     * @return
+     */
     ClassLoader getThymeleafControllerClassloader();
 }

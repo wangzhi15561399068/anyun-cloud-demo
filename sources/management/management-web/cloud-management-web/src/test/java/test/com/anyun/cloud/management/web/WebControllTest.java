@@ -1,18 +1,9 @@
 package test.com.anyun.cloud.management.web;
 
-import com.anyun.cloud.management.web.common.WebAppConfigBuilder;
-import com.anyun.cloud.management.web.common.ResourceFilter;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymesApplicationVariablesBuilder;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymesTemplateFilter;
-import com.anyun.cloud.management.web.common.HandlerListBuilder;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerPackageNames;
-import com.anyun.cloud.management.web.thymeleaf.*;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafControllerResolver;
+import com.anyun.cloud.management.web.common.*;
+import com.anyun.cloud.management.web.common.thymeleaf.*;
 import com.anyun.cloud.management.web.server.*;
-import com.anyun.cloud.management.web.server.DefaultResourceFilter;
-import com.anyun.cloud.management.web.common.ResourceResolver;
-import com.anyun.cloud.management.web.common.WebServer;
+import com.anyun.cloud.management.web.thymeleaf.*;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.anyun.common.lang.options.ApplicationOptions;
 import com.google.inject.AbstractModule;
@@ -26,21 +17,17 @@ import javax.servlet.Filter;
  */
 public class WebControllTest extends BaseTest {
     public static void main(String[] args) throws Exception {
-        System.out.println("Classloader: " + WebControllTest.class.getClassLoader());
         InjectorsBuilder.getBuilder().build(
                 new TestThymesModule()
         );
         InjectorsBuilder.getBuilder().getInstanceByType(WebServer.class).start();
     }
 
-
-
     public static class TestThymesModule extends AbstractModule {
-        //"/Users/twitchgg/Develop/projects/thymeleaf-demo/" +"sources/management/management-web/cloud-management-web-class/target"
+        String path = "/Users/twitchgg/Develop/Projects/hohot-cloud-demo/sources/management/management-web/cloud-management-web-class/target";
         // String path = "C:\\2017\\6\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
         //D:\myproject\170707\anyun-cloud-demo\sources\management\management-web\cloud-management-web-class\target"
-        String path = "D:\\myproject\\170707\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
-
+//        String path = "D:\\myproject\\170707\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
 
 
         private String[] args = new String[]{
@@ -66,10 +53,12 @@ public class WebControllTest extends BaseTest {
             //Template and web resource (js,image...) filters
             bind(Filter.class).annotatedWith(ThymesTemplateFilter.class).to(DefaultThymesTemplateFilter.class);
             bind(Filter.class).annotatedWith(ResourceFilter.class).to(DefaultResourceFilter.class);
+            bind(Filter.class).annotatedWith(RestfullyApiResourceFilter.class).to(new DefaultRestfullyApiFilter().getClass());
 
             //Thymeleaf template engine drive web controllers configuration
             ThymeleafControllerPackageNames packageNames = new ThymeleafControllerPackageNames()
-                    .withPackage("com.anyun.cloud.management.web.controller");
+                    .withPackage("com.anyun.cloud.management.web.controller")
+                    .withPackage("com.anyun.cloud.management.api");
             bind(ThymeleafControllerPackageNames.class).toInstance(packageNames);
             bind(ThymeleafControllerClassloaderBuilder.class).to(DefaultThymeleafControllerClassloaderBuilder.class);
 
@@ -78,6 +67,7 @@ public class WebControllTest extends BaseTest {
             bind(ResourceResolver.class).to(DefaultResourceResolver.class);
             bind(ResourceHandler.class).annotatedWith(Names.named("text")).to(DefaultTextResourceHandler.class);
             bind(ResourceHandler.class).annotatedWith(Names.named("image")).to(DefaultImageResourceHandler.class);
+            bind(ResourceHandler.class).annotatedWith(Names.named("api")).to(DefaultRestfullyApiResourceHandler.class);
         }
     }
 }
