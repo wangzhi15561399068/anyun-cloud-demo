@@ -24,9 +24,8 @@ public class WebControllTest extends BaseTest {
     }
 
     public static class TestThymesModule extends AbstractModule {
-        String path = "/Users/twitchgg/Develop/Projects/hohot-cloud-demo/sources/management/management-web/cloud-management-web-class/target";
+        String path = "C:\\2017\\7\\2017.07.15anyun\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
         // String path = "C:\\2017\\6\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
-        //D:\myproject\170707\anyun-cloud-demo\sources\management\management-web\cloud-management-web-class\target"
 //        String path = "D:\\myproject\\170707\\anyun-cloud-demo\\sources\\management\\management-web\\cloud-management-web-class\\target";
 
 
