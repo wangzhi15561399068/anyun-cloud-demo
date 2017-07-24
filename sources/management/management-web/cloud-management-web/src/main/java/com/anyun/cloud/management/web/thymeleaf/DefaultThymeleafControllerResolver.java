@@ -10,7 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import javax.ws.rs.Path;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
@@ -19,25 +22,24 @@ import java.util.*;
 public class DefaultThymeleafControllerResolver implements ThymeleafControllerResolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultThymeleafControllerResolver.class);
     private ThymeleafControllerClassloaderBuilder thymeleafControllerClassloaderBuilder;
-    private List<String> controllerPackageNames;
-    private Map<String, ThymeleafController> controllers;
-    private ThymeleafControllerPackageNames packageNames;
+
+    private ThymeleafControllerPackageNames controllerPackageNames;
     private FastClasspathScanner scanner;
     private ThymeleafControllerClassloader thymeleafControllerClassloader;
 
     @Inject
     public DefaultThymeleafControllerResolver(ThymeleafControllerClassloaderBuilder thymeleafControllerClassloaderBuilder,
-                                              ThymeleafControllerPackageNames packageNames) throws Exception {
-        this.packageNames = packageNames;
+                                              ThymeleafControllerPackageNames controllerPackageNames) throws Exception {
+        this.controllerPackageNames = controllerPackageNames;
         this.thymeleafControllerClassloaderBuilder = thymeleafControllerClassloaderBuilder;
         this.thymeleafControllerClassloader = thymeleafControllerClassloaderBuilder.build();
-        controllerPackageNames = new ArrayList<>();
-        controllers = new HashMap<>();
+        scanThymeleafControllers();
+        scanJaxrsAPIs();
+    }
+
+    private void scanThymeleafControllers() throws Exception {
+        Map<String, ThymeleafController> controllers = new HashMap<>();
         scanner = new FastClasspathScanner();
-        if (packageNames.getPackages().isEmpty()) {
-            //add default controllers package of 'ControllerPackageNames.class.getPackage().getName()'
-            controllerPackageNames.add(ThymeleafControllerPackageNames.class.getPackage().getName());
-        }
         scanner.addClassLoader(thymeleafControllerClassloader);
         scanner.matchClassesWithAnnotation(ThymesController.class,
                 aClass -> Arrays.stream(aClass.getInterfaces()).filter(c -> {
@@ -58,11 +60,29 @@ public class DefaultThymeleafControllerResolver implements ThymeleafControllerRe
                     return true;
                 }).findAny());
         scanner.scan();
+        thymeleafControllerClassloader.setControllers(controllers);
+    }
+
+    private void scanJaxrsAPIs() throws Exception {
+        Map<String, Class<?>> apis = new HashMap<>();
+        scanner = new FastClasspathScanner();
+        scanner.addClassLoader(thymeleafControllerClassloader);
+        scanner.matchClassesWithAnnotation(Path.class, aClass -> {
+            if (!matchPackage(aClass))
+                return;
+            Path apiRootPath = aClass.getAnnotation(Path.class);
+            String apiRootMapping = apiRootPath.value();
+            LOGGER.debug("Resolve JAX-RS api [{}] root mapping [{}]", apiRootPath, apiRootMapping);
+            apis.put(apiRootMapping, aClass);
+            LOGGER.debug("Add JAXRS-API class [{}] by root-path [{}]", aClass, apiRootMapping);
+        });
+        scanner.scan();
+        thymeleafControllerClassloader.setJaxrsApis(apis);
     }
 
     private boolean matchPackage(Class<?> aClass) {
         String classPackageName = aClass.getPackage().getName();
-        for (String packageName : packageNames.getPackages()) {
+        for (String packageName : controllerPackageNames.getControllerPackages()) {
             if (classPackageName.startsWith(packageName))
                 return true;
         }
@@ -76,7 +96,7 @@ public class DefaultThymeleafControllerResolver implements ThymeleafControllerRe
         if (requestURI.endsWith(".html"))
             controllerPath = requestURI.substring(0, requestURI.length() - ".html".length());
         LOGGER.debug("Resolve controller by controller path: {}", controllerPath);
-        return controllers.get(controllerPath);
+        return thymeleafControllerClassloader.getControllers().get(controllerPath);
     }
 
     @Override

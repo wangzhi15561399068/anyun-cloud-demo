@@ -73,6 +73,10 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>${version.jgit}</version>
         </dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

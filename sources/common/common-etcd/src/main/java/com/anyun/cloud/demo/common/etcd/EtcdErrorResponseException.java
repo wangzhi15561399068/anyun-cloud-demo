@@ -9,7 +9,6 @@ import com.anyun.cloud.demo.common.etcd.response.EtcdErrorResponse;
 public class EtcdErrorResponseException extends RuntimeException {
     private EtcdErrorResponse errorReponse;
     private boolean isJsonFormatException = false;
-
     /**
      *
      * @param message

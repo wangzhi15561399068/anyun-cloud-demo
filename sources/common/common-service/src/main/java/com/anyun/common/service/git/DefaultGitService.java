@@ -88,9 +88,9 @@ public class DefaultGitService implements GitService {
 
     private String getServiceDeployDir() throws Exception {
 //        String dir = System.getenv(ENV_SERVICE_DEPLOY_DIR);
-        String dir = System.getProperty(ENV_SERVICE_DEPLOY_DIR);
+        String dir = System.getenv(ENV_SERVICE_DEPLOY_DIR);
         if (StringUtils.isEmpty(dir))
-            throw new Exception("Service deploy dir is not set");
+            dir = "/opt/services";
         return dir;
     }
 

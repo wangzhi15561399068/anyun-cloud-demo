@@ -85,6 +85,7 @@
         <version.plugin-exec>1.1</version.plugin-exec>
         <version.plugin-dependency>2.5.1</version.plugin-dependency>
         <version.json-lib>2.4</version.json-lib>
+        <version.minio>3.0.5</version.minio>
     </properties>
 
     <modules>
@@ -216,6 +217,11 @@
                 <artifactId>jedis</artifactId>
                 <version>${version.jedis}</version>
                 <type>jar</type>
+            </dependency>
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${version.minio}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

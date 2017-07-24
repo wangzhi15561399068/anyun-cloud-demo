@@ -1,7 +1,5 @@
 package com.anyun.cloud.management.web.server;
 
-import com.anyun.cloud.management.web.common.ResourceResolver;
-import com.anyun.cloud.management.web.common.thymeleaf.ThymeleafContext;
 import com.anyun.common.lang.bean.InjectorsBuilder;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
@@ -9,11 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 /**
  * @auth TwitchGG <twitchgg@yahoo.com>
