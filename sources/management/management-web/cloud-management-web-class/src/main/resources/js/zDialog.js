@@ -1,5 +1,5 @@
 ﻿
-var IMAGESPATH = '/images/'; //图片路径配置
+var IMAGESPATH = 'assets/img/'; //图片路径配置
 //var IMAGESPATH = 'http://www.5icool.org/'; //图片路径配置
 /*************************一些公用方法和属性****************************/
 var isIE = navigator.userAgent.indexOf('MSIE') != -1;

@@ -31,7 +31,7 @@
     <link th:href="@{css/pe-icon-7-stroke.css}"  rel="stylesheet" />
     <!--二级菜单栏样式-->
     <link th:href="@{css/second.css}"  rel="stylesheet">
-    <!--<link rel="stylesheet" href="assets/css/examples.css" />-->
+
 
     <!--弹框-->
     <script type="text/javascript" th:src="@{js/zDrag.js}"></script>
@@ -39,15 +39,21 @@
 
     <!--移动菜单栏-->
     <link th:href="@{css/analytics.css}"  rel="stylesheet">
-    <!--<script type="text/javascript" src="assets/js/move.js"></script>-->
 
-    <!--新建-->
+
+    <!--新建按钮样式-->
     <link th:href="@{css/create.css}" rel="stylesheet">
-
+    <script th:src="@{js/jquery-1.11.3.js}" ></script>
+    <script type="text/javascript" th:src="@{js/new.js}" ></script>
     <!--带搜索框的下拉框-->
-    <link th:href="@{css/createSelect.css}"  rel="stylesheet">
     <script th:src="@{js/jquery-1.11.1.min.js}" ></script>
-    <script th:src="@{js/createSelect.js}" ></script>
+    <script th:src="@{js/bootstrap.min.js}" ></script>
+    <script th:src="@{js/bootstrap-select.min.js}" ></script>
+
+    <!--多项选择下拉列表-->
+    <link rel="stylesheet" th:href="@{css/chosen.css}" >
+    <script th:src="@{js/jquery-1.6.min.js}" type="text/javascript"></script>
+    <script th:src="@{js/chosen.js}"  type="text/javascript"></script>
 </head>
 <body>
 
@@ -246,7 +252,7 @@
                                         <span class="t">Title:</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="txt" placeholder="Enter title"/>
+                                        <input type="text" class="tt" placeholder="Enter title"/>
                                     </div>
                                 </div>
 
@@ -257,8 +263,8 @@
                                     </div>
                                     <div class="col-md-8">
                                         <!--<input type="text" class="txt" value="All APIs"/>-->
-                                        <select >
-                                            <option value="All APIs">All APIs</option>
+                                        <select data-placeholder="All APIs" style="width:250px;" class="chosen-select" tabindex="7">
+                                            <option selected value="All APIs">All APIs</option>
                                             <option value="Test API">Test API</option>
                                             <option value="test1">test1</option>
                                         </select>
@@ -298,22 +304,55 @@
                                     <div class="col-md-1">
                                         <span class="t">Format:</span>
                                     </div>
-                                    <div class="input-group">
-                                        <div class="col-md-8">
-                                            <div class="radio" name="col" value="1 column"><ins></ins><span>1 column</span></div>
-                                            <div class="radio" name="col" value="2 columns"><ins></ins><span>2 columns</span></div>
+                                    <div class="col-md-5 radio-click" style="margin-left: 11px">
+                                        <div class="radio" style="margin-bottom: 20px;">
+                                            <span class="circle border-six"></span>
+                                            <span>CSV</span>
+                                        </div>
+                                        <!--<br>-->
+                                        <div class="radio" style="margin-bottom: 10px">
+                                            <span class="circle transparent" ></span>
+                                            <span>JSON</span>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                <div class="row">
+                                <div class="row" style="margin-top: 20px">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-1">
                                         <span class="t">Fields:</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="txt" placeholder="Select fileds..."/>
+                                        <select data-placeholder="select fields.." style="width:450px;" multiple class="chosen-select">
+
+                                            <option value=""></option>
+                                            <option>Application</option>
+                                            <option>Application Name</option>
+                                            <option>Browser</option>
+                                            <option>City</option>
+                                            <option>Client IP</option>
+                                            <option>Continent</option>
+                                            <option>Country</option>
+                                            <option>Hardware Platform</option>
+                                            <option>Message ID</option>
+                                            <option>OS Family</option>
+                                            <option>OS Major Version</option>
+                                            <option>OS Minor Version</option>
+                                            <option>OS Version</option>
+                                            <option>Postal Code</option>
+                                            <option>Request Outcome</option>
+                                            <option>Request Size</option>
+                                            <option>Resource Path</option>
+                                            <option>Response Time</option>
+                                            <option>Status Code</option>
+                                            <option>Timezone</option>
+                                            <option>User Agent Name</option>
+                                            <option>User Agent Version</option>
+                                            <option>Verb</option>
+                                            <option>Violated Policy Name</option>
+                                        </select>
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -323,13 +362,13 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" style="margin-top: 20px">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-1">
                                         <span class="t">URL:</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <textarea  rows="3" cols="62" style="background-color: #F5F6F7">http://localhost:63342/light-bootstrap-dashboard/creatReports.html?format=csv&duration=7d</textarea>
+                                        <textarea style="background-color: #F5F6F7;width: 448px;height: 50px">http://localhost:63342/light-bootstrap-dashboard/creatReports.html?format=csv&duration=7d</textarea>
                                     </div>
                                 </div>
 
@@ -391,7 +430,30 @@
         </footer>
     </div>
 </div>
+<!--多项选择下拉列表-->
+<script type="text/javascript">
 
+    var config = {
+
+        '.chosen-select'           : {},
+
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+
+        '.chosen-select-width'     : {width:"95%"}
+
+    }
+
+    for (var selector in config) {
+
+        $(selector).chosen(config[selector]);
+
+    }
+
+</script>
 </body>
 
 
