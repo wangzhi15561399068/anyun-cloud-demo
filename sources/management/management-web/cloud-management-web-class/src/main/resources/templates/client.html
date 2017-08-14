@@ -53,7 +53,7 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
+                <a th:href="@{http://www.creative-tim.com}"  class="simple-text">
                     Creative Tim
                 </a>
             </div>
@@ -64,7 +64,7 @@
                         <ul id="nav" class="nav nav-pills nav-stacked">
                             <li><a href="#Menu=ChildMenu1"  onclick="DoMenu('ChildMenu1')"><i class="pe-7s-graph"></i><p>Dashboard</p></a>
                                 <ul id="ChildMenu1">
-                                    <li><a href="administration.html"><i class="pe-7s-way"></i>API Administration</a></li>
+                                    <li><a href="project.html"><i class="pe-7s-way"></i>API Administration</a></li>
                                     <li class="active"><a href="client.html"><i class="pe-7s-way"></i>Client Applications</a></li>
                                     <li><a href="policies.html"><i class="pe-7s-way"></i>Custom Policies</a></li>
                                     <li><a href="alerts.html"><i class="pe-7s-way"></i>Alerts</a></li>
@@ -76,25 +76,31 @@
                 </div>
 
                 <li>
-                    <a href="user.html">
+                    <a th:href="@{user.html}" >
                         <i class="pe-7s-user"></i>
                         <p>User Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a th:href="@{statistic.html}" >
+                        <i class="pe-7s-graph2"></i>
+                        <p>Statistics</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{table.html}" >
                         <i class="pe-7s-note2"></i>
                         <p>Table List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
+                    <a th:href="@{typography.html}">
                         <i class="pe-7s-news-paper"></i>
                         <p>Typography</p>
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
+                    <a th:href="@{icons.html}" >
                         <i class="pe-7s-science"></i>
                         <p>Icons</p>
                     </a>
@@ -106,13 +112,13 @@
                 <!--</a>-->
                 <!--</li>-->
                 <li>
-                    <a href="notifications.html">
+                    <a th:href="@{notifications.html}">
                         <i class="pe-7s-bell"></i>
                         <p>Notifications</p>
                     </a>
                 </li>
                 <li class="active-pro">
-                    <a href="upgrade.html">
+                    <a th:href="@{upgrade.html}" >
                         <i class="pe-7s-rocket"></i>
                         <p>Upgrade to PRO</p>
                     </a>

@@ -53,7 +53,7 @@
                         <ul id="nav" class="nav nav-pills nav-stacked">
                             <li><a href="#Menu=ChildMenu1"  onclick="DoMenu('ChildMenu1')"><i class="pe-7s-graph"></i><p>Dashboard</p></a>
                                 <ul id="ChildMenu1" class="collapsed">
-                                    <li><a th:href="@{administration.html}"><i class="pe-7s-way"></i>API Administration</a></li>
+                                    <li><a th:href="@{project.html}"><i class="pe-7s-way"></i>API Administration</a></li>
                                     <li><a th:href="@{client.html}"><i class="pe-7s-way"></i>Client Applications</a></li>
                                     <li><a th:href="@{policies.html}"><i class="pe-7s-way"></i>Custom Policies</a></li>
                                     <li><a th:href="@{alerts.html}"><i class="pe-7s-way"></i>Alerts</a></li>
@@ -68,6 +68,12 @@
                     <a th:href="@{user.html}">
                         <i class="pe-7s-user"></i>
                         <p>User Profile</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{statistic.html}" >
+                        <i class="pe-7s-graph2"></i>
+                        <p>Statistics</p>
                     </a>
                 </li>
                 <li>
